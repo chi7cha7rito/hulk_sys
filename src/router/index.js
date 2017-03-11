@@ -8,8 +8,21 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      redirect: '/login'
+    },
+    {
+      path: '/Home',
+      component: resolve => require(['../components/common/Home.vue'], resolve),
+      children: [
+        {
+          path: '/',
+          component: resolve => require(['../components/page/Readme.vue'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/login',
+      component: resolve => require(['../components/page/Login.vue'], resolve)
     }
   ]
 })
