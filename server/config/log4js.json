@@ -1,0 +1,31 @@
+{
+    "appenders": [
+        {
+            "type": "console"
+        },
+        {
+            "category": "info",
+            "type": "dateFile",
+            "filename": "../logs/hulk_sys/info/",
+            "pattern": "yyyy-MM-dd.log",
+            "alwaysIncludePattern": true,
+            "maxLogSize": 1024
+        },
+        {
+            "category": "warn",
+            "type": "dateFile",
+            "filename": "../logs/hulk_sys/warn/",
+            "pattern": "yyyy-MM-dd.log",
+            "alwaysIncludePattern": true,
+            "maxLogSize": 1024
+        },
+        {
+            "category": "error",
+            "type": "dateFile",
+            "filename": "../logs/hulk_sys/error/",
+            "pattern": "yyyy-MM-dd.log",
+            "alwaysIncludePattern": true,
+            "maxLogSize": 1024
+        }
+    ]
+}

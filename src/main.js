@@ -1,20 +1,46 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'; // 默认主题
+import VueRouter from 'vue-router'
 
-// import '../static/css/theme-green/index.css';       // 浅绿色主题
+import store from './vuex/store'
+import routes from './routes'
 
-Vue.config.productionTip = false
+import 'element-ui/lib/theme-default/index.css'
+import 'font-awesome/css/font-awesome.min.css'
+
+
 Vue.use(ElementUI)
+Vue.use(VueRouter)
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App}
+const router = new VueRouter({
+routes})
+
+/**
+ * @desc 判断用户是否登录
+ */
+// router.beforeEach((to, from, next) => {
+//   if (to.path == '/login') {
+//     localStorage.removeItem('userInfo')
+//   }
+//   if (localStorage.getItem('userInfo')!=="undefined") {
+//     let user = JSON.parse(localStorage.getItem('userInfo'))
+//     if (!user && to.path != '/login') {
+//       next({ path: '/login' })
+//     } else {
+//       next()
+//     }
+//   }else {
+//      next({ path: '/login' })
+//   }
+// })
+
+router.afterEach(transition => {
 })
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
