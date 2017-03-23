@@ -17,7 +17,7 @@ axios.defaults.baseURL = 'http://localhost:7001/'
  * desc 定义统一的返回信息
  */
 axios.interceptors.response.use(function (res) {
-   return res.data
+  return res.data
 }, function (error) {
   return Promise.reject(error)
 })
@@ -32,30 +32,45 @@ function RequestHepler () {
 RequestHepler.prototype.call = function (url, method, params) {
   var classSelf = this
 
-  var urlStr=url.replace(/\//g,'_')
+  var urlStr = url.replace(/\//g, '_')
+
+  params = params || {}
 
   logger.info('hulk_sys' + urlStr + '_request_data==>' + JSON.stringify(params))
 
-  if (method.toUpperCase() == 'POST') {
-    classSelf.axios.defaults.headers.post['Content-Type'] = 'application/json'
-  }
-
-  return new Promise(function (resolve, reject) {
-    classSelf.axios({
-      method: method,
-      url: url,
-      data: params
-    }).then(function (res) {
-      logger.info('hulk_sys' + urlStr + '_response==>' + JSON.stringify(res))
-      
-      resolve(res)
-    }, function (err) {
-      reject(err)
-    }).catch(function (error) {
-      logger.info('hulk_sys_' + urlStr + '_error==>'+error)
-      reject(error)
+  if (method.toUpperCase() == 'GET') {
+    return new Promise(function (resolve, reject) {
+      classSelf.axios.get(url, {
+        params: params
+      }).then(function (res) {
+        logger.info('hulk_sys' + urlStr + '_response==>' + JSON.stringify(res))
+        resolve(res)
+      }, function (err) {
+        reject(err)
+      }).catch(function (error) {
+        logger.info('hulk_sys_' + urlStr + '_error==>' + error)
+        reject(error)
+      })
     })
-  })
+  }
+  else if (method.toUpperCase() == 'POST') {
+    classSelf.axios.defaults.headers.post['Content-Type'] = 'application/json'
+    optionsData.data = params
+    return new Promise(function (resolve, reject) {
+      classSelf.axios.post(url, {
+        data: params
+      }).then(function (res) {
+        logger.info('hulk_sys' + urlStr + '_response==>' + JSON.stringify(res))
+
+        resolve(res)
+      }, function (err) {
+        reject(err)
+      }).catch(function (error) {
+        logger.info('hulk_sys_' + urlStr + '_error==>' + error)
+        reject(error)
+      })
+    })
+  }
 }
 
 module.exports = new RequestHepler()

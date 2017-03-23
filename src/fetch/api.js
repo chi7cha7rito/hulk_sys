@@ -60,5 +60,23 @@ export default {
   */
   GetMatchList(params) {
     return fetch('/match/findMatches', 'get', params)
+  },
+  /**
+   * 获取赛事列表
+   */
+  GetMatchTypeList(params) {
+    return fetch('/matchType/findByPid', 'get')
+  },
+  /**
+   * @desc 获取指定赛事的详情
+   */
+  GetMacthDetails(params) {
+    return fetch('/match/findMatchById', 'get', params)
+  },
+  /**
+   * @desc 获取所有的赛事配置信息
+   */
+  GetAllMatchConfigs(){
+    return fetch('/matchConfig/findAll','get')
   }
 }

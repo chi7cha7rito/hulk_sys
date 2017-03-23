@@ -3,8 +3,32 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters">
-				<el-form-item>
+				<el-form-item label="名称">
 					<el-input v-model="filters.name" placeholder="赛事名称"></el-input>
+				</el-form-item>
+				<el-form-item label="类型">
+					<el-select v-model="filters.type" placeholder="请选择类型" style="width:90px">
+						<el-option
+								v-for="item in matchTypeList"
+								:label="item.name"
+								:value="item.id">
+						</el-option>						
+					</el-select>
+				</el-form-item>
+				<el-form-item label="状态">
+					<el-select v-model="filters.status" placeholder="请选择状态" style="width:90px">
+						 <el-option label="已开始" value="1"></el-option>
+      					 <el-option label="已结束" value="2"></el-option>					
+					</el-select>
+				</el-form-item>
+				<el-form-item label="报名时间">
+					<el-col :span="10">
+						<el-date-picker v-model="filters.startDate" type="date" placeholder="开始日期"  style="width: 100%;"></el-date-picker>
+					</el-col>
+					<el-col class="line" :span="4">--</el-col>
+					<el-col :span="10">
+						<el-date-picker v-model="filters.endDate" type="date" placeholder="结束日期"  style="width: 100%;"></el-date-picker>
+					</el-col>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getList">查询</el-button>
@@ -19,28 +43,73 @@
 		<el-table :data="matchList" highlight-current-row v-loading="listLoading" style="width: 100%;">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
-			<el-table-column type="id" width="40">
+			
+			<el-table-column  prop="id" label="id">
 			</el-table-column>
-			<el-table-column prop="name" label="赛事名称" width="120">
+			<el-table-column label="赛事名称">
+				<template scope="scope">
+						<span>{{scope.row.matchConfig.name}}</span>
+				</template>
 			</el-table-column>
-			<el-table-column prop="openingDatetime" label="开始时间" width="100" :formatter="formatDate">
+			<el-table-column label="类型">
+				<template scope="scope">
+					<span>{{scope.row.matchConfig.Type.name}}</span>
+				</template>
+			</el-table-column>		
+			<el-table-column prop="status" label="状态" :formatter="formatStatus">
 			</el-table-column>
-			<el-table-column prop="closingDatetime" label="结束时间" width="100" :formatter="formatDate">
+			<el-table-column prop="perHand" label="每首价格">
+			</el-table-column>
+			<el-table-column prop="openingDatetime" label="比赛开始时间" :formatter="formatSatrtDate">
+			</el-table-column>
+			<el-table-column prop="closingDatetime" label="报名截止时间" :formatter="formatEndDate">
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template scope="scope">
-						<el-button size="small">编辑</el-button>
-						<el-button type="danger" size="small">删除</el-button>
+					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+						编辑</el-button>
+					<el-button type="danger" size="small">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
-			<el-button type="danger"  :disabled="this.sels.length===0">批量删除</el-button>
-			<el-pagination layout="prev, pager, next" :page-size="20" :total="total" style="float:right;">
+			<el-button type="danger" :disabled="this.sels.length===0">批量删除</el-button>
+			<el-pagination layout="prev, pager, next" :page-size="10" :total="total"  
+				@current-change="handleCurrentChange" style="float:right;">
 			</el-pagination>
 		</el-col>
+
+		<!--编辑界面-->
+		<el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
+			<el-form :model="matchDetails" label-width="100px" :rules="editFormRules" ref="editForm">
+				<el-form-item label="赛事类型">
+					<el-select v-model="matchDetails.matchConfigId" placeholder="请选择赛事类型">
+						<el-option
+								v-for="item in matchConfigList"
+								:label="item.name"
+								:value="item.id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="报名时间">
+					<el-date-picker v-model="matchDetails.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="比赛时间">
+					<el-date-picker v-model="matchDetails.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="每首价格">
+					<el-col :span="5">
+						<el-input v-model="matchDetails.perHand"  auto-complete="off"></el-input>
+					</el-col>				
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="closeForm">取消</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+			</div>
+		</el-dialog>
 	</section>
 </template>
 
@@ -48,54 +117,98 @@
 	import {
 		mapGetters
 	} from 'vuex'
+
+	import * as types from '../../vuex/types'
+	
+	import util from '../../common/js/util'
 	
 	export default {
 		data() {
 			return {
 				filters: {
-					name: ''
+					name: '',
+					type:'',
+					startDate:'',
+					endDate:'',
+					status:''
 				},
 				page: 1,
-				sels: [], //列表选中列
+				sels: [],
+				editFormRules:{
+
+				},
+				editLoading:false
 			}
 		},
 		computed: {
 			...mapGetters([
 				'matchList',
+				'matchTypeList',
+				'matchDetails',
+				'matchConfigList',
 				'listLoading',
+				'editFormVisible',
 				'total'
 			])
 		},
 		methods: {
-			//性别显示转换
-			formatDate: function(row, column) {
-				return '2017-03-24'
+			formatStatus:function(row,column){
+				return row.status=="1"?"已开始":"已结束";
+			},
+			formatSatrtDate: function(row, column) {
+				return util.formatDate.utcToLocal(row.openingDatetime)
+			},
+			formatEndDate: function(row, column) {
+				return util.formatDate.utcToLocal(row.closingDatetime)
 			},
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getList();
 			},
 			getList() {
 				let para = {
-					page: this.page,
-					name: this.filters.name
+					pageSize:10,
+					pageIndex: this.page,
+					name: this.filters.name,
+					status:this.filters.status,
+					startClosing:this.filters.startDate,
+					endClosing:this.filters.endDate
 				};
-				// getUserListPage(para).then((res) => {
-				// 	this.total = res.data.total;
-				// 	this.users = res.data.users;
-				// 	this.listLoading = false;
-				// });
-				if (this.matchList.length == 0) {
-            		this.$store.dispatch('getMatchList',para)
-        		}
+				
+				this.$store.dispatch('getMatchList', para)
+
+				this.$store.dispatch('getAllMatchConfigs');
 			},
+			getMatchTypeList(){
+				if(this.matchTypeList.length==0){
+					this.$store.dispatch('getMatchTypeList');
+				}
+			},
+			//显示编辑界面
+			handleEdit: function (index, row) {
+				this.$store.dispatch('getMatchDetails',{
+					id:row.id
+				})
+			},
+			editSubmit: function () {
+				this.$refs.editForm.validate((valid) => {
+					if (valid) {			
+					}
+				});
+			},
+			closeForm:function(){
+				this.$store.commit(types.MATCH_LIST_EDIT_FORM_VISIBLE,false);
+			}
 		},
 		mounted() {
+			this.getMatchTypeList();
 			this.getList();
 		}
 	}
 </script>
 
 <style scoped>
-	
+	.line{
+		text-align:center;
+	}
 </style>
