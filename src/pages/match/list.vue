@@ -8,6 +8,7 @@
 				</el-form-item>
 				<el-form-item label="类型">
 					<el-select v-model="filters.type" placeholder="请选择类型" style="width:90px">
+					 	<el-option label="请选择" value=""></el-option>
 						<el-option
 								v-for="item in matchTypeList"
 								:label="item.name"
@@ -17,6 +18,7 @@
 				</el-form-item>
 				<el-form-item label="状态">
 					<el-select v-model="filters.status" placeholder="请选择状态" style="width:90px">
+					 	 <el-option label="请选择" value=""></el-option>
 						 <el-option label="已开始" value="1"></el-option>
       					 <el-option label="已结束" value="2"></el-option>					
 					</el-select>
@@ -40,7 +42,7 @@
 		</el-col>
 	
 		<!--列表-->
-		<el-table :data="matchList" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<el-table :data="matchList"  v-loading="listLoading" style="width: 100%;">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
 			
@@ -60,9 +62,9 @@
 			</el-table-column>
 			<el-table-column prop="perHand" label="每首价格">
 			</el-table-column>
-			<el-table-column prop="openingDatetime" label="比赛开始时间" :formatter="formatSatrtDate">
+			<el-table-column prop="openingDatetime" label="比赛时间" :formatter="formatSatrtDate">
 			</el-table-column>
-			<el-table-column prop="closingDatetime" label="报名截止时间" :formatter="formatEndDate">
+			<el-table-column prop="closingDatetime" label="报名时间" :formatter="formatEndDate">
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template scope="scope">
@@ -135,20 +137,29 @@
 	
 	export default {
 		data() {
+			var typeValidator=(rule,value,callback)=>{
+				if(!value){
+					return callback(new Error('请选择赛事类型'));
+				}
+				else{
+					callback();
+				}
+			}
+
 			return {				
 				sels: [],
 				editFormRules:{
-					config:[
-						{required: true, message: '请选择赛事类型', trigger: 'blur'}
+					matchConfigId:[
+						{ required: true,validator:typeValidator, trigger: 'change' }
 					],
 					status:[
-						{required: true, message: '请选择赛事状态', trigger: 'blur'}
+						{required: true, message: '请选择赛事状态', trigger: 'change'}
 					],
 					openingDatetime:[
-						{required: true, message: '请选择报名时间', trigger: 'blur'}
+						{type:'date',required: true, message: '请选择报名时间', trigger: 'change'}
 					],
 					closingDatetime:[
-						{required: true, message: '请选择比赛时间', trigger: 'blur'}
+						{type:'date',required: true, message: '请选择比赛时间', trigger: 'change'}
 					],
 					perHand:[
 						{ required: true, message: '请填写每手价格'},
