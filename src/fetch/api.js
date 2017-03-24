@@ -74,6 +74,20 @@ export default {
     return fetch('/match/findMatchById', 'get', params)
   },
   /**
+   * @desc 编辑赛事详情
+   * @param {} params 
+   */
+  EditMatch(params){
+    return fetch('/match/update','post',params)
+  },
+  /**
+   * @desc 添加赛事
+   * @param {} params 
+   */
+  AddMatch(params){
+    return fetch('/match/add','post',params)
+  },
+  /**
    * @desc 获取所有的赛事配置信息
    */
   GetAllMatchConfigs(){

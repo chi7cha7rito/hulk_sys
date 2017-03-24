@@ -54,14 +54,16 @@ RequestHepler.prototype.call = function (url, method, params) {
     })
   }
   else if (method.toUpperCase() == 'POST') {
-    classSelf.axios.defaults.headers.post['Content-Type'] = 'application/json'
-    optionsData.data = params
     return new Promise(function (resolve, reject) {
-      classSelf.axios.post(url, {
-        data: params
+      classSelf.axios({
+        method:'POST',
+        url:url,
+        data:JSON.stringify(params),
+        headers:{
+          'Content-Type':'application/json'
+        }
       }).then(function (res) {
         logger.info('hulk_sys' + urlStr + '_response==>' + JSON.stringify(res))
-
         resolve(res)
       }, function (err) {
         reject(err)

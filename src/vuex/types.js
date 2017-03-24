@@ -16,6 +16,8 @@ export const GET_MATCH_LOADING_STATUS = 'GET_MATCH_LOADING_STATUS' // 获取赛�
 export const GET_MATCH_TOTAL_COUNT='GET_MATCH_TOTAL_COUNT' //赛事列表的总数
 export const GET_MATCH_TYPE_LIST='GET_MATCH_TYPE_LIST'//赛事类型列表
 export const GET_MATCH_DETAILS='GET_MATCH_DETAILS' //赛事详情
+export const EDIT_MATCH="EDIT_MATCH" //编辑赛事信息
+export const ADD_MATCH="ADD_MATCH" //添加赛事信息
 export const MATCH_LIST_EDIT_FORM_VISIBLE="MATCH_LIST_EDIT_FORM_VISIBLE" // 赛事列表EDIT FORM 显示状态
 export const GET_ALL_MATCH_CONFIGS='GET_ALL_MATCH_CONFIGS' //所有的赛事配置信息
 
