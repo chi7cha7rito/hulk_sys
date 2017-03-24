@@ -103,6 +103,14 @@ const actions = {
     api.EditMatch(data).then(res => {
       commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, false)
       commit(types.GET_MATCH_LOADING_STATUS, true)
+      api.GetMatchList(state.filters)
+        .then(res => {
+          commit(types.GET_MATCH_LOADING_STATUS, false)
+          commit(types.GET_MATCH_TOTAL_COUNT, res.count)
+          commit(types.GET_MATCH_LIST, res)
+        }).catch(error => {
+        commit(types.GET_MATCH_LOADING_STATUS, false)
+      })
     })
   }
 }
@@ -143,6 +151,9 @@ const mutations = {
   },
   [types.MATCH_LIST_EDIT_FORM_VISIBLE](state, status) {
     state.editFormVisible = status
+  },
+  [types.CHANGE_MATCH_LIST_PAGE_NUM](state, num) {
+    state.filters.pageIndex = num
   }
 }
 

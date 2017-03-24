@@ -181,12 +181,11 @@
 				return util.formatDate.utcToLocal(row.closingDatetime)
 			},
 			handleCurrentChange(val) {
-				// this.page = val;
+				this.$store.commit(types.CHANGE_MATCH_LIST_PAGE_NUM,val);
 				this.getList();
 			},
 			getList() {				
 				this.$store.dispatch('getMatchList')
-
 				this.$store.dispatch('getAllMatchConfigs');
 			},
 			getMatchTypeList(){
@@ -196,7 +195,6 @@
 			},
 			//显示编辑界面
 			handleEdit: function (index, row) {
-				// 
 				this.$store.dispatch('getMatchDetails',{
 					id:row.id
 				})
