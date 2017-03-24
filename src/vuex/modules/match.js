@@ -28,8 +28,8 @@ const state = {
     pageIndex: '1',
     name: '',
     status: '',
-    startClosing: new Date(),
-    endClosing: new Date(),
+    startClosing: '',
+    endClosing: '',
     type: ''
   }
 }
