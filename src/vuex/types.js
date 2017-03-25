@@ -1,5 +1,7 @@
 // 公共
 export const COM_LOADING_STATUS = 'COM_LOADING_STATUS'
+export const COM_ERROR_MESSAGE = 'COM_ERROR_MESSAGE' //全局的提示的错误信息
+
 
 /**
  * desc 用户登录相关
@@ -20,5 +22,6 @@ export const CHANGE_MATCH_LIST_PAGE_NUM='CHANGE_MATCH_LIST_PAGE_NUM'//更改赛�
 export const EDIT_MATCH="EDIT_MATCH" //编辑赛事信息
 export const ADD_MATCH="ADD_MATCH" //添加赛事信息
 export const MATCH_LIST_EDIT_FORM_VISIBLE="MATCH_LIST_EDIT_FORM_VISIBLE" // 赛事列表EDIT FORM 显示状态
+export const MATCH_LIST_ADD_FORM_VISIBLE="MATCH_LIST_ADD_FORM_VISIBLE" // 添加赛事 FORM 显示状态
 export const GET_ALL_MATCH_CONFIGS='GET_ALL_MATCH_CONFIGS' //所有的赛事配置信息
 
