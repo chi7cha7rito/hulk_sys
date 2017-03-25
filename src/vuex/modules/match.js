@@ -4,6 +4,7 @@
 
 import api from '../../fetch/api'
 import * as types from '../types'
+import utils from '../../common/js/util'
 
 /**
  * state 定义
@@ -16,9 +17,9 @@ const state = {
     id: '0',
     closingDatetime: '',
     openingDatetime: '',
-    matchConfigId: '0',
+    matchConfigId: '',
     perHand: '',
-    status: '1'
+    status: ''
   },
   listLoading: false,
   editFormVisible: false,
@@ -140,8 +141,8 @@ const mutations = {
     debugger
     let tmpData = {
       'id': data.id,
-      'closingDatetime': data.closingDatetime,
-      'openingDatetime': data.openingDatetime,
+      'closingDatetime': new Date(data.closingDatetime),
+      'openingDatetime': new Date(data.openingDatetime),
       'matchConfigId': data.matchConfig.id,
       'perHand': data.perHand,
       'status': data.status.toString()
@@ -149,7 +150,17 @@ const mutations = {
     state.matchDetails = tmpData
   },
   [types.GET_ALL_MATCH_CONFIGS](state, data) {
-    state.matchConfigList = data
+    let configList = [
+      {
+        id:"",
+        name:"请选择赛事类型"
+      }
+    ]
+    
+    data.forEach(row => {
+      configList.push({id: row.id,name: row.name})})
+
+    state.matchConfigList=configList;
   },
   [types.MATCH_LIST_EDIT_FORM_VISIBLE](state, status) {
     state.editFormVisible = status
