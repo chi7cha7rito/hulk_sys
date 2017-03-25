@@ -77,20 +77,59 @@ export default {
    * @desc 编辑赛事详情
    * @param {} params 
    */
-  EditMatch(params){
-    return fetch('/match/update','post',params)
+  EditMatch(params) {
+    return fetch('/match/update', 'post', params)
   },
   /**
    * @desc 添加赛事
    * @param {} params 
    */
-  AddMatch(params){
-    return fetch('/match/add','post',params)
+  AddMatch(params) {
+    return fetch('/match/add', 'post', params)
   },
   /**
    * @desc 获取所有的赛事配置信息
    */
-  GetAllMatchConfigs(){
-    return fetch('/matchConfig/findAll','get')
+  GetAllMatchConfigs() {
+    return fetch('/matchConfig/findAll', 'get')
+  },
+  /**
+   * @desc 获取会员列表
+   */
+  GetMembers(params) {
+    return fetch('/member/findMembers', 'get', params)
+  },
+  /**
+   * @desc 获取会员等级
+   */
+  GetMemberLevel() {
+    return fetch('/memberLevel/findAll', 'get')
+  },
+  /**
+   * @desc 获取会员详情
+   */
+  GetMemberDetails(params) {
+    return fetch('/member/findById', 'get', params)
+  },
+  /**
+   * @desc 编辑会员详情
+   * @param {} params 
+   */
+  EditMember(params) {
+    return fetch('/member/update', 'post', params)
+  },
+  /**
+   * @desc 获取会员余额积分
+   * @param {} params 
+   */
+  GetMemberBP(params) {
+    return fetch('/member/findTotal', 'get', params)
+  },
+  /**
+   * @desc 获取余额纪录
+   * @param {} params 
+   */
+  GetBalances(params) {
+    return fetch('/balance/findEntries', 'get', params)
   }
 }

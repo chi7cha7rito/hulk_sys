@@ -78,6 +78,7 @@ const actions = {
    * @desc 获取赛事详情
    */
   getMatchDetails({commit}, palyload) {
+    debugger
     api.GetMacthDetails(palyload).then(res => {
       commit(types.GET_MATCH_DETAILS, res)
       commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, true)
@@ -136,6 +137,7 @@ const mutations = {
     state.matchTypeList = data
   },
   [types.GET_MATCH_DETAILS](state, data) {
+    debugger
     let tmpData = {
       'id': data.id,
       'closingDatetime': data.closingDatetime,
