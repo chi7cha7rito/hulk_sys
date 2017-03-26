@@ -131,5 +131,12 @@ export default {
    */
   GetBalances(params) {
     return fetch('/balance/findEntries', 'get', params)
+  },
+    /**
+   * @desc 获取积分纪录
+   * @param {} params 
+   */
+  GetPoints(params) {
+    return fetch('/point/findEntries', 'get', params)
   }
 }

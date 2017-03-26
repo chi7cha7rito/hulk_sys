@@ -90,6 +90,11 @@
             <el-table-column prop="idCardNo"
                              label="身份证号">
             </el-table-column>
+            <el-table-column label="卡号">
+                <template scope="scope">
+                    <span>{{scope.row.member.cardNo}}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="性别">
                 <template scope="scope">
                     <span>{{scope.row.gender.name}}</span>
@@ -152,28 +157,28 @@
                 <el-form-item label="姓名"
                               prop="name">
                     <el-col :span="10">
-                        <el-input v-model.number="memberDetails.name"
+                        <el-input v-model="memberDetails.name"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="手机号"
                               prop="phoneNo">
                     <el-col :span="10">
-                        <el-input v-model.number="memberDetails.phoneNo"
+                        <el-input v-model="memberDetails.phoneNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="身份证号"
                               prop="idCardNo">
                     <el-col :span="10">
-                        <el-input v-model.number="memberDetails.idCardNo"
+                        <el-input v-model="memberDetails.idCardNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="卡号"
                               prop="cardNo">
                     <el-col :span="10">
-                        <el-input v-model.number="memberDetails.cardNo"
+                        <el-input v-model="memberDetails.cardNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
@@ -209,7 +214,7 @@
             </div>
         </el-dialog>
     
-        <!--编辑界面-->
+        <!--余额界面-->
         <el-dialog title="余额积分"
                    v-model="memberBpFormVisible"
                    size='tiny'
