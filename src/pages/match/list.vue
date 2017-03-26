@@ -7,8 +7,7 @@
 					<el-input v-model="filters.name" placeholder="赛事名称"></el-input>
 				</el-form-item>
 				<el-form-item label="类型">
-					<el-select v-model="filters.type" placeholder="请选择类型" style="width:90px">
-					 	<el-option label="请选择" value=""></el-option>
+					<el-select v-model="filters.type" placeholder="请选择类型" style="width:90px" clearable>
 						<el-option
 								v-for="item in matchTypeList"
 								:label="item.name"
@@ -17,8 +16,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="状态">
-					<el-select v-model="filters.status" placeholder="请选择状态" style="width:90px">
-					 	 <el-option label="请选择" value=""></el-option>
+					<el-select v-model="filters.status" placeholder="请选择状态" style="width:90px" clearable>
 						 <el-option label="已开始" value="1"></el-option>
       					 <el-option label="已结束" value="2"></el-option>					
 					</el-select>
@@ -36,7 +34,7 @@
 					<el-button type="primary" v-on:click="getList">查询</el-button>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary">新增</el-button>
+					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -77,14 +75,14 @@
 
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
-			<el-button type="danger" :disabled="this.sels.length===0">批量删除</el-button>
+			<!--<el-button type="danger" :disabled="this.sels.length===0">批量删除</el-button>-->
 			<el-pagination layout="prev, pager, next" :page-size="10" :total="total"  
 				@current-change="handleCurrentChange" style="float:right;">
 			</el-pagination>
 		</el-col>
 
 		<!--编辑界面-->
-		<el-dialog title="编辑赛事" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog">
+		<el-dialog title="编辑赛事" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
 			<el-form :model="matchDetails" label-width="100px" :rules="editFormRules" ref="editForm">
 				<el-form-item label="ID" prop="id">
 					<el-col :span="5">
@@ -92,7 +90,7 @@
 					</el-col>				
 				</el-form-item>
 				<el-form-item label="类型" prop="matchConfigId">
-					<el-select v-model="matchDetails.matchConfigId" placeholder="请选择赛事类型">
+					<el-select v-model="matchDetails.matchConfigId" placeholder="请选择赛事类型" clearable>
 						<el-option
 								v-for="item in matchConfigList"
 								:label="item.name"
@@ -101,7 +99,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="状态" prop="status">
-					<el-select v-model="matchDetails.status" placeholder="请选择赛事状态">
+					<el-select v-model="matchDetails.status" placeholder="请选择赛事状态" clearable>
 						<el-option label="已开始" value="1"></el-option>
 						<el-option label="已结束" value="2"></el-option>
 					</el-select>
@@ -121,6 +119,42 @@
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="closeDialog">取消</el-button>
 				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+			</div>
+		</el-dialog>
+
+		<!--添加界面-->
+	    <el-dialog title="添加赛事" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
+			<el-form :model="addForm" label-width="100px" :rules="editFormRules" ref="addForm">
+				<el-form-item label="类型" prop="matchConfigId">
+					<el-select v-model="addForm.matchConfigId" placeholder="请选择赛事类型" clearable>
+						<el-option
+								v-for="item in matchConfigList"
+								:label="item.name"
+								:value="item.id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="状态" prop="status">
+					<el-select v-model="addForm.status" placeholder="请选择赛事状态" clearable>
+						<el-option label="已开始" value="1"></el-option>
+						<el-option label="已结束" value="2"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="报名时间" prop="openingDatetime">
+					<el-date-picker v-model="addForm.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="比赛时间" prop="closingDatetime">
+					<el-date-picker v-model="addForm.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="每首价格" prop="perHand">
+					<el-col :span="5">
+						<el-input v-model.number="addForm.perHand"  auto-complete="off"></el-input>
+					</el-col>				
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="closeDialog">取消</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">保存</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -178,7 +212,9 @@
 				'filters',
 				'listLoading',
 				'editFormVisible',
-				'total'
+				'addFormVisible',
+				'total',
+				'addForm'
 			])
 		},
 		methods: {
@@ -210,6 +246,9 @@
 					id:row.id
 				})
 			},
+			handleAdd:function(){
+				this.$store.commit(types.MATCH_LIST_ADD_FORM_VISIBLE,true);	
+			},
 			editSubmit: function () {
 				this.$refs.editForm.validate((valid) => {
 					if (valid) {
@@ -217,9 +256,15 @@
 					}
 				});
 			},
-			closeDialog:function(){
-				this.$refs.editForm.resetFields();
-				this.$store.commit(types.MATCH_LIST_EDIT_FORM_VISIBLE,false);			
+			closeDialog:function(type){
+				if(type=="add"){
+					this.$refs.addForm.resetFields();
+					this.$store.commit(types.MATCH_LIST_ADD_FORM_VISIBLE,false);
+				}
+				else{
+					this.$refs.editForm.resetFields();
+					this.$store.commit(types.MATCH_LIST_EDIT_FORM_VISIBLE,false);
+				}						
 			}
 		},
 		mounted() {

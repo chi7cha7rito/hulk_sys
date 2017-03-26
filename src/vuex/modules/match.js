@@ -23,6 +23,7 @@ const state = {
   },
   listLoading: false,
   editFormVisible: false,
+  addFormVisible: false,
   total: 0,
   filters: {
     pageSize: 10,
@@ -32,6 +33,14 @@ const state = {
     startClosing: '',
     endClosing: '',
     type: ''
+  },
+  addForm: {
+    id: '0',
+    closingDatetime: '',
+    openingDatetime: '',
+    matchConfigId: '',
+    perHand: '',
+    status: ''
   }
 }
 
@@ -46,7 +55,9 @@ const getters = {
   total: state => state.total,
   matchDetails: state => state.matchDetails,
   editFormVisible: state => state.editFormVisible,
-  filters: state => state.filters
+  addFormVisible: state => state.addFormVisible,
+  filters: state => state.filters,
+  addForm: state => state.addForm
 }
 
 /**
@@ -79,7 +90,6 @@ const actions = {
    * @desc 获取赛事详情
    */
   getMatchDetails({commit}, palyload) {
-    debugger
     api.GetMacthDetails(palyload).then(res => {
       commit(types.GET_MATCH_DETAILS, res)
       commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, true)
@@ -138,7 +148,6 @@ const mutations = {
     state.matchTypeList = data
   },
   [types.GET_MATCH_DETAILS](state, data) {
-    debugger
     let tmpData = {
       'id': data.id,
       'closingDatetime': new Date(data.closingDatetime),
@@ -150,23 +159,23 @@ const mutations = {
     state.matchDetails = tmpData
   },
   [types.GET_ALL_MATCH_CONFIGS](state, data) {
-    let configList = [
-      {
-        id:"",
-        name:"请选择赛事类型"
-      }
-    ]
-    
+    let configList = []
     data.forEach(row => {
       configList.push({id: row.id,name: row.name})})
 
-    state.matchConfigList=configList;
+    state.matchConfigList = configList
   },
   [types.MATCH_LIST_EDIT_FORM_VISIBLE](state, status) {
     state.editFormVisible = status
   },
+  [types.MATCH_LIST_ADD_FORM_VISIBLE](state, status) {
+    state.addFormVisible = status
+  },
   [types.CHANGE_MATCH_LIST_PAGE_NUM](state, num) {
     state.filters.pageIndex = num
+  },
+  [types.COM_ERROR_MESSAGE](state, msg) {
+    state.errorMsg = msg
   }
 }
 
