@@ -18,7 +18,7 @@
 				<el-form-item label="状态">
 					<el-select v-model="filters.status" placeholder="请选择状态" style="width:90px" clearable>
 						 <el-option label="已开始" value="1"></el-option>
-      					 <el-option label="已结束" value="2"></el-option>					
+      					 <el-option label="已结束" value="2"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="报名时间">
@@ -41,8 +41,8 @@
 	
 		<!--列表-->
 		<el-table :data="matchList"  v-loading="listLoading" style="width: 100%;">
-			<el-table-column type="selection" width="55">
-			</el-table-column>
+			<!--<el-table-column type="selection" width="55">
+			</el-table-column>-->
 			
 			<el-table-column  prop="id" label="id">
 			</el-table-column>
@@ -68,7 +68,7 @@
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>
-					<el-button type="danger" size="small">删除</el-button>
+					<el-button type="danger" size="small" @click="handleDel(scope.row.id)" >删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -94,7 +94,7 @@
 						<el-option
 								v-for="item in matchConfigList"
 								:label="item.name"
-								:value="item.id">
+								:value="item.id.toString()">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -117,7 +117,7 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="closeDialog">取消</el-button>
+				<el-button @click.native="closeDialog('edit')">取消</el-button>
 				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
 			</div>
 		</el-dialog>
@@ -130,7 +130,7 @@
 						<el-option
 								v-for="item in matchConfigList"
 								:label="item.name"
-								:value="item.id">
+								:value="item.id.toString()">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -153,8 +153,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="closeDialog">取消</el-button>
-				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">保存</el-button>
+				<el-button @click.native="closeDialog('add')">取消</el-button>
+				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">保存</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -171,20 +171,11 @@
 	
 	export default {
 		data() {
-			var typeValidator=(rule,value,callback)=>{
-				if(!value){
-					return callback(new Error('请选择赛事类型'));
-				}
-				else{
-					callback();
-				}
-			}
-
 			return {				
 				sels: [],
 				editFormRules:{
 					matchConfigId:[
-						{ required: true,validator:typeValidator, trigger: 'change' }
+						{ required: true,message:"请选择赛事类型", trigger: 'change' }
 					],
 					status:[
 						{required: true, message: '请选择赛事状态', trigger: 'change'}
@@ -200,7 +191,8 @@
 						{ type: 'number', message: '价格必须为数字值'}
 					]
 				},
-				editLoading:false
+				editLoading:false,
+				addLoading:false
 			}
 		},
 		computed: {
@@ -219,7 +211,18 @@
 		},
 		methods: {
 			formatStatus:function(row,column){
-				return row.status=="1"?"已开始":"已结束";
+				let str="已开始";
+				if(row.status=="1"){
+					str="已开始";
+				}
+				else if(row.status=="2"){
+					str="已结束";
+				}
+				else if(row.status=="3"){
+					str="已删除";
+				}
+
+				return str;
 			},
 			formatSatrtDate: function(row, column) {
 				return util.formatDate.utcToLocal(row.openingDatetime)
@@ -249,14 +252,43 @@
 			handleAdd:function(){
 				this.$store.commit(types.MATCH_LIST_ADD_FORM_VISIBLE,true);	
 			},
+			handleDel:function(id){
+				if(this.delLoading){return false}
+				this.$confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(()=>{
+					this.$store.dispatch('delMatch',id).then(()=>{
+						this.getList();
+					},err=>{
+						this.$message.error(err.message);
+					})
+				})			
+			},
 			editSubmit: function () {
+				if(this.editLoading){return false}
 				this.$refs.editForm.validate((valid) => {
 					if (valid) {
+						this.editLoading=true;
 						this.$store.dispatch("editMatch").then(res=>{
+							this.editLoading=false;
 							this.getList();
 						},err=>{
+							this.editLoading=false;
 							this.$message.error(err.message);
-						}).catch(err=>{
+						})
+					}
+				});
+			},
+			addSubmit:function(){
+				if(this.addLoading){return false}
+				this.$refs.addForm.validate((valid) => {
+					if (valid) {
+						this.addLoading=true;
+						this.$store.dispatch("addMatch").then(res=>{
+							this.addLoading=false;
+							this.getList();
+						},err=>{
+							this.addLoading=false;
 							this.$message.error(err.message);
 						})
 					}

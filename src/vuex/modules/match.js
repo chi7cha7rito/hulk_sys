@@ -35,7 +35,6 @@ const state = {
     type: ''
   },
   addForm: {
-    id: '0',
     closingDatetime: '',
     openingDatetime: '',
     matchConfigId: '',
@@ -90,9 +89,9 @@ const actions = {
    * @desc 获取赛事详情
    */
   getMatchDetails({commit}, palyload) {
+    commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, true)
     api.GetMacthDetails(palyload).then(res => {
       commit(types.GET_MATCH_DETAILS, res)
-      commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, true)
     })
   },
   /**
@@ -106,23 +105,25 @@ const actions = {
   /**
    * @desc 添加赛事
    */
-  addMatch({commit}, palyload) {},
+  addMatch({commit}, palyload) {
+    return api.AddMatch(state.addForm).then(res => {
+      commit(types.MATCH_LIST_ADD_FORM_VISIBLE, false)
+    })
+  },
   /**
    * @desc 编辑赛事
    */
   editMatch({commit}, palyload) {
-    let data = state.matchDetails;
+    let data = state.matchDetails
     return api.EditMatch(data).then(res => {
       commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, false)
-      commit(types.GET_MATCH_LOADING_STATUS, true)
-      api.GetMatchList(state.filters)
-        .then(res => {
-          commit(types.GET_MATCH_LOADING_STATUS, false)
-          commit(types.GET_MATCH_TOTAL_COUNT, res.count)
-          commit(types.GET_MATCH_LIST, res)
-        }).catch(error => {
-        commit(types.GET_MATCH_LOADING_STATUS, false)
-      })
+    })
+  },
+  /**
+  * @desc 删除赛事
+  */
+  delMatch({commit}, id) {
+    return api.DelMatch({id: id,status: '3'}).then(res => {
     })
   }
 }
@@ -152,7 +153,7 @@ const mutations = {
       'id': data.id,
       'closingDatetime': new Date(data.closingDatetime),
       'openingDatetime': new Date(data.openingDatetime),
-      'matchConfigId': data.matchConfig.id,
+      'matchConfigId': data.matchConfig.id.toString(),
       'perHand': data.perHand,
       'status': data.status.toString()
     }
