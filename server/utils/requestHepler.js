@@ -36,7 +36,7 @@ RequestHepler.prototype.call = function (url, method, params) {
 
   params = params || {}
 
-  logger.info('hulk_sys' + urlStr + '_request_data==>' + JSON.stringify(params))
+  logger.info('hulk_sys_' + method + urlStr + '_request_data==>' + JSON.stringify(params))
 
   if (method.toUpperCase() == 'GET') {
     return new Promise(function (resolve, reject) {
@@ -56,11 +56,11 @@ RequestHepler.prototype.call = function (url, method, params) {
   else if (method.toUpperCase() == 'POST') {
     return new Promise(function (resolve, reject) {
       classSelf.axios({
-        method:'POST',
-        url:url,
-        data:JSON.stringify(params),
-        headers:{
-          'Content-Type':'application/json'
+        method: 'POST',
+        url: url,
+        data: JSON.stringify(params),
+        headers: {
+          'Content-Type': 'application/json'
         }
       }).then(function (res) {
         logger.info('hulk_sys' + urlStr + '_response==>' + JSON.stringify(res))

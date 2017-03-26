@@ -85,7 +85,14 @@ export default {
    * @param {} params 
    */
   AddMatch(params) {
-    return fetch('/match/add', 'post', params)
+    return fetch('/match/create', 'post', params)
+  },
+  /**
+   * @desc 删除比赛
+   * @param {} params 
+   */
+  DelMatch(params){
+    return fetch('/match/changeStatus', 'post', params)
   },
   /**
    * @desc 获取所有的赛事配置信息
