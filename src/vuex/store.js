@@ -6,6 +6,7 @@ import match from './modules/match'
 import com from './modules/com'
 import member from './modules/member'
 import balance from './modules/balance'
+import points from './modules/points'
 
 Vue.use(Vuex)
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     user,
     match,
     member,
-  balance}
+    balance,
+  points}
 })

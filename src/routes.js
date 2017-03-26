@@ -23,7 +23,7 @@ import MatchAdd from './pages/match/add' // 赛事添加
  */
 import MemberList from './pages/member/list' // 会员列表
 import BalanceList from './pages/member/balance' // 余额列表
-
+import PointsList from './pages/member/point'   // 积分列表
 let routes = [
   {
     path: '/login',
@@ -68,7 +68,7 @@ let routes = [
     children: [
       { path: '/member', component: MemberList, name: '会员查询' },
       { path: '/balance', component: BalanceList, name: '余额记录' },
-      { path: '/points', component: BalanceList, name: '积分记录' },
+      { path: '/points', component: PointsList, name: '积分记录' },
       { path: '/sprit', component: BalanceList, name: '豪气查询' },
       { path: '/coupon', component: BalanceList, name: '优惠券查询' },
       { path: '/coupon', component: BalanceList, name: '签到查询' }

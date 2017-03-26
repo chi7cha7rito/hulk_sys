@@ -40,9 +40,17 @@ export const MEMBER_LIST_EDIT_FORM_VISIBLE = 'MEMBER_LIST_EDIT_FORM_VISIBLE' // 
 export const MEMBER_LIST_BP_FORM_VISIBLE = 'MEMBER_LIST_BP_FORM_VISIBLE' // 会员列表BP FORM 显示状态
 
 /**
- * desc 积分相关
+ * desc 余额相关
  */
 export const GET_BALANCE_LIST = 'GET_BALANCE_LIST' // 获取余额列表
 export const GET_BALANCE_LOADING_STATUS = 'GET_BALANCE_LOADING_STATUS' // 获取余额列表loading状态
 export const GET_BALANCE_TOTAL_COUNT = 'GET_BALANCE_TOTAL_COUNT' // 余额列表的总数
 export const CHANGE_BALANCE_LIST_PAGE_NUM = 'CHANGE_BALANCE_LIST_PAGE_NUM' // 更改余额列表页分页的页码
+
+/**
+ * desc 积分相关
+ */
+export const GET_POINTS_LIST = 'GET_POINTS_LIST' // 获取余额列表
+export const GET_POINTS_LOADING_STATUS = 'GET_POINTS_LOADING_STATUS' // 获取余额列表loading状态
+export const GET_POINTS_TOTAL_COUNT = 'GET_POINTS_TOTAL_COUNT' // 余额列表的总数
+export const CHANGE_POINTS_LIST_PAGE_NUM = 'CHANGE_POINTS_LIST_PAGE_NUM' // 更改余额列表页分页的页码
