@@ -50,7 +50,23 @@ export const CHANGE_BALANCE_LIST_PAGE_NUM = 'CHANGE_BALANCE_LIST_PAGE_NUM' // �
 /**
  * desc 积分相关
  */
-export const GET_POINTS_LIST = 'GET_POINTS_LIST' // 获取余额列表
-export const GET_POINTS_LOADING_STATUS = 'GET_POINTS_LOADING_STATUS' // 获取余额列表loading状态
-export const GET_POINTS_TOTAL_COUNT = 'GET_POINTS_TOTAL_COUNT' // 余额列表的总数
-export const CHANGE_POINTS_LIST_PAGE_NUM = 'CHANGE_POINTS_LIST_PAGE_NUM' // 更改余额列表页分页的页码
+export const GET_POINTS_LIST = 'GET_POINTS_LIST' // 获取积分列表
+export const GET_POINTS_LOADING_STATUS = 'GET_POINTS_LOADING_STATUS' // 获取积分列表loading状态
+export const GET_POINTS_TOTAL_COUNT = 'GET_POINTS_TOTAL_COUNT' // 积分列表的总数
+export const CHANGE_POINTS_LIST_PAGE_NUM = 'CHANGE_POINTS_LIST_PAGE_NUM' // 更改积分列表页分页的页码
+
+/**
+ * desc 豪气相关
+ */
+export const GET_SPRIT_LIST = 'GET_SPRIT_LIST' // 获取豪气列表
+export const GET_SPRIT_LOADING_STATUS = 'GET_SPRIT_LOADING_STATUS' // 获取豪气列表loading状态
+export const GET_SPRIT_TOTAL_COUNT = 'GET_SPRIT_TOTAL_COUNT' // 豪气列表的总数
+export const CHANGE_SPRIT_LIST_PAGE_NUM = 'CHANGE_SPRIT_LIST_PAGE_NUM' // 更改豪气列表页分页的页码
+
+/**
+ * desc 签到相关
+ */
+export const GET_SIGNIN_LIST = 'GET_SIGNIN_LIST' // 获取签到列表
+export const GET_SIGNIN_LOADING_STATUS = 'GET_SIGNIN_LOADING_STATUS' // 获取签到列表loading状态
+export const GET_SIGNIN_TOTAL_COUNT = 'GET_SIGNIN_TOTAL_COUNT' // 签到列表的总数
+export const CHANGE_SIGNIN_LIST_PAGE_NUM = 'CHANGE_SIGNIN_LIST_PAGE_NUM' // 更改签到列表页分页的页码

@@ -132,11 +132,25 @@ export default {
   GetBalances(params) {
     return fetch('/balance/findEntries', 'get', params)
   },
-    /**
+  /**
    * @desc 获取积分纪录
    * @param {} params 
    */
   GetPoints(params) {
     return fetch('/point/findEntries', 'get', params)
+  },
+  /**
+   * @desc 获取豪气排名列表
+   * @param {} params 
+   */
+  GetSpritRanking(params) {
+    return fetch('/sprit/spritRanking', 'get', params)
+  },
+  /**
+   * @desc 获取签到排名列表
+   * @param {} params 
+   */
+  GetSignInStats(params) {
+    return fetch('/signIn/signInStats', 'get', params)
   }
 }

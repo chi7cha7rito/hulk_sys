@@ -130,7 +130,7 @@ export default {
             return util.formatDate.utcToLocal(row.createdAt)
         },
         handleCurrentChange(val) {
-            this.$store.commit(types.CHANGE_POINT_LIST_PAGE_NUM, val);
+            this.$store.commit(types.CHANGE_POINTS_LIST_PAGE_NUM, val);
             this.getList();
         },
         getList() {

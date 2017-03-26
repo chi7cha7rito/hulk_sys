@@ -332,7 +332,13 @@ export default {
         editSubmit: function () {
             this.$refs.editForm.validate((valid) => {
                 if (valid) {
-                    this.$store.dispatch("editMember")
+                    this.$store.dispatch("editMember").then(res => {
+                        this.getList();
+                    }, err => {
+                        this.$message.error(err.message);
+                    }).catch(err => {
+                        this.$message.error(err.message);
+                    })
                 }
             });
         },
