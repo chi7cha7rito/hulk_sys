@@ -252,7 +252,13 @@
 			editSubmit: function () {
 				this.$refs.editForm.validate((valid) => {
 					if (valid) {
-						this.$store.dispatch("editMatch")
+						this.$store.dispatch("editMatch").then(res=>{
+							this.getList();
+						},err=>{
+							this.$message.error(err.message);
+						}).catch(err=>{
+							this.$message.error(err.message);
+						})
 					}
 				});
 			},

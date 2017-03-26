@@ -111,8 +111,8 @@ const actions = {
    * @desc 编辑赛事
    */
   editMatch({commit}, palyload) {
-    let data = state.matchDetails
-    api.EditMatch(data).then(res => {
+    let data = state.matchDetails;
+    return api.EditMatch(data).then(res => {
       commit(types.MATCH_LIST_EDIT_FORM_VISIBLE, false)
       commit(types.GET_MATCH_LOADING_STATUS, true)
       api.GetMatchList(state.filters)
