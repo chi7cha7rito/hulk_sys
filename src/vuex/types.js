@@ -70,3 +70,12 @@ export const GET_SIGNIN_LIST = 'GET_SIGNIN_LIST' // 获取签到列表
 export const GET_SIGNIN_LOADING_STATUS = 'GET_SIGNIN_LOADING_STATUS' // 获取签到列表loading状态
 export const GET_SIGNIN_TOTAL_COUNT = 'GET_SIGNIN_TOTAL_COUNT' // 签到列表的总数
 export const CHANGE_SIGNIN_LIST_PAGE_NUM = 'CHANGE_SIGNIN_LIST_PAGE_NUM' // 更改签到列表页分页的页码
+
+/**
+ * desc 优惠券相关
+ */
+export const GET_COUPON_LIST = 'GET_COUPON_LIST' // 获取优惠券列表
+export const GET_COUPON_LOADING_STATUS = 'GET_COUPON_LOADING_STATUS' // 获取优惠券列表loading状态
+export const GET_COUPON_TOTAL_COUNT = 'GET_COUPON_TOTAL_COUNT' // 优惠券列表的总数
+export const CHANGE_COUPON_LIST_PAGE_NUM = 'CHANGE_COUPON_LIST_PAGE_NUM' // 更改优惠券列表页分页的页码
+export const COUPON_LIST_ADD_FORM_VISIBLE = 'COUPON_LIST_ADD_FORM_VISIBLE' // 优惠券列表EDIT FORM 显示状态

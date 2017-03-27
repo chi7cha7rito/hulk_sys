@@ -91,7 +91,7 @@ export default {
    * @desc 删除比赛
    * @param {} params 
    */
-  DelMatch(params){
+  DelMatch(params) {
     return fetch('/match/changeStatus', 'post', params)
   },
   /**
@@ -159,5 +159,26 @@ export default {
    */
   GetSignInStats(params) {
     return fetch('/signIn/signInStats', 'get', params)
+  },
+  /**
+   * @desc 获取优惠券列表
+   * @param {} params 
+   */
+  GetCoupons(params) {
+    return fetch('/coupon/findAll', 'get', params)
+  },
+  /**
+   * @desc  新增优惠券
+   * @param {} params 
+   */
+  AddCoupon(params) {
+    return fetch('/coupon/create', 'get', params)
+  },
+  /**
+   * @desc 作废优惠券
+   * @param {} params 
+   */
+  WidthDrawCoupon(params) {
+    return fetch('/coupon/update', 'get', params)
   }
 }
