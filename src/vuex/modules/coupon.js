@@ -39,7 +39,8 @@ const getters = {
   couponListLoading: state => state.listLoading,
   couponTotal: state => state.total,
   couponFilters: state => state.filters,
-  couponAddFormVisible: state => state.addFormVisible
+  couponAddFormVisible: state => state.addFormVisible,
+  couponAddForm: state => state.addForm
 }
 
 /**
@@ -64,7 +65,7 @@ const actions = {
    * @desc 新增优惠券
    */
   addCoupon({commit}, palyload) {
-    let data = state.couponDetails
+    let data = state.addForm
     api.AddCoupon(data).then(res => {
       commit(types.COUPON_LIST_ADD_FORM_VISIBLE, false)
       commit(types.GET_COUPON_LOADING_STATUS, true)

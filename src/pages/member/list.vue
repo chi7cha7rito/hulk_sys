@@ -330,13 +330,18 @@ export default {
             })
         },
         editSubmit: function () {
+            if(this.editLoading) return false
             this.$refs.editForm.validate((valid) => {
                 if (valid) {
+                    this.editLoading = true
                     this.$store.dispatch("editMember").then(res => {
+                        this.editLoading = false
                         this.getList();
                     }, err => {
+                        this.editLoading = false
                         this.$message.error(err.message);
                     }).catch(err => {
+                        this.editLoading = false
                         this.$message.error(err.message);
                     })
                 }

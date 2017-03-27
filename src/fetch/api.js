@@ -172,14 +172,14 @@ export default {
    * @param {} params 
    */
   AddCoupon(params) {
-    return fetch('/coupon/create', 'get', params)
+    return fetch('/coupon/create', 'post', params)
   },
   /**
    * @desc 作废优惠券
    * @param {} params 
    */
   WidthDrawCoupon(params) {
-    return fetch('/coupon/update', 'get', params)
+    return fetch('/coupon/update', 'post', params)
   },
   /**
    * @desc 获取赛事配置列表

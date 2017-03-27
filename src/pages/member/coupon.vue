@@ -77,16 +77,13 @@
                   style="width: 100%;">
             <el-table-column label="姓名">
                 <template scope="scope">
-                    <span>{{scope.row.member.name}}</span>
+                    <span>{{scope.row.member.user.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column label="手机">
                 <template scope="scope">
-                    <span>{{scope.row.member.phoneNo}}</span>
+                    <span>{{scope.row.member.user.phoneNo}}</span>
                 </template>
-            </el-table-column>
-            <el-table-column prop="phoneNo"
-                             label="手机号">
             </el-table-column>
             <el-table-column label="类型">
                 <template scope="scope">
@@ -116,7 +113,8 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template scope="scope">
-                    <el-button size="small"
+                    <el-button type="danger"
+                               size="small"
                                @click="handleWithDraw(scope.row.id)">
                         作废</el-button>
                 </template>
@@ -140,28 +138,28 @@
                    size='tiny'
                    :close-on-click-modal="true"
                    @close="closeDialog">
-            <el-form :model="addForm"
+            <el-form :model="couponAddForm"
                      label-width="100px"
                      :rules="addFormRules"
-                     ref="addForm">
+                     ref="couponAddForm">
                 <el-form-item label="手机号"
                               prop="phoneNo">
                     <el-col :span="10">
-                        <el-input v-model="addForm.phoneNo"
+                        <el-input v-model="couponAddForm.phoneNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="类型"
-                              prop="status">
-                    <el-select v-model="addForm.type"
+                              prop="type">
+                    <el-select v-model="couponAddForm.type"
                                placeholder="请选择类型">
                         <el-option label="门票"
                                    value="1"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子类型"
-                              prop="status">
-                    <el-select v-model="addForm.subType"
+                              prop="subType">
+                    <el-select v-model="couponAddForm.subType"
                                placeholder="请选择子类型">
                         <el-option label="平日赛"
                                    value="1"></el-option>
@@ -174,8 +172,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="来源"
-                              prop="status">
-                    <el-select v-model="addForm.source"
+                              prop="source">
+                    <el-select v-model="couponAddForm.source"
                                placeholder="请选择来源">
                         <el-option label="签到"
                                    value="1"></el-option>
@@ -186,7 +184,7 @@
                 <el-form-item label="备注"
                               prop="remark">
                     <el-col :span="10">
-                        <el-input v-model="addForm.remark"
+                        <el-input v-model="couponAddForm.remark"
                                   type="textarea"
                                   :rows="2"
                                   auto-complete="off"></el-input>
@@ -222,13 +220,13 @@ export default {
                     { required: true, message: '请填写手机号', trigger: 'blur' }
                 ],
                 type: [
-                    { required: true, message: '请填写身份证号', trigger: 'blur' }
+                    { required: true, message: '请选择类型', trigger: 'blur' }
                 ],
                 subType: [
-                    { required: true, message: '请填写卡号', trigger: 'blur' }
+                    { required: true, message: '请选择子类型', trigger: 'blur' }
                 ],
                 source: [
-                    { required: true, message: '请选择性别', trigger: 'blur' },
+                    { required: true, message: '请选择来源', trigger: 'blur' },
                 ]
             },
             addLoading: false
@@ -240,15 +238,16 @@ export default {
             'couponFilters',
             'couponListLoading',
             'couponTotal',
-            'couponAddFormVisible'
+            'couponAddFormVisible',
+            'couponAddForm'
         ])
     },
     methods: {
         formatStatus: function (row, column) {
             let str = ''
-            if (row.coupon.status == '1') str = '未使用'
-            if (row.coupon.status == '2') str = '已使用'
-            if (row.coupon.status == '3') str = '已作废'
+            if (row.status == '1') str = '未使用'
+            if (row.status == '2') str = '已使用'
+            if (row.status == '3') str = '已作废'
             return str
         },
         formatCreatedAtDate: function (row, column) {
@@ -277,20 +276,25 @@ export default {
             })
         },
         addSubmit: function () {
-            this.$refs.addForm.validate((valid) => {
+            if (this.addLoading) return false
+            this.$refs.couponAddForm.validate((valid) => {
                 if (valid) {
+                    this.addLoading = true
                     this.$store.dispatch("addCoupon").then(res => {
+                        this.addLoading = false
                         this.getList();
                     }, err => {
+                        this.addLoading = false
                         this.$message.error(err.message);
                     }).catch(err => {
+                        this.addLoading = false
                         this.$message.error(err.message);
                     })
                 }
             });
         },
         closeDialog: function () {
-            this.$refs.addForm.resetFields();
+            this.$refs.couponAddForm.resetFields();
             this.$store.commit(types.COUPON_LIST_ADD_FORM_VISIBLE, false);
         }
     },
