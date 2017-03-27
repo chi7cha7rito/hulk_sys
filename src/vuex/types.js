@@ -1,6 +1,11 @@
 // 公共
-export const COM_LOADING_STATUS = 'COM_LOADING_STATUS'
-export const COM_ERROR_MESSAGE = 'COM_ERROR_MESSAGE' //全局的提示的错误信息
+export const COM_LOADING_STATUS = 'COM_LOADING_STATUS' //全局的loading status
+export const COM_LIST_LOADING_STATUS = 'COM_LIST_LOADING_STATUS' //查询列表loading状态的显示
+export const COM_LIST_TOTAL_COUNT='COM_LIST_TOTAL_COUNT' // 查询列表的总数量
+export const COM_EDIT_FORM_VISIBLE='COM_EDIT_FORM_VISIBLE' // 弹框编辑Form的显示状态
+export const COM_ADD_FORM_VISIBLE='COM_ADD_FORM_VISIBLE' // 弹框添加Form的显示状态
+export const COM_PAGE_NUM='COM_PAGE_NUM' // 页码
+
 
 
 /**
@@ -14,15 +19,10 @@ export const GET_USER_DATA = 'GET_USER_DATA' // 获取用户数据信息
  * desc 赛事相关
  */
 export const GET_MATCH_LIST = 'GET_MATCH_LIST' // 获取赛事列表
-export const GET_MATCH_LOADING_STATUS = 'GET_MATCH_LOADING_STATUS' // 获取赛事列表loading状态
-export const GET_MATCH_TOTAL_COUNT='GET_MATCH_TOTAL_COUNT' //赛事列表的总数
 export const GET_MATCH_TYPE_LIST='GET_MATCH_TYPE_LIST'//赛事类型列表
 export const GET_MATCH_DETAILS='GET_MATCH_DETAILS' //赛事详情
-export const CHANGE_MATCH_LIST_PAGE_NUM='CHANGE_MATCH_LIST_PAGE_NUM'//更改赛事列表页分页的页码
 export const EDIT_MATCH="EDIT_MATCH" //编辑赛事信息
 export const ADD_MATCH="ADD_MATCH" //添加赛事信息
-export const MATCH_LIST_EDIT_FORM_VISIBLE="MATCH_LIST_EDIT_FORM_VISIBLE" // 赛事列表EDIT FORM 显示状态
-export const MATCH_LIST_ADD_FORM_VISIBLE="MATCH_LIST_ADD_FORM_VISIBLE" // 添加赛事 FORM 显示状态
 export const GET_ALL_MATCH_CONFIGS='GET_ALL_MATCH_CONFIGS' //所有的赛事配置信息
 
 
@@ -70,3 +70,11 @@ export const GET_SIGNIN_LIST = 'GET_SIGNIN_LIST' // 获取签到列表
 export const GET_SIGNIN_LOADING_STATUS = 'GET_SIGNIN_LOADING_STATUS' // 获取签到列表loading状态
 export const GET_SIGNIN_TOTAL_COUNT = 'GET_SIGNIN_TOTAL_COUNT' // 签到列表的总数
 export const CHANGE_SIGNIN_LIST_PAGE_NUM = 'CHANGE_SIGNIN_LIST_PAGE_NUM' // 更改签到列表页分页的页码
+
+/**
+ * desc 赛事配置相关
+ */
+export const GET_MATCH_CONFIG_LIST = 'GET_MATCH_CONFIG_LIST' // 获取赛事配置列表
+export const GET_MATCH_CONFIG_DETAILS='GET_MATCH_CONFIG_DETAILS' //赛事配置详情
+export const EDIT_MATCH_CONFIG="EDIT_MATCH_CONFIG" //编辑赛事配置信息
+export const ADD_MATCH_CONFIG="ADD_MATCH_CONFIG" //添加赛事配置信息

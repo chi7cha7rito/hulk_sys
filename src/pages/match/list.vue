@@ -202,8 +202,8 @@
 				'matchDetails',
 				'matchConfigList',
 				'filters',
-				'listLoading',
 				'editFormVisible',
+				'listLoading',
 				'addFormVisible',
 				'total',
 				'addForm'
@@ -231,7 +231,7 @@
 				return util.formatDate.utcToLocal(row.closingDatetime)
 			},
 			handleCurrentChange(val) {
-				this.$store.commit(types.CHANGE_MATCH_LIST_PAGE_NUM,val);
+				this.$store.commit(types.COM_PAGE_NUM,val);
 				this.getList();
 			},
 			getList() {				
@@ -250,7 +250,7 @@
 				})
 			},
 			handleAdd:function(){
-				this.$store.commit(types.MATCH_LIST_ADD_FORM_VISIBLE,true);	
+				this.$store.commit(types.COM_ADD_FORM_VISIBLE,true);	
 			},
 			handleDel:function(id){
 				if(this.delLoading){return false}
@@ -297,11 +297,11 @@
 			closeDialog:function(type){
 				if(type=="add"){
 					this.$refs.addForm.resetFields();
-					this.$store.commit(types.MATCH_LIST_ADD_FORM_VISIBLE,false);
+					this.$store.commit(types.COM_ADD_FORM_VISIBLE,false);
 				}
 				else{
 					this.$refs.editForm.resetFields();
-					this.$store.commit(types.MATCH_LIST_EDIT_FORM_VISIBLE,false);
+					this.$store.commit(types.COM_EDIT_FORM_VISIBLE,false);
 				}						
 			}
 		},

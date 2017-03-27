@@ -9,6 +9,7 @@ import balance from './modules/balance'
 import points from './modules/points'
 import sprit from './modules/sprit'
 import signIn from './modules/signIn'
+import matchConfig from './modules/matchConfig'
 
 Vue.use(Vuex)
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     balance,
     points,
     sprit,
-  signIn}
+    signIn,
+  matchConfig}
 })
