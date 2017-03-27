@@ -97,15 +97,6 @@ const actions = {
     let data = state.memberDetails
     api.EditMember(data).then(res => {
       commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false)
-      commit(types.GET_MEMBER_LOADING_STATUS, true)
-      api.GetMembers(state.filters)
-        .then(res => {
-          commit(types.GET_MEMBER_LOADING_STATUS, false)
-          commit(types.GET_MEMBER_TOTAL_COUNT, res.count)
-          commit(types.GET_MEMBER_LIST, res)
-        }).catch(error => {
-        commit(types.GET_MEMBER_LOADING_STATUS, false)
-      })
     })
   }
 }
