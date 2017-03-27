@@ -10,6 +10,7 @@ import points from './modules/points'
 import sprit from './modules/sprit'
 import signIn from './modules/signIn'
 import coupon from './modules/coupon'
+import matchConfig from './modules/matchConfig'
 
 Vue.use(Vuex)
 
@@ -23,5 +24,6 @@ export default new Vuex.Store({
     points,
     sprit,
     signIn,
-  coupon}
+    coupon,
+  matchConfig}
 })

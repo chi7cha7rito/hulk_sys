@@ -180,5 +180,40 @@ export default {
    */
   WidthDrawCoupon(params) {
     return fetch('/coupon/update', 'get', params)
+  },
+  /**
+   * @desc 获取赛事配置列表
+   * @param {} params 
+   */
+  GetMatchConfigList(params) {
+    return fetch('/matchConfig/findMatchConfigs', 'get', params)
+  },
+  /**
+   * @desc 获取赛事配置详情
+   * @param {} params 
+   */
+  GetMatchConfigDetails(params) {
+    return fetch('/matchConfig/findMatchConfigById', 'get', params)
+  },
+  /**
+   * @desc 添加赛事配置
+   * @param {} params 
+   */
+  AddMatchConfig(params) {
+    return fetch('/matchConfig/create', 'post', params)
+  },
+  /**
+   * @desc 编辑赛事配置
+   * @param {} params 
+   */
+  EditMatchConfig(params) {
+    return fetch('/matchConfig/update', 'post', params)
+  },
+  /**
+   * @desc 删除赛事配置
+   * @param {} params 
+   */
+  DelMatchConfig(params) {
+    return fetch('/matchConfig/changeStatus', 'post', params)
   }
 }
