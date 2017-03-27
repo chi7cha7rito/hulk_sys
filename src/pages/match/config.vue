@@ -15,6 +15,14 @@
 						</el-option>					
 					</el-select>
 				</el-form-item>
+                <el-form-item label="子类型">
+					<el-select v-model="matchConfigFilters.type" placeholder="请选择类型" style="width:90px" clearable>
+	                   	 <el-option label="平日赛" value="1"></el-option>
+      					 <el-option label="周末赛" value="2"></el-option>	
+                         <el-option label="月度会员杯赛" value="3"></el-option>	
+                         <el-option label="年度会员杯赛" value="4"></el-option>			
+					</el-select>
+				</el-form-item>
                 <el-form-item label="状态">
 					<el-select v-model="matchConfigFilters.status" placeholder="请选择状态" style="width:90px" clearable>
 						 <el-option label="启用" value="1"></el-option>
@@ -32,20 +40,54 @@
 	
 		<!--列表-->
 		<el-table :data="matchConfig_List" v-loading="listLoading" style="width: 100%;">			
-			<el-table-column  prop="id" label="id">
+			<el-table-column  prop="id" label="id" width="55">
 			</el-table-column>
 			<el-table-column label="名称" prop="name">
 			</el-table-column>
-			<el-table-column label="类型">
+			<el-table-column label="类型" width="70">
 				<template scope="scope">
 					<span>{{scope.row.Type.name}}</span>
 				</template>
-			</el-table-column>		
-			<el-table-column prop="status" label="状态" :formatter="formatStatus">
+			</el-table-column>
+            <el-table-column label="子类型">
+				<template scope="scope">
+					<span>{{scope.row.subType.name}}</span>
+				</template>
+			</el-table-column>			
+			<el-table-column prop="status" label="状态" :formatter="formatStatus" width="70">
+			</el-table-column>
+            <el-table-column prop="status" label="价格配置">
+                <template scope="scope">
+					<el-popover ref="pricePopover" placement="right" width="200" trigger="hover">
+                        <el-table :data="scope.row.matchPrices">
+                            <el-table-column width="120" label="名称">
+                                <template scope="scope">
+					                <span>{{scope.row.type.name}}</span>
+				                </template>
+                            </el-table-column>
+                            <el-table-column width="80" property="price" label="价格"></el-table-column>
+                        </el-table>
+                    </el-popover>
+                    <span v-popover:pricePopover class="view">查看价格</span>
+                </template>
+			</el-table-column>
+            <el-table-column prop="status" label="奖励配置" >
+                <template scope="scope">
+					<el-popover ref="rewardPopover" placement="right" width="200" trigger="hover">
+                        <el-table :data="scope.row.matchRewards">
+                            <el-table-column width="80" label="名次" prop="ranking">
+                            </el-table-column>
+                            <el-table-column width="120" property="rewardPoints" label="奖励积分"></el-table-column>
+                        </el-table>
+                    </el-popover>
+                    <span v-popover:rewardPopover class="view">查看配置</span>
+				</template>
+			</el-table-column>
+            <el-table-column prop="holder" label="举办方">
 			</el-table-column>
 			<el-table-column label="操作" width="150">
-				<template scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+				<template scope="scope"> 
+					<el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>
 					<el-button type="danger" size="small" @click="handleDel(scope.row.id)" >删除</el-button>
 				</template>
@@ -61,48 +103,82 @@
 		</el-col>
 
 		<!--编辑界面-->
-		<!--<el-dialog title="编辑赛事配置" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
-			<el-form :model="matchDetails" label-width="100px" :rules="editFormRules" ref="editForm">
-				<el-form-item label="ID" prop="id">
-					<el-col :span="5">
-						<el-input v-model="matchDetails.id"  auto-complete="off" :disabled="true"></el-input>
-					</el-col>				
-				</el-form-item>
-				<el-form-item label="类型" prop="matchConfigId">
-					<el-select v-model="matchDetails.matchConfigId" placeholder="请选择赛事类型" clearable>
-						<el-option
-								v-for="item in matchConfigList"
-								:label="item.name"
-								:value="item.id.toString()">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="状态" prop="status">
-					<el-select v-model="matchDetails.status" placeholder="请选择赛事状态" clearable>
-						<el-option label="已开始" value="1"></el-option>
-						<el-option label="已结束" value="2"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="报名时间" prop="openingDatetime">
-					<el-date-picker v-model="matchDetails.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="比赛时间" prop="closingDatetime">
-					<el-date-picker v-model="matchDetails.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="每首价格" prop="perHand">
-					<el-col :span="5">
-						<el-input v-model.number="matchDetails.perHand"  auto-complete="off"></el-input>
-					</el-col>				
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
+		<el-dialog title="编辑赛事配置" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
+            <template>
+                <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+                    <el-tab-pane label="基本信息" name="base">
+                        <el-form :model="matchConfigDetails" label-width="100px" :rules="editFormRules" ref="editForm">
+                            <el-form-item label="ID" prop="id">
+                                <el-col :span="5">
+                                    <el-input v-model="matchConfigDetails.id"  auto-complete="off" :disabled="true"></el-input>
+                                </el-col>				
+                            </el-form-item>
+                            <el-form-item label="名称" prop="name">
+                                <el-col :span="5">
+                                    <el-input v-model="matchConfigDetails.name"  auto-complete="off"></el-input>
+                                </el-col>				
+                            </el-form-item>
+                            <el-form-item label="类型" prop="type">
+                                <el-select v-model="matchConfigDetails.type" placeholder="请选择类型" clearable>
+                                    <el-option
+                                            v-for="item in matchTypeList"
+                                            :label="item.name"
+                                            :value="item.id.toString()">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="子类型" prop="subType"> 
+                                <el-select v-model="matchConfigDetails.subType" placeholder="请选择子类型" style="width:150px" clearable>
+                                    <el-option label="平日赛" value="1"></el-option>
+                                    <el-option label="周末赛" value="2"></el-option>	
+                                    <el-option label="月度会员杯赛" value="3"></el-option>	
+                                    <el-option label="年度会员杯赛" value="4"></el-option>			
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="状态" prop="status">
+                                <el-switch on-text="启用" off-text="禁用" v-model="matchConfigDetails.status"></el-switch>
+                            </el-form-item>
+                            <el-form-item label="举办方" prop="holder">
+                                <el-col :span="12">
+                                    <el-input v-model="matchConfigDetails.holder"  auto-complete="off"></el-input>
+                                </el-col>				
+                            </el-form-item>
+                            <el-form-item label="赛事介绍Url" prop="url">
+                                <el-col :span="5">
+                                    <el-input v-model="matchConfigDetails.url"  auto-complete="off"></el-input>
+                                </el-col>				
+                            </el-form-item>
+                            <el-form-item label="是否Online" prop="online">
+                                <el-switch on-text="是" off-text="否" v-model="matchConfigDetails.online"></el-switch>
+                            </el-form-item>
+                            <el-form-item label="配置描述" prop="description">
+                                <el-col :span="15">
+                                    <el-input v-model="matchConfigDetails.description"  auto-complete="off"></el-input>
+                                </el-col>				
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button  @click.native="closeDialog('edit')">取消</el-button>
+                                <el-button type="primary" @click.native="editBaseInfoSubmit" :loading="editLoading">保存</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+                    <el-tab-pane label="价格信息" name="price">
+                        配置管理
+                    </el-tab-pane>
+                    <el-tab-pane label="奖励配置" name="reward">
+                        角色管理
+                    </el-tab-pane>
+                </el-tabs>
+            </template>
+		
+			<!--<div slot="footer" class="dialog-footer">
 				<el-button @click.native="closeDialog('edit')">取消</el-button>
 				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
-			</div>
+			</div>-->
 		</el-dialog>
 
 		
-	    <el-dialog title="添加赛事配置" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
+	    <!--<el-dialog title="添加赛事配置" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
 			<el-form :model="addForm" label-width="100px" :rules="editFormRules" ref="addForm">
 				<el-form-item label="类型" prop="matchConfigId">
 					<el-select v-model="addForm.matchConfigId" placeholder="请选择赛事类型" clearable>
@@ -150,24 +226,27 @@
 	
 	export default {
 		data() {
-			return {				
+			return {
+                activeTab:'base',			
 				editFormRules:{
-					matchConfigId:[
+                    name:[
+						{ required: true,message:"请选择名称", trigger: 'blur' }
+					],
+					type:[
+						{ required: true,message:"请选择赛事类型", trigger: 'change' }
+					],
+                    subType:[
 						{ required: true,message:"请选择赛事类型", trigger: 'change' }
 					],
 					status:[
-						{required: true, message: '请选择赛事状态', trigger: 'change'}
+						{type:"boolean",required: true, message: '请选择状态', trigger: 'change'}
 					],
-					openingDatetime:[
-						{type:'date',required: true, message: '请选择报名时间', trigger: 'change'}
+                    online:[
+						{type:"boolean",required: true, message: '请选择是否是online', trigger: 'change'}
 					],
-					closingDatetime:[
-						{type:'date',required: true, message: '请选择比赛时间', trigger: 'change'}
-					],
-					perHand:[
-						{ required: true, message: '请填写每手价格'},
-						{ type: 'number', message: '价格必须为数字值'}
-					]
+					holder:[
+                        {required: true, message: '请输入赛事主办方', trigger: 'blur'}
+                    ]
 				},
 				editLoading:false,
 				addLoading:false
@@ -210,9 +289,9 @@
 				}
 			},
 			handleEdit: function (index, row) {
-				this.$store.dispatch('getMatchConfigDetails',{
+                this.$store.dispatch('getMatchConfigDetails',{
 					id:row.id
-				})
+				});
 			},
 			handleAdd:function(){
 				this.$store.commit(types.COM_ADD_FORM_VISIBLE,true);	
@@ -229,7 +308,10 @@
 					})
 				})			
 			},
-			editSubmit: function () {
+            handleTabClick:function(tab,event){
+                 console.log(tab, event);
+            },
+			editBaseInfoSubmit: function () {
 				if(this.editLoading){return false}
 				this.$refs.editForm.validate((valid) => {
 					if (valid) {
@@ -261,7 +343,7 @@
 			},
 			closeDialog:function(type){
 				if(type=="add"){
-					this.$refs.addForm.resetFields();
+					// this.$refs.addForm.resetFields();
 					this.$store.commit(types.COM_ADD_FORM_VISIBLE,false);
 				}
 				else{
@@ -278,7 +360,8 @@
 </script>
 
 <style scoped>
-	.line{
-		text-align:center;
-	}
+    .view{
+        cursor: pointer;
+        color: #50bfff;
+    }
 </style>

@@ -11,12 +11,15 @@ import * as types from '../types'
 const state = {
   list: [],
   details: {
-    id: '0',
-    closingDatetime: '',
-    openingDatetime: '',
-    matchConfigId: '',
-    perHand: '',
-    status: ''
+    id: '',
+    name: '',
+    url: '',
+    type: '',
+    subType: '',
+    status: false,
+    online: false,
+    holder: '',
+    description: ''
   },
   filters: {
     name: '',
@@ -24,11 +27,7 @@ const state = {
     type: ''
   },
   addForm: {
-    closingDatetime: '',
-    openingDatetime: '',
-    matchConfigId: '',
-    perHand: '',
-    status: ''
+
   }
 }
 
@@ -46,9 +45,9 @@ const getters = {
  * actions 定义
  */
 const actions = {
-   /**
-   * 获取赛事配置列表
-   */
+  /**
+  * 获取赛事配置列表
+  */
   getMatchConfigList({ state, commit, rootState }) {
     commit(types.COM_LIST_LOADING_STATUS, true)
     let requestData = {}
@@ -83,7 +82,9 @@ const actions = {
    * @desc 编辑赛事配置
    */
   editMatchConfig({commit}, palyload) {
-    let data = state.matchConfigDetails
+    let data = state.details
+    data.status = state.details.status ? '1' : '2'
+
     return api.EditMatchConfig(data).then(res => {
       commit(types.COM_EDIT_FORM_VISIBLE, false)
     })
@@ -111,13 +112,16 @@ const mutations = {
   [types.GET_MATCH_CONFIG_DETAILS](state, data) {
     let tmpData = {
       'id': data.id,
-      'closingDatetime': new Date(data.closingDatetime),
-      'openingDatetime': new Date(data.openingDatetime),
-      'matchConfigId': data.matchConfig.id.toString(),
-      'perHand': data.perHand,
-      'status': data.status.toString()
+      'name': data.name,
+      'type': data.Type.id.toString(),
+      'subType': data.subType.val.toString(),
+      'online': data.online,
+      'url': data.url,
+      'status': data.status == '1' ? true : false,
+      'holder': data.holder,
+      'description': data.description
     }
-    state.matchConfigDetails = tmpData
+    state.details = tmpData
   }
 }
 

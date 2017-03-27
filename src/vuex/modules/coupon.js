@@ -66,17 +66,8 @@ const actions = {
    */
   addCoupon({commit}, palyload) {
     let data = state.addForm
-    api.AddCoupon(data).then(res => {
+    return api.AddCoupon(data).then(res => {
       commit(types.COUPON_LIST_ADD_FORM_VISIBLE, false)
-      commit(types.GET_COUPON_LOADING_STATUS, true)
-      api.GetCoupons(state.filters)
-        .then(res => {
-          commit(types.GET_COUPON_LOADING_STATUS, false)
-          commit(types.GET_COUPON_TOTAL_COUNT, res.count)
-          commit(types.GET_COUPON_LIST, res)
-        }).catch(error => {
-        commit(types.GET_COUPON_LOADING_STATUS, false)
-      })
     })
   },
   /**
