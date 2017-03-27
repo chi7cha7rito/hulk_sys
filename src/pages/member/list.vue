@@ -139,7 +139,6 @@
         <!--编辑界面-->
         <el-dialog title="会员编辑"
                    v-model="memberEditFormVisible"
-                   size='tiny'
                    :close-on-click-modal="true"
                    @close="closeDialog">
             <el-form :model="memberDetails"
