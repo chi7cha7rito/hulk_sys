@@ -23,7 +23,7 @@ const state = {
     endCreatedAt: ''
   },
   addForm: {
-    memberId: '',
+    phoneNo: '',
     type: '',
     subType: '',
     source: '',

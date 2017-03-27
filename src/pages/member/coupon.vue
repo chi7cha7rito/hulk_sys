@@ -135,7 +135,6 @@
         <!--新增界面-->
         <el-dialog title="优惠券新增"
                    v-model="couponAddFormVisible"
-                   size='tiny'
                    :close-on-click-modal="true"
                    @close="closeDialog">
             <el-form :model="couponAddForm"
