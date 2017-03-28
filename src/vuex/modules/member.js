@@ -95,7 +95,7 @@ const actions = {
    */
   editMember({commit}, palyload) {
     let data = state.memberDetails
-    api.EditMember(data).then(res => {
+    return api.EditMember(data).then(res => {
       commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false)
     })
   }
