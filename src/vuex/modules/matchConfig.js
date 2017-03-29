@@ -28,6 +28,31 @@ const state = {
   },
   addForm: {
 
+  },
+  pricesConfigs: [{
+    id: '1',
+    name: '线上价格'
+  }, {
+    id: '2',
+    name: '原价'
+  },
+    {
+      id: '3',
+      name: '高级会员价'
+    },
+    {
+      id: '4',
+      name: '豪客价'
+    }, {
+      id: '5',
+      name: '豪爵价'
+    }, {
+      id: '6',
+      name: '优惠价'
+    }
+  ],
+  matchPricesEditForm: {
+    priceList: []
   }
 }
 
@@ -38,7 +63,9 @@ const getters = {
   matchConfig_List: state => state.list,
   matchConfigDetails: state => state.details,
   matchConfigFilters: state => state.filters,
-  addMatchConfigForm: state => state.addForm
+  addMatchConfigForm: state => state.addForm,
+  matchPricesEditForm: state => state.matchPricesEditForm,
+  pricesConfigs: state => state.pricesConfigs
 }
 
 /**
@@ -68,6 +95,7 @@ const actions = {
     commit(types.COM_EDIT_FORM_VISIBLE, true)
     api.GetMatchConfigDetails(palyload).then(res => {
       commit(types.GET_MATCH_CONFIG_DETAILS, res)
+      commit(types.MATCH_CONFIG_PRICE_EDIT_FORM, res)
     })
   },
   /**
@@ -122,6 +150,40 @@ const mutations = {
       'description': data.description
     }
     state.details = tmpData
+  },
+  [types.MATCH_CONFIG_PRICE_EDIT_FORM](state, res) {
+    let tmpList = []
+
+    if (res.matchPrices && res.matchPrices) {
+      res.matchPrices.forEach(oPrice => {
+        tmpList.push({
+          'type': oPrice.type.val.toString(),
+          'price': oPrice.price.toString(),
+          'points': oPrice.points,
+          'status': oPrice.status == '1' ? true : false,
+          'key': new Date()
+        })
+      })
+    }
+
+    state.matchPricesEditForm.priceList = tmpList
+  },
+  [types.ADD_MATCH_CONFIG_PRICE_IN_FORM](state, type) {
+    let price = {
+      'type': '',
+      'price': '',
+      'points': '',
+      'status': true,
+      'key': new Date()
+    }
+
+    state.matchPricesEditForm.priceList.push(price)
+  },
+  [types.DEL_MATCH_CONFIG_PRICE_IN_FORM](state, item) {
+    var index = state.matchPricesEditForm.priceList.indexOf(item)
+    if (index !== -1) {
+      state.matchPricesEditForm.priceList.splice(index, 1)
+    }
   }
 }
 
