@@ -84,3 +84,13 @@ export const GET_MATCH_CONFIG_LIST = 'GET_MATCH_CONFIG_LIST' // 获取赛事配�
 export const GET_MATCH_CONFIG_DETAILS = 'GET_MATCH_CONFIG_DETAILS' // 赛事配置详情
 export const EDIT_MATCH_CONFIG = 'EDIT_MATCH_CONFIG' // 编辑赛事配置信息
 export const ADD_MATCH_CONFIG = 'ADD_MATCH_CONFIG' // 添加赛事配置信息
+
+/**
+ * desc 用户管理相关
+ */
+export const GET_SYSUSER_LIST = 'GET_SYSUSER_LIST' // 获取赛事列表
+export const GET_SYSUSER_TYPE_LIST = 'GET_SYSUSER_TYPE_LIST' // 赛事类型列表
+export const GET_SYSUSER_DETAILS = 'GET_SYSUSER_DETAILS' // 赛事详情
+export const EDIT_SYSUSER = 'EDIT_SYSUSER' // 编辑赛事信息
+export const ADD_SYSUSER = 'ADD_SYSUSER' // 添加赛事信息
+export const GET_ALL_SYSUSER_CONFIGS = 'GET_ALL_SYSUSER_CONFIGS' // 所有的赛事配置信息
