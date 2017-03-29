@@ -215,5 +215,33 @@ export default {
    */
   DelMatchConfig(params) {
     return fetch('/matchConfig/changeStatus', 'post', params)
+  },
+  /**
+   * @desc 获取用户列表
+   * @param {} params 
+   */
+  GetSysUserList(params) {
+    return fetch('/user/findAll', 'get', params)
+  },
+  /**
+    * @desc 获取用户信息
+    * @param {} params 
+    */
+  GetSysUserDetails(params) {
+    return fetch('/user/findById', 'get', params)
+  },
+  /**
+    * @desc 更新用户信息
+    * @param {} params 
+    */
+  EditSysUser(params) {
+    return fetch('/user/update', 'post', params)
+  },
+  /**
+    * @desc 新增用户信息
+    * @param {} params 
+    */
+  AddSysUser(params) {
+    return fetch('/user/create', 'post', params)
   }
 }

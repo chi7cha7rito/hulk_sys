@@ -89,3 +89,13 @@ export const ADD_MATCH_CONFIG_PRICE_IN_FORM='ADD_MATCH_CONFIG_PRICE_IN_FORM'  //
 export const DEL_MATCH_CONFIG_PRICE_IN_FORM='DEL_MATCH_CONFIG_PRICE_IN_FORM'  //在赛事配置编辑Form 删除价格
 
 
+/**
+ * desc 用户管理相关
+ */
+export const GET_SYSUSER_LIST = 'GET_SYSUSER_LIST' // 获取赛事列表
+export const GET_SYSUSER_TYPE_LIST = 'GET_SYSUSER_TYPE_LIST' // 赛事类型列表
+export const GET_SYSUSER_DETAILS = 'GET_SYSUSER_DETAILS' // 赛事详情
+export const EDIT_SYSUSER = 'EDIT_SYSUSER' // 编辑赛事信息
+export const ADD_SYSUSER = 'ADD_SYSUSER' // 添加赛事信息
+export const GET_ALL_SYSUSER_CONFIGS = 'GET_ALL_SYSUSER_CONFIGS' // 所有的赛事配置信息
+

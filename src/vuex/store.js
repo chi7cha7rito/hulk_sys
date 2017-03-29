@@ -11,6 +11,7 @@ import sprit from './modules/sprit'
 import signIn from './modules/signIn'
 import coupon from './modules/coupon'
 import matchConfig from './modules/matchConfig'
+import sysUser from './modules/sysUser'
 
 Vue.use(Vuex)
 
@@ -25,5 +26,6 @@ export default new Vuex.Store({
     sprit,
     signIn,
     coupon,
-  matchConfig}
+    matchConfig,
+  sysUser}
 })
