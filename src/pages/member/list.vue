@@ -220,9 +220,7 @@
                    :close-on-click-modal="true"
                    @close="closeDialog">
             <el-form :model="memberBP"
-                     label-width="100px"
-                     :rules="editFormRules"
-                     ref="editForm">
+                     label-width="100px">
                 <el-form-item label="余额"
                               prop="balance">
                     <el-col :span="10">
@@ -329,7 +327,7 @@ export default {
             })
         },
         editSubmit: function () {
-            if(this.editLoading) return false
+            if (this.editLoading) return false
             this.$refs.editForm.validate((valid) => {
                 if (valid) {
                     this.editLoading = true

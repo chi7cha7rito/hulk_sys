@@ -271,9 +271,9 @@ export default {
   AddMemberLevel(params) {
     return fetch('/memberLevel/create', 'post', params)
   },
-   /**
-   * @desc 获取充值返现列表
-   */
+  /**
+  * @desc 获取充值返现列表
+  */
   GetRechargeSetupList() {
     return fetch('/rechargeSetup/findAll', 'get')
   },
@@ -297,5 +297,47 @@ export default {
     */
   AddRechargeSetup(params) {
     return fetch('/rechargeSetup/create', 'post', params)
+  },
+  /**
+    * @desc 充值
+    * @param {} params 
+    */
+  BalanceIncrease(params) {
+    return fetch('/balance/increase', 'post', params)
+  },
+  /**
+    * @desc 余额消费
+    * @param {} params 
+    */
+  BalanceDecrease(params) {
+    return fetch('/balance/decrease', 'post', params)
+  },
+  /**
+    * @desc 购买积分
+    * @param {} params 
+    */
+  BuyPoints(params) {
+    return fetch('/balance/buyPoints', 'post', params)
+  },
+  /**
+   * @desc 获取余额
+   * @param {} params 
+   */
+  TotalBalanceByPhoneNo(params) {
+    return fetch('/balance/totalByPhoneNo', 'get', params)
+  },
+  /**
+  * @desc 积分消费
+  * @param {} params 
+  */
+  PointDecrease(params) {
+    return fetch('/point/decrease', 'post', params)
+  },
+  /**
+  * @desc 获取余额
+  * @param {} params 
+  */
+  TotalPointsByPhoneNo(params) {
+    return fetch('/point/totalByPhoneNo', 'get', params)
   }
 }

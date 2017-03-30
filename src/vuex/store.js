@@ -14,6 +14,8 @@ import matchConfig from './modules/matchConfig'
 import sysUser from './modules/sysUser'
 import memberLevel from './modules/memberLevel'
 import rechargeSetup from './modules/rechargeSetup'
+import recharge from './modules/recharge'
+import consume from './modules/consume'
 
 Vue.use(Vuex)
 
@@ -31,5 +33,7 @@ export default new Vuex.Store({
     matchConfig,
     sysUser,
     memberLevel,
-  rechargeSetup}
+    rechargeSetup,
+    recharge,
+  consume}
 })

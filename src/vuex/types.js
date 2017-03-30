@@ -84,10 +84,9 @@ export const GET_MATCH_CONFIG_LIST = 'GET_MATCH_CONFIG_LIST' // 获取赛事配�
 export const GET_MATCH_CONFIG_DETAILS = 'GET_MATCH_CONFIG_DETAILS' // 赛事配置详情
 export const EDIT_MATCH_CONFIG = 'EDIT_MATCH_CONFIG' // 编辑赛事配置信息
 export const ADD_MATCH_CONFIG = 'ADD_MATCH_CONFIG' // 添加赛事配置信息
-export const MATCH_CONFIG_PRICE_EDIT_FORM='MATCH_CONFIG_PRICE_EDIT_FORM'  //赛事配置价格配置的Form
-export const ADD_MATCH_CONFIG_PRICE_IN_FORM='ADD_MATCH_CONFIG_PRICE_IN_FORM'  //在赛事配置编辑Form 添加一个价格
-export const DEL_MATCH_CONFIG_PRICE_IN_FORM='DEL_MATCH_CONFIG_PRICE_IN_FORM'  //在赛事配置编辑Form 删除价格
-
+export const MATCH_CONFIG_PRICE_EDIT_FORM = 'MATCH_CONFIG_PRICE_EDIT_FORM' // 赛事配置价格配置的Form
+export const ADD_MATCH_CONFIG_PRICE_IN_FORM = 'ADD_MATCH_CONFIG_PRICE_IN_FORM' // 在赛事配置编辑Form 添加一个价格
+export const DEL_MATCH_CONFIG_PRICE_IN_FORM = 'DEL_MATCH_CONFIG_PRICE_IN_FORM' // 在赛事配置编辑Form 删除价格
 
 /**
  * desc 用户管理相关
@@ -115,3 +114,9 @@ export const GET_RECHARGESETUP_TYPE_LIST = 'GET_RECHARGESETUP_TYPE_LIST' // 充�
 export const GET_RECHARGESETUP_DETAILS = 'GET_RECHARGESETUP_DETAILS' // 充值返现详情
 export const EDIT_RECHARGESETUP = 'EDIT_RECHARGESETUP' // 编辑充值返现信息
 export const ADD_RECHARGESETUP = 'ADD_RECHARGESETUP' // 添加充值返现信息
+
+/**
+ * desc 店内消费
+ */
+export const GET_TOTAL_BALANCE = 'GET_TOTAL_BALANCE' // 获取余额
+export const GET_TOTAL_POINTS = 'GET_TOTAL_POINTS' // 获取积分
