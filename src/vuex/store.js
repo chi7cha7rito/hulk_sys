@@ -12,6 +12,8 @@ import signIn from './modules/signIn'
 import coupon from './modules/coupon'
 import matchConfig from './modules/matchConfig'
 import sysUser from './modules/sysUser'
+import memberLevel from './modules/memberLevel'
+import rechargeSetup from './modules/rechargeSetup'
 
 Vue.use(Vuex)
 
@@ -27,5 +29,7 @@ export default new Vuex.Store({
     signIn,
     coupon,
     matchConfig,
-  sysUser}
+    sysUser,
+    memberLevel,
+  rechargeSetup}
 })

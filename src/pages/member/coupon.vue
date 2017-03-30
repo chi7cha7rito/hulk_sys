@@ -219,13 +219,13 @@ export default {
                     { required: true, message: '请填写手机号', trigger: 'blur' }
                 ],
                 type: [
-                    { required: true, message: '请选择类型', trigger: 'blur' }
+                    { required: true, message: '请选择类型', trigger: 'change' }
                 ],
                 subType: [
-                    { required: true, message: '请选择子类型', trigger: 'blur' }
+                    { required: true, message: '请选择子类型', trigger: 'change' }
                 ],
                 source: [
-                    { required: true, message: '请选择来源', trigger: 'blur' },
+                    { required: true, message: '请选择来源', trigger: 'change' },
                 ]
             },
             addLoading: false

@@ -243,5 +243,59 @@ export default {
     */
   AddSysUser(params) {
     return fetch('/user/create', 'post', params)
+  },
+  /**
+   * @desc 获取会员等级列表
+   */
+  GetMemberLevelList() {
+    return fetch('/memberLevel/findAll', 'get')
+  },
+  /**
+    * @desc 获取会员等级信息
+    * @param {} params 
+    */
+  GetMemberLevelDetails(params) {
+    return fetch('/memberLevel/findById', 'get', params)
+  },
+  /**
+    * @desc 更新会员等级信息
+    * @param {} params 
+    */
+  EditMemberLevel(params) {
+    return fetch('/memberLevel/update', 'post', params)
+  },
+  /**
+    * @desc 新增会员等级信息
+    * @param {} params 
+    */
+  AddMemberLevel(params) {
+    return fetch('/memberLevel/create', 'post', params)
+  },
+   /**
+   * @desc 获取充值返现列表
+   */
+  GetRechargeSetupList() {
+    return fetch('/rechargeSetup/findAll', 'get')
+  },
+  /**
+    * @desc 获取充值返现信息
+    * @param {} params 
+    */
+  GetRechargeSetupDetails(params) {
+    return fetch('/rechargeSetup/findById', 'get', params)
+  },
+  /**
+    * @desc 更新充值返现信息
+    * @param {} params 
+    */
+  EditRechargeSetup(params) {
+    return fetch('/rechargeSetup/update', 'post', params)
+  },
+  /**
+    * @desc 新增充值返现信息
+    * @param {} params 
+    */
+  AddRechargeSetup(params) {
+    return fetch('/rechargeSetup/create', 'post', params)
   }
 }
