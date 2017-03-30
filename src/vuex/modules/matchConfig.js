@@ -27,7 +27,14 @@ const state = {
     type: ''
   },
   addForm: {
-
+    name: '',
+    url: '',
+    type: '',
+    subType: '',
+    status: true,
+    online: false,
+    holder: '',
+    description: ''
   },
   pricesConfigs: [{
     id: '1',
@@ -51,8 +58,48 @@ const state = {
       name: '优惠价'
     }
   ],
+  rewardConfigs: [{
+    id: '1',
+    name: '第一名'
+  }, {
+    id: '2',
+    name: '第二名'
+  },
+    {
+      id: '3',
+      name: '第三名'
+    },
+    {
+      id: '4',
+      name: '第四名'
+    }, {
+      id: '5',
+      name: '第五名'
+    },
+    {
+      id: '6',
+      name: '第六名'
+    }],
+  matchPricesAddForm: {
+    priceList: [{
+      type: '1',
+      price: '0',
+      points: '0',
+      status: true
+    }]
+  },
   matchPricesEditForm: {
     priceList: []
+  },
+  matchRewardAddForm: {
+    rewardList: [{
+      ranking: '1',
+      rewardPoints: '0',
+      status: true
+    }]
+  },
+  matchRewardEditForm: {
+    rewardList: []
   }
 }
 
@@ -65,7 +112,11 @@ const getters = {
   matchConfigFilters: state => state.filters,
   addMatchConfigForm: state => state.addForm,
   matchPricesEditForm: state => state.matchPricesEditForm,
-  pricesConfigs: state => state.pricesConfigs
+  matchPricesAddForm: state => state.matchPricesAddForm,
+  matchRewardEditForm: state => state.matchRewardEditForm,
+  matchRewardAddForm: state => state.matchRewardAddForm,
+  pricesConfigs: state => state.pricesConfigs,
+  rewardConfigs: state => state.rewardConfigs
 }
 
 /**
@@ -101,7 +152,38 @@ const actions = {
   /**
    * @desc 添加赛事配置
    */
-  addMatchConfig({commit}, palyload) {
+  addMatchConfig({state, commit}, palyload) {
+    debugger
+    let data = state.addForm
+    let tmpPriceList = [],tmpRewardList = []
+    data.status = state.addForm.status ? '1' : '2'
+
+    // make priceList
+    if (state.matchPricesAddForm.priceList && state.matchPricesAddForm.priceList.length) {
+      state.matchPricesAddForm.priceList.forEach(oPrice => {
+        tmpPriceList.push({
+          'type': oPrice.type,
+          'price': oPrice.price,
+          'points': oPrice.points,
+          'status': oPrice.status ? '1' : '2'
+        })
+      })
+    }
+
+    data.priceList = tmpPriceList
+
+    // make rewardList
+    if (state.matchRewardAddForm.rewardList && state.matchRewardAddForm.rewardList.length) {
+      state.matchRewardAddForm.rewardList.forEach(oReward => {
+        tmpRewardList.push({
+          'ranking': oReward.ranking,
+          'rewardPoints': oReward.rewardPoints,
+          'status': oReward.status ? '1' : '2'
+        })
+      })
+    }
+
+    data.rewardList = tmpRewardList
     return api.AddMatchConfig(state.addForm).then(res => {
       commit(types.COM_ADD_FORM_VISIBLE, false)
     })
@@ -109,9 +191,37 @@ const actions = {
   /**
    * @desc 编辑赛事配置
    */
-  editMatchConfig({commit}, palyload) {
+  editMatchConfig({state, commit}, palyload) {
     let data = state.details
+    let tmpPriceList = [],tmpRewardList = []
     data.status = state.details.status ? '1' : '2'
+
+    // make priceList
+    if (state.matchPricesEditForm.priceList && state.matchPricesEditForm.priceList.length) {
+      state.matchPricesEditForm.priceList.forEach(oPrice => {
+        tmpPriceList.push({
+          'type': oPrice.type,
+          'price': oPrice.price,
+          'points': oPrice.points,
+          'status': oPrice.status ? '1' : '2'
+        })
+      })
+    }
+
+    data.priceList = tmpPriceList
+
+    // make rewardList
+    if (state.matchRewardEditForm.rewardList && state.matchRewardEditForm.rewardList.length) {
+      state.matchRewardEditForm.rewardList.forEach(oReward => {
+        tmpRewardList.push({
+          'ranking': oReward.ranking,
+          'rewardPoints': oReward.rewardPoints,
+          'status': oReward.status ? '1' : '2'
+        })
+      })
+    }
+
+    data.rewardList = tmpRewardList
 
     return api.EditMatchConfig(data).then(res => {
       commit(types.COM_EDIT_FORM_VISIBLE, false)
@@ -154,12 +264,12 @@ const mutations = {
   [types.MATCH_CONFIG_PRICE_EDIT_FORM](state, res) {
     let tmpList = []
 
-    if (res.matchPrices && res.matchPrices) {
+    if (res.matchPrices && res.matchPrices.length) {
       res.matchPrices.forEach(oPrice => {
         tmpList.push({
           'type': oPrice.type.val.toString(),
           'price': oPrice.price.toString(),
-          'points': oPrice.points,
+          'points': oPrice.points.toString(),
           'status': oPrice.status == '1' ? true : false,
           'key': new Date()
         })
@@ -167,6 +277,20 @@ const mutations = {
     }
 
     state.matchPricesEditForm.priceList = tmpList
+
+    if (res.matchRewards && res.matchRewards.length) {
+      tmpList = []
+      res.matchRewards.forEach(oReward => {
+        tmpList.push({
+          'ranking': oReward.ranking.toString(),
+          'rewardPoints': oReward.rewardPoints.toString(),
+          'status': oReward.status == '1' ? true : false,
+          'key': new Date()
+        })
+      })
+    }
+
+    state.matchRewardEditForm.rewardList = tmpList
   },
   [types.ADD_MATCH_CONFIG_PRICE_IN_FORM](state, type) {
     let price = {
@@ -176,13 +300,78 @@ const mutations = {
       'status': true,
       'key': new Date()
     }
-
-    state.matchPricesEditForm.priceList.push(price)
+    if (type == 'edit') {
+      state.matchPricesEditForm.priceList.push(price)
+    }else if (type == 'add') {
+      state.matchPricesAddForm.priceList.push(price)
+    }
   },
-  [types.DEL_MATCH_CONFIG_PRICE_IN_FORM](state, item) {
-    var index = state.matchPricesEditForm.priceList.indexOf(item)
-    if (index !== -1) {
-      state.matchPricesEditForm.priceList.splice(index, 1)
+  [types.DEL_MATCH_CONFIG_PRICE_IN_FORM](state, payload) {
+    var index
+    if (payload.type == 'edit') {
+      index = state.matchPricesEditForm.priceList.indexOf(payload.item)
+      if (index !== -1) {
+        state.matchPricesEditForm.priceList.splice(index, 1)
+      }
+    }else if (payload.type == 'add') {
+      index = state.matchPricesAddForm.priceList.indexOf(payload.item)
+      if (index !== -1) {
+        state.matchPricesAddForm.priceList.splice(index, 1)
+      }
+    }
+  },
+  [types.ADD_MATCH_CONFIG_REWARD_IN_FORM](state, type) {
+    let tmpReward = {
+      'ranking': '',
+      'rewardPoints': '',
+      'status': true,
+      'key': new Date()
+    }
+    if (type == 'edit') {
+      state.matchRewardEditForm.rewardList.push(tmpReward)
+    }else if (type == 'add') {
+      state.matchRewardAddForm.rewardList.push(tmpReward)
+    }
+  },
+  [types.DEL_MATCH_CONFIG_REWARD_IN_FORM](state, payload) {
+    var index
+    if (payload.type == 'edit') {
+      index = state.matchRewardEditForm.rewardList.indexOf(payload.item)
+      if (index !== -1) {
+        state.matchRewardEditForm.rewardList.splice(index, 1)
+      }
+    }else if (payload.type == 'add') {
+      index = state.matchRewardAddForm.rewardList.indexOf(payload.item)
+      if (index !== -1) {
+        state.matchRewardAddForm.rewardList.splice(index, 1)
+      }
+    }
+  },
+  [types.RESET_MATCH_CONFIG_ADD_FORM](state) {
+    state.matchPricesAddForm.priceList = [[{
+      type: '1',
+      price: '0',
+      points: '0',
+      status: true
+    }]]
+
+    state.matchRewardAddForm.rewardList = [
+      {
+        ranking: '1',
+        rewardPoints: '0',
+        status: true
+      }
+    ]
+
+    state.addForm = {
+      name: '',
+      url: '',
+      type: '',
+      subType: '',
+      status: true,
+      online: false,
+      holder: '',
+      description: ''
     }
   }
 }

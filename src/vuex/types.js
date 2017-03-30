@@ -87,7 +87,9 @@ export const ADD_MATCH_CONFIG = 'ADD_MATCH_CONFIG' // 添加赛事配置信息
 export const MATCH_CONFIG_PRICE_EDIT_FORM='MATCH_CONFIG_PRICE_EDIT_FORM'  //赛事配置价格配置的Form
 export const ADD_MATCH_CONFIG_PRICE_IN_FORM='ADD_MATCH_CONFIG_PRICE_IN_FORM'  //在赛事配置编辑Form 添加一个价格
 export const DEL_MATCH_CONFIG_PRICE_IN_FORM='DEL_MATCH_CONFIG_PRICE_IN_FORM'  //在赛事配置编辑Form 删除价格
-
+export const ADD_MATCH_CONFIG_REWARD_IN_FORM='ADD_MATCH_CONFIG_REWARD_IN_FORM'  //在赛事配置编辑Form 添加奖励规则
+export const DEL_MATCH_CONFIG_REWARD_IN_FORM='DEL_MATCH_CONFIG_REWARD_IN_FORM'  //在赛事配置编辑Form 删除奖励规则
+export const RESET_MATCH_CONFIG_ADD_FORM='RESET_MATCH_CONFIG_ADD_FORM'// 重置添加表单的数据
 
 /**
  * desc 用户管理相关
