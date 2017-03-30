@@ -16,11 +16,12 @@
 					</el-select>
 				</el-form-item>
                 <el-form-item label="子类型">
-					<el-select v-model="matchConfigFilters.type" placeholder="请选择类型" style="width:90px" clearable>
-	                   	 <el-option label="平日赛" value="1"></el-option>
-      					 <el-option label="周末赛" value="2"></el-option>	
-                         <el-option label="月度会员杯赛" value="3"></el-option>	
-                         <el-option label="年度会员杯赛" value="4"></el-option>			
+					<el-select v-model="matchConfigFilters.subType" placeholder="请选择类型" style="width:90px" clearable>
+	                   	<el-option
+							v-for="item in subTypeConfigs"
+								:label="item.name"
+								:value="item.id.toString()">
+                        </el-option>			
 					</el-select>
 				</el-form-item>
                 <el-form-item label="状态">
@@ -58,7 +59,7 @@
 			</el-table-column>
             <el-table-column prop="status" label="价格配置">
                 <template scope="scope">
-					<el-popover ref="pricePopover" placement="right" width="200" trigger="hover">
+					<el-popover ref="pricePopover" placement="left" width="300" trigger="hover">
                         <el-table :data="scope.row.matchPrices">
                             <el-table-column width="120" label="名称">
                                 <template scope="scope">
@@ -130,10 +131,11 @@
                             </el-form-item>
                             <el-form-item label="子类型" prop="subType"> 
                                 <el-select v-model="matchConfigDetails.subType" placeholder="请选择子类型" style="width:150px" clearable>
-                                    <el-option label="平日赛" value="1"></el-option>
-                                    <el-option label="周末赛" value="2"></el-option>	
-                                    <el-option label="月度会员杯赛" value="3"></el-option>	
-                                    <el-option label="年度会员杯赛" value="4"></el-option>			
+                                    <el-option
+										v-for="item in subTypeConfigs"
+											:label="item.name"
+											:value="item.id.toString()">
+                                    </el-option>			
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="状态" prop="status">
@@ -145,7 +147,7 @@
                                 </el-col>				
                             </el-form-item>
                             <el-form-item label="赛事介绍Url" prop="url">
-                                <el-col :span="5">
+                                <el-col :span="15">
                                     <el-input v-model="matchConfigDetails.url"  auto-complete="off"></el-input>
                                 </el-col>				
                             </el-form-item>
@@ -296,10 +298,11 @@
                             </el-form-item>
                             <el-form-item label="子类型" prop="subType"> 
                                 <el-select v-model="addMatchConfigForm.subType" placeholder="请选择子类型" style="width:150px" clearable>
-                                    <el-option label="平日赛" value="1"></el-option>
-                                    <el-option label="周末赛" value="2"></el-option>	
-                                    <el-option label="月度会员杯赛" value="3"></el-option>	
-                                    <el-option label="年度会员杯赛" value="4"></el-option>			
+                                  	 <el-option
+										v-for="item in subTypeConfigs"
+											:label="item.name"
+											:value="item.id.toString()">
+                                    </el-option>			
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="状态" prop="status">
@@ -311,7 +314,7 @@
                                 </el-col>				
                             </el-form-item>
                             <el-form-item label="赛事介绍Url" prop="url">
-                                <el-col :span="5">
+                                <el-col :span="15">
                                     <el-input v-model="addMatchConfigForm.url"  auto-complete="off"></el-input>
                                 </el-col>				
                             </el-form-item>
@@ -337,7 +340,7 @@
 												{validator:priceValidatorForAdd,trigger:'change'}]">
 										<el-col :span="24">
 											<el-select v-model="data.type" placeholder="请选择类型" clearable>
-                                    		<el-option
+                                    			<el-option
 													v-for="item in pricesConfigs"
 													:label="item.name"
 													:value="item.id.toString()">
@@ -493,6 +496,7 @@
 				'addMatchConfigForm',
 				'pricesConfigs',
 				'rewardConfigs',
+				'subTypeConfigs',
 				'matchPricesEditForm',
 				'matchPricesAddForm',
 				'matchRewardEditForm',

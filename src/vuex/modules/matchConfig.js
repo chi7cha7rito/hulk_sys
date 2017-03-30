@@ -24,7 +24,8 @@ const state = {
   filters: {
     name: '',
     status: '',
-    type: ''
+    type: '',
+    subType:''
   },
   addForm: {
     name: '',
@@ -36,6 +37,24 @@ const state = {
     holder: '',
     description: ''
   },
+  subTypeConfigs:[
+    {
+      id:'1',
+      name:'平日赛'
+    },
+    {
+      id:'2',
+      name:'周末赛'
+    },
+    {
+      id:'3',
+      name:'月度会员杯赛'
+    },
+    {
+      id:'4',
+      name:'年度会员杯赛'
+    }
+  ],
   pricesConfigs: [{
     id: '1',
     name: '线上价格'
@@ -116,7 +135,8 @@ const getters = {
   matchRewardEditForm: state => state.matchRewardEditForm,
   matchRewardAddForm: state => state.matchRewardAddForm,
   pricesConfigs: state => state.pricesConfigs,
-  rewardConfigs: state => state.rewardConfigs
+  rewardConfigs: state => state.rewardConfigs,
+  subTypeConfigs:state=>state.subTypeConfigs
 }
 
 /**
@@ -348,12 +368,12 @@ const mutations = {
     }
   },
   [types.RESET_MATCH_CONFIG_ADD_FORM](state) {
-    state.matchPricesAddForm.priceList = [[{
+    state.matchPricesAddForm.priceList = [{
       type: '1',
       price: '0',
       points: '0',
       status: true
-    }]]
+    }]
 
     state.matchRewardAddForm.rewardList = [
       {
