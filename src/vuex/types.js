@@ -93,4 +93,21 @@ export const GET_SYSUSER_TYPE_LIST = 'GET_SYSUSER_TYPE_LIST' // 赛事类型列�
 export const GET_SYSUSER_DETAILS = 'GET_SYSUSER_DETAILS' // 赛事详情
 export const EDIT_SYSUSER = 'EDIT_SYSUSER' // 编辑赛事信息
 export const ADD_SYSUSER = 'ADD_SYSUSER' // 添加赛事信息
-export const GET_ALL_SYSUSER_CONFIGS = 'GET_ALL_SYSUSER_CONFIGS' // 所有的赛事配置信息
+
+/**
+ * desc 会员等级相关
+ */
+export const GET_MEMBERLEVEL_LIST = 'GET_MEMBERLEVEL_LIST' // 获取会员等级列表
+export const GET_MEMBERLEVEL_TYPE_LIST = 'GET_MEMBERLEVEL_TYPE_LIST' // 会员等级类型列表
+export const GET_MEMBERLEVEL_DETAILS = 'GET_MEMBERLEVEL_DETAILS' // 会员等级详情
+export const EDIT_MEMBERLEVEL = 'EDIT_MEMBERLEVEL' // 编辑会员等级信息
+export const ADD_MEMBERLEVEL = 'ADD_MEMBERLEVEL' // 添加会员等级信息
+
+/**
+ * desc 充值返现相关
+ */
+export const GET_RECHARGESETUP_LIST = 'GET_RECHARGESETUP_LIST' // 获取充值返现列表
+export const GET_RECHARGESETUP_TYPE_LIST = 'GET_RECHARGESETUP_TYPE_LIST' // 充值返现类型列表
+export const GET_RECHARGESETUP_DETAILS = 'GET_RECHARGESETUP_DETAILS' // 充值返现详情
+export const EDIT_RECHARGESETUP = 'EDIT_RECHARGESETUP' // 编辑充值返现信息
+export const ADD_RECHARGESETUP = 'ADD_RECHARGESETUP' // 添加充值返现信息

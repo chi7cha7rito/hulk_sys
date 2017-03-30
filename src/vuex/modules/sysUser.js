@@ -11,8 +11,6 @@ import utils from '../../common/js/util'
  */
 const state = {
   sysUserList: [],
-  sysUserTypeList: [],
-  sysUserConfigList: [],
   sysUserDetails: {
       'id': '',
       'phoneNo': '',
@@ -49,8 +47,6 @@ const state = {
  */
 const getters = {
   sysUserList: state => state.sysUserList,
-  sysUserTypeList: state => state.sysUserTypeList,
-  sysUserConfigList: state => state.sysUserConfigList,
   sysUserDetails: state => state.sysUserDetails,
   sysUserFilters: state => state.filters,
   sysUserAddForm: state => state.addForm
@@ -115,9 +111,6 @@ const mutations = {
         state.sysUserList.push(oRow)})
     }
   },
-  [types.GET_SYSUSER_TYPE_LIST](state, data) {
-    state.sysUserTypeList = data
-  },
   [types.GET_SYSUSER_DETAILS](state, data) {
     let tmpData = {
       'id': data.id,
@@ -131,13 +124,6 @@ const mutations = {
       'updatedAt': new Date(data.updatedAt)
     }
     state.sysUserDetails = tmpData
-  },
-  [types.GET_ALL_SYSUSER_CONFIGS](state, data) {
-    let configList = []
-    data.forEach(row => {
-      configList.push({id: row.id,name: row.name})})
-
-    state.sysUserConfigList = configList
   },
   [types.CHANGE_SYSUSER_LIST_PAGE_NUM](state, num) {
     state.filters.pageIndex = num

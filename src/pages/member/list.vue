@@ -271,10 +271,10 @@ export default {
                     { required: true, message: '请填写卡号', trigger: 'blur' }
                 ],
                 gender: [
-                    { required: true, message: '请选择性别', trigger: 'blur' },
+                    { required: true, message: '请选择性别', trigger: 'change' },
                 ],
                 status: [
-                    { required: true, message: '请选择状态', trigger: 'blur' },
+                    { required: true, message: '请选择状态', trigger: 'change' },
                 ]
             },
             editLoading: false

@@ -282,23 +282,26 @@ import util from '../../common/js/util'
 export default {
     data() {
         return {
+
             editFormRules: {
-                // sysUserConfigId: [
-                //     { required: true, message: "请选择赛事类型", trigger: 'change' }
-                // ],
-                // status: [
-                //     { required: true, message: '请选择赛事状态', trigger: 'change' }
-                // ],
-                // openingDatetime: [
-                //     { type: 'date', required: true, message: '请选择报名时间', trigger: 'change' }
-                // ],
-                // closingDatetime: [
-                //     { type: 'date', required: true, message: '请选择比赛时间', trigger: 'change' }
-                // ],
-                // perHand: [
-                //     { required: true, message: '请填写每手价格' },
-                //     { type: 'number', message: '价格必须为数字值' }
-                // ]
+                name: [
+                    { required: true, message: "请填写姓名", trigger: 'blur' }
+                ],
+                phoneNo: [
+                    { required: true, message: '请填写手机号', trigger: 'blur' }
+                ],
+                idCardNo: [
+                    { required: true, message: '请填写身份证号', trigger: 'blur' }
+                ],
+                gender: [
+                    { required: true, message: '请选择性别', trigger: 'change' }
+                ],
+                roleType: [
+                    { required: true, message: '请选择角色', trigger: 'change' },
+                ],
+                status: [
+                    { required: true, message: '请选择状态', trigger: 'change' },
+                ]
             },
             editLoading: false,
             addLoading: false
