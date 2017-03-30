@@ -200,14 +200,14 @@ export default {
    * @param {} params 
    */
   AddMatchConfig(params) {
-    return fetch('/matchConfig/create', 'post', params)
+    return fetch('/matchConfig/add', 'post', params)
   },
   /**
    * @desc 编辑赛事配置
    * @param {} params 
    */
   EditMatchConfig(params) {
-    return fetch('/matchConfig/update', 'post', params)
+    return fetch('/matchConfig/edit', 'post', params)
   },
   /**
    * @desc 删除赛事配置
