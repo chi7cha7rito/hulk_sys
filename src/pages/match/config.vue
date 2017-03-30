@@ -163,10 +163,68 @@
                         </el-form>
                     </el-tab-pane>
                     <el-tab-pane label="价格信息" name="price">
-                        配置管理
+						<el-form label-width="60px" ref="editPriceForm" :model="matchPricesEditForm">
+							<el-form-item>
+								<el-button type="success" icon="plus" style="float:right;margin-right:20px" size="small" @click.native="handleAddPrice('edit')">添加价格</el-button>
+                            </el-form-item>
+							<el-row v-for="(data,index) in matchPricesEditForm.priceList">
+								<el-col :span="7">
+									<el-form-item label="类型" :prop="'priceList.' + index.toString() + '.type'" :key="data.key"
+										:rules="{required: true, message: '类型不能为空', trigger: 'change'}">
+										<el-col :span="24">
+											<el-select v-model="data.type" placeholder="请选择类型" clearable>
+                                    		<el-option
+													v-for="item in pricesConfigs"
+													:label="item.name"
+													:value="item.id.toString()">
+                                    			</el-option>
+                                			</el-select>
+										</el-col>
+									</el-form-item>
+								</el-col>
+								<el-col :span="5">
+									<el-form-item label="价格" :prop="'priceList.' + index.toString() + '.price'" :key="data.key"
+										:rules="[
+										{ required: true, message: '请输入价格', trigger: 'blur' },
+										{ pattern:/^\d{0,8}\.{0,1}(\d{1,2})?$/, message: '价格必须为数字', trigger: 'blur,change' }
+										]" >
+										<el-col>
+											<el-input v-model="data.price"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
+								</el-col>
+								<el-col :span="5">
+									<el-form-item label="积分" :prop="'priceList.' + index.toString() + '.points'" :key="data.key" 
+										:rules="[
+										{ required: true, message: '请输入积分', trigger: 'blur' },
+										{ pattern:/^\d{0,8}\.{0,1}(\d{1,2})?$/, message: '积分必须为正整数', trigger: 'blur,change' }
+										]">
+										<el-col :span="24">
+											<el-input v-model="data.points"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
+								</el-col>	
+								 <el-col :span="5">
+									<el-form-item label="状态">
+										<el-col>
+											<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
+										</el-col>
+									</el-form-item>
+								</el-col>
+								<el-col :span="2">
+									<el-col class="del_price">
+										<el-button type="danger" icon="delete"  size="small" @click.native="handleDelPrice(data)"></el-button>
+									</el-col>	
+								</el-col>						
+							</el-row>
+							<el-form-item>
+                                <el-button  @click.native="closeDialog('edit')">取消</el-button>
+                                <el-button type="primary" @click.native="editPriceInfoSubmit" :loading="editLoading">保存</el-button>
+                            </el-form-item>
+						</el-form>
                     </el-tab-pane>
                     <el-tab-pane label="奖励配置" name="reward">
-                        角色管理
+                        奖励配置
                     </el-tab-pane>
                 </el-tabs>
             </template>
@@ -262,7 +320,9 @@
 				'editFormVisible',
 				'addFormVisible',
 				'total',
-				'addMatchConfigForm'
+				'addMatchConfigForm',
+				'pricesConfigs',
+				'matchPricesEditForm'
 			])
 		},
 		methods: {
@@ -343,13 +403,32 @@
 			},
 			closeDialog:function(type){
 				if(type=="add"){
-					// this.$refs.addForm.resetFields();
+					// this.$refs.editForm.resetFields();
+					// this.$refs.editPriceForm.resetFields();
 					this.$store.commit(types.COM_ADD_FORM_VISIBLE,false);
 				}
 				else{
 					this.$refs.editForm.resetFields();
+					this.$refs.editPriceForm.resetFields();
 					this.$store.commit(types.COM_EDIT_FORM_VISIBLE,false);
 				}						
+			},
+			handleAddPrice:function(type){
+				//todo:是不是有添加了重复的类型
+
+				this.$store.commit(types.ADD_MATCH_CONFIG_PRICE_IN_FORM)
+			},
+			handleDelPrice:function(item){
+				this.$store.commit(types.DEL_MATCH_CONFIG_PRICE_IN_FORM,item);
+			},
+			editPriceInfoSubmit:function(){
+				if(this.editLoading){return false}
+				this.$refs.editPriceForm.validate((valid) => {
+					if (valid) {
+						this.editLoading=true;
+						alert('valid')
+					}
+				});
 			}
 		},
 		mounted() {
@@ -364,4 +443,9 @@
         cursor: pointer;
         color: #50bfff;
     }
+
+	.del_price{
+		margin-top: 5px;
+    	margin-left: 15px;
+	}
 </style>
