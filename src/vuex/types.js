@@ -130,4 +130,4 @@ export const GET_TOTAL_POINTS = 'GET_TOTAL_POINTS' // 获取积分
 export const GET_ATTENDANCE_LIST = 'GET_ATTENDANCE_LIST' // 获取参赛列表
 export const GET_AVAILABLE_MATCHES = 'GET_AVAILABLE_MATCHES' // 可报名参赛赛事
 export const ADD_ATTENDANCE = 'ADD_ATTENDANCE' // 新增参赛信息
-export const GET_MEMBER_INFO = 'GET_MEMBER_INFO' // 获取会员余额积分优惠券
+export const GET_MEMBER_INFO = 'GET_MEMBER_ACCOUNT_INFO' // 获取会员余额积分优惠券
