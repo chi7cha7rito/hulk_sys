@@ -1,8 +1,11 @@
-
 import moment from 'moment'
+import { AES, enc } from 'crypto-js'
+import Cookies from 'js-cookie'
 
 var SIGN_REGEXP = /([yMdhsm])(\1*)/g
 var DEFAULT_PATTERN = 'YYYY-MM-DD HH:mm'
+var DATE_KEY = moment().format('YYYY-MM-DD')
+
 function padding (s, len) {
   var len = len - (s + '').length
   for (var i = 0; i < len; i++) { s = '0' + s; }
@@ -23,7 +26,7 @@ export default {
   formatDate: {
     format: function (date, pattern) {
       pattern = pattern || DEFAULT_PATTERN
-      return moment(date).format(DEFAULT_PATTERN);
+      return moment(date).format(DEFAULT_PATTERN)
     },
     parse: function (dateString, pattern) {
       var matchs1 = pattern.match(SIGN_REGEXP)
@@ -58,8 +61,24 @@ export default {
       }
       return null
     },
-    utcToLocal:function(date,pattern){
-       return moment.utc(date).local().format('YYYY-MM-DD HH:mm')
+    utcToLocal: function (date, pattern) {
+      return moment.utc(date).local().format('YYYY-MM-DD HH:mm')
     }
+  },
+  getUserInfo: function () {
+    var encryptedInfo = Cookies.get('u')
+    var bytes,plaintext
+    if (encryptedInfo) {
+      bytes = AES.decrypt(encryptedInfo.toString(), DATE_KEY)
+      plaintext = bytes.toString(enc.Utf8)
+    }
+    return plaintext
+  },
+  setUserInfo: function (data) {
+    let encryptedInfo = AES.encrypt(data, DATE_KEY)
+    Cookies.set('u', encryptedInfo, { expires: 0.5, path: '/' })
+  },
+  removeUserInfo: function () {
+    Cookies.remove('u', { path: '/' })
   }
 }

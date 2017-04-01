@@ -3,9 +3,11 @@ var path = require('path')
 var favicon = require('serve-favicon')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var session = require('express-session');
 
 var Logger = require('./utils/logger')
 var request=require('./utils/requestHepler')
+
 
 var index = require('./routes/index')
 var account = require('./routes/account')
@@ -30,6 +32,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+
+
+app.use(session({
+  secret: 'hulk_club',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 /**
  * desc 设置跨域

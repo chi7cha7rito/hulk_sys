@@ -87,11 +87,14 @@
                              :formatter="formatUpdatedAt">
             </el-table-column>
             <el-table-column label="操作"
-                             width="150">
+                             width="180">
                 <template scope="scope">
                     <el-button size="small"
                                @click="handleEdit(scope.$index, scope.row)">
                         编辑</el-button>
+                    <el-button type="danger" size="small"
+                               @click="handleReset(scope.$index, scope.row)">
+                        重置密码</el-button>   
                 </template>
             </el-table-column>
         </el-table>
@@ -202,21 +205,21 @@
                 <el-form-item label="姓名"
                               prop="name">
                     <el-col :span="10">
-                        <el-input v-model.number="sysUserAddForm.name"
+                        <el-input v-model="sysUserAddForm.name"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="手机号"
                               prop="phoneNo">
                     <el-col :span="10">
-                        <el-input v-model.number="sysUserAddForm.phoneNo"
+                        <el-input v-model="sysUserAddForm.phoneNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="身份证号"
                               prop="idCardNo">
                     <el-col :span="10">
-                        <el-input v-model.number="sysUserAddForm.idCardNo"
+                        <el-input v-model="sysUserAddForm.idCardNo"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
@@ -242,7 +245,7 @@
                                    value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="状态"
+                <!--<el-form-item label="状态"
                               prop="status">
                     <el-select v-model="sysUserAddForm.status"
                                placeholder="请选择状态"
@@ -254,7 +257,7 @@
                         <el-option label="删除"
                                    value="3"></el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item>-->
             </el-form>
             <div slot="footer"
                  class="dialog-footer">
@@ -279,7 +282,6 @@ import util from '../../common/js/util'
 export default {
     data() {
         return {
-
             editFormRules: {
                 name: [
                     { required: true, message: "请填写姓名", trigger: 'blur' }
@@ -352,6 +354,20 @@ export default {
         },
         handleAdd: function () {
             this.$store.commit(types.COM_ADD_FORM_VISIBLE, true);
+        },
+        handleReset:function(index,row){
+           this.$confirm('确认重置密码吗?', '提示', {
+					type: 'warning'
+				}).then(()=>{
+					this.$store.dispatch('resetPwd',row.phoneNo).then(()=>{
+						this.$message({
+                        message: '密码重置成功！',
+                        type: 'success'
+                        });
+					},err=>{
+						this.$message.error(err.message);
+					})
+				})	
         },
         editSubmit: function () {
             if (this.editLoading) { return false }

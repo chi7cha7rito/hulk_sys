@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import util from '../common/js/util'
 
 // axios 配置
 axios.defaults.timeout = 5000
@@ -7,15 +8,21 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.defaults.baseURL = 'http://localhost:3000/'
 
 // POST传参序列化
-// axios.interceptors.request.use((config) => {
-//     if(config.method  === 'post'){
-//         config.data = qs.stringify(config.data)
-//     }
-//     return config
-// },(error) =>{
-//      _.toast("错误的传参", 'fail')
-//     return Promise.reject(error)
-// })
+axios.interceptors.request.use((config) => {
+  let userInfo = util.getUserInfo()
+  if (config.data.url != '/user/findByPhoneNo') {
+    if (!userInfo) {
+      throw new Error('invalid request for use session expired')
+    }
+    if(config.data.params){
+      config.data.params.operator = JSON.parse(userInfo).id.toString();
+    }
+  }
+
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
 
 // 返回状态判断
 axios.interceptors.response.use((res) => {
@@ -53,7 +60,7 @@ export default {
    * 用户登录
    */
   Login(params) {
-    return fetch('/account/login', 'post', params)
+    return fetch('/user/findByPhoneNo', 'get', params)
   },
   /**
   * 获取赛事列表
@@ -244,6 +251,18 @@ export default {
   AddSysUser(params) {
     return fetch('/user/create', 'post', params)
   },
+  /**
+   * @desc 重置密码
+   */
+   ResetPassword(params){
+    return fetch('/user/resetPwd', 'post', params)
+   },
+  /**
+   * @desc 修改密码
+   */
+   EditPassword(params){
+    return fetch('/user/editPwd', 'post', params)
+   },
   /**
    * @desc 获取会员等级列表
    */

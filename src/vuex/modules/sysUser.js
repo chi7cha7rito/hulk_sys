@@ -38,7 +38,7 @@ const state = {
     idCardNo: '',
     gender: '',
     roleType: '',
-    status:''
+    status:'1'
   }
 }
 
@@ -96,6 +96,17 @@ const actions = {
     let data = state.sysUserDetails
     return api.EditSysUser(data).then(res => {
       commit(types.COM_EDIT_FORM_VISIBLE, false)
+    })
+  },
+  /**
+   * 重置密码
+   * @param {*} param0 
+   * @param {*} palyload 
+   */
+  resetPwd({state,commit},palyload){
+    let data={"phoneNo":palyload};
+    return api.ResetPassword(data).then(res=>{
+      
     })
   }
 }
