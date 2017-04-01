@@ -19,12 +19,21 @@ const state = {
     openingEnd: ''
   },
   memberInfo: {},
+  memberSelectForm: {
+    phoneNo: '',
+    payType: '',
+    balance: '',
+    points: '',
+    couponList: []
+  },
   addForm: {
     phoneNo: '',
     matchId: '',
     matchPriceId: '',
     payType: '',
-    couponId: ''
+    couponId: '',
+    balance: '',
+    points: ''
   }
 }
 
@@ -35,7 +44,8 @@ const getters = {
   attendanceList: state => state.attendanceList,
   availableMatchList: state => state.availableMatchList,
   attendanceFilters: state => state.filters,
-  addAttendanceForm: state => state.addForm
+  addAttendanceForm: state => state.addForm,
+  memberSelectForm: state => state.memberSelectForm
 }
 
 /**
@@ -119,6 +129,11 @@ const mutations = {
         state.availableMatchList.push(oRow)})
     }
   },
+  [types.SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN](state,res){
+    state.memberSelectForm.points=res.points;
+    state.memberSelectForm.balance=res.balance;
+    state.memberSelectForm.couponList=res.coupon;
+  }
 //   [types.GET_MATCH_DETAILS](state, data) {
 //     let tmpData = {
 //       'id': data.id,

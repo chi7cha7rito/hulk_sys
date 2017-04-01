@@ -35,6 +35,9 @@ export const GET_MEMBER_DETAILS = 'GET_MEMBER_DETAILS' // 会员详情
 export const GET_MEMBER_BP = 'GET_MEMBER_BP' // 会员详情
 export const MEMBER_LIST_EDIT_FORM_VISIBLE = 'MEMBER_LIST_EDIT_FORM_VISIBLE' // 会员列表EDIT FORM 显示状态
 export const MEMBER_LIST_BP_FORM_VISIBLE = 'MEMBER_LIST_BP_FORM_VISIBLE' // 会员列表BP FORM 显示状态
+export const GET_ALL_MEMBERS="GET_ALL_MEMBERS" //获取所有有效的会员
+export const GET_MEMBER_ACCOUNT_INFO="GET_MEMBER_ACCOUNT_INFO" //获取会员账户详情信息
+
 
 /**
  * desc 余额相关
@@ -130,4 +133,5 @@ export const GET_TOTAL_POINTS = 'GET_TOTAL_POINTS' // 获取积分
 export const GET_ATTENDANCE_LIST = 'GET_ATTENDANCE_LIST' // 获取参赛列表
 export const GET_AVAILABLE_MATCHES = 'GET_AVAILABLE_MATCHES' // 可报名参赛赛事
 export const ADD_ATTENDANCE = 'ADD_ATTENDANCE' // 新增参赛信息
-export const GET_MEMBER_INFO = 'GET_MEMBER_ACCOUNT_INFO' // 获取会员余额积分优惠券
+export const SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN="SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN" //设置报名会员选择表单中member的账户信息
+

@@ -10,7 +10,21 @@ const state = {
   editFormVisible: false, // 弹框编辑Form的显示状态
   addFormVisible: false, // 弹框添加Form的显示状态,
   pageIndex: 1, // 全局的页面维护
-  pageSize: 10 // 全局的pageSize 定义
+  pageSize: 10, // 全局的pageSize 定义
+  payTypeConfig: [
+    {
+      id: '1',
+      name: '余额'
+    },
+    {
+      id: '2',
+      name: '积分'
+    },
+    {
+      id: '3',
+      name: '优惠券'
+    }
+  ]
 }
 
 const actions = {
@@ -68,7 +82,8 @@ const getters = {
   total: state => state.total,
   editFormVisible: state => state.editFormVisible,
   addFormVisible: state => state.addFormVisible,
-  pageIndex: state => state.pageIndex
+  pageIndex: state => state.pageIndex,
+  payTypeConfig:state=>state.payTypeConfig
 }
 
 const mutations = {

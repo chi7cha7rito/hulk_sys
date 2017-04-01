@@ -14,8 +14,8 @@ axios.interceptors.request.use((config) => {
     if (!userInfo) {
       throw new Error('invalid request for use session expired')
     }
-    if(config.data.params){
-      config.data.params.operator = JSON.parse(userInfo).id.toString();
+    if (config.data.params) {
+      config.data.params.operator = JSON.parse(userInfo).id.toString()
     }
   }
 
@@ -254,15 +254,27 @@ export default {
   /**
    * @desc 重置密码
    */
-   ResetPassword(params){
+  ResetPassword(params) {
     return fetch('/user/resetPwd', 'post', params)
-   },
+  },
   /**
    * @desc 修改密码
    */
-   EditPassword(params){
+  EditPassword(params) {
     return fetch('/user/editPwd', 'post', params)
-   },
+  },
+  /**
+   * @desc 获取所有有效的会员信息
+   */
+  FindAllMembers(params){
+    return fetch('/member/findAllMembers', 'get', params)
+  },
+  /**
+   * @desc 获取会员账户详情信息
+   */
+  FindAccountInfo(params){
+    return fetch('/member/findAccountInfo', 'get', params)
+  },
   /**
    * @desc 获取会员等级列表
    */

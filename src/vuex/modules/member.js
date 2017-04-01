@@ -16,6 +16,8 @@ const state = {
   bpFormVisible: false,
   memberDetails: {},
   memberBP: {},
+  availableMembers: [],
+  memberAccountInfo: {},
   total: 0,
   filters: {
     pageSize: 10,
@@ -43,7 +45,9 @@ const getters = {
   memberDetails: state => state.memberDetails,
   memberEditFormVisible: state => state.editFormVisible,
   memberBpFormVisible: state => state.bpFormVisible,
-  memberBP: state => state.memberBP
+  memberBP: state => state.memberBP,
+  availableMembers: state => state.availableMembers,
+  memberAccountInfo: state => state.memberAccountInfo
 }
 
 /**
@@ -98,6 +102,27 @@ const actions = {
     return api.EditMember(data).then(res => {
       commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false)
     })
+  },
+  /**
+   * 获取所有会员信息
+   * @param {*} param0 
+   * @param {*} palyload 
+   */
+  getAllMembers({commit}, palyload) {
+    return api.FindAllMembers({'phoneNo': palyload}).then(res => {
+      commit(types.GET_ALL_MEMBERS, res)
+    })
+  },
+
+  /**
+   * 获取会员账户详情
+   * @param {*} param0 
+   * @param {*} palyload 
+   */
+  getAccountInfo({commit},palyload){
+    return api.FindAccountInfo({phoneNo:palyload}).then(res=>{
+       return res;
+    })
   }
 }
 
@@ -144,6 +169,18 @@ const mutations = {
   },
   [types.CHANGE_MEMBER_LIST_PAGE_NUM](state, num) {
     state.filters.pageIndex = num
+  },
+  [types.GET_ALL_MEMBERS](state, res) {
+    let tmpArray = []
+    if (res && res.rows) {
+      res.rows.forEach(oRow => {
+        tmpArray.push({
+          'id': oRow.phoneNo,
+          'name': oRow.phoneNo
+        })
+      })
+    }
+    state.availableMembers = tmpArray
   }
 }
 
