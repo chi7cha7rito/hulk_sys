@@ -17,7 +17,6 @@ import AccountList from './pages/account/list.vue'
 import MatchList from './pages/match/list' // 查询列表
 import MatchConfig from './pages/match/config' // 赛事配置
 
-
 /**
  * 会员管理
  */
@@ -33,7 +32,7 @@ import SignIn from './pages/member/signIn' // 签到查询
  */
 import MemberLevel from './pages/settings/memberLevel' // 会员等级
 import RechargeConfig from './pages/settings/recharge' // 充值返现
-
+import ChangeAccount from './pages/settings/changeAccount' // 充值返现
 
 /**
  * 俱乐部管理
@@ -43,10 +42,8 @@ import Recharge from './pages/operation/recharge' // 店内充值
 import ChipHistory from './pages/operation/chipHistory' // 店内充值
 import Consume from './pages/operation/consume' // 店内消费
 
-//个人信息修改
-import EditPassword from './pages/personal/password' //个人修改密码
-
-
+// 个人信息修改
+import EditPassword from './pages/personal/password' // 个人修改密码
 
 let routes = [
   {
@@ -114,7 +111,8 @@ let routes = [
     iconCls: 'el-icon-setting',
     children: [
       { path: '/rechargeConfig', component: RechargeConfig, name: '充值返现' },
-      { path: '/memberLevel', component: MemberLevel, name: '会员等级' }
+      { path: '/memberLevel', component: MemberLevel, name: '会员等级' },
+      { path: '/changeAccount', component: ChangeAccount, name: '余额积分调整' }
     ]
   },
   {
