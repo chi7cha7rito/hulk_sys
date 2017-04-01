@@ -82,16 +82,16 @@
                              label="奖励">
             </el-table-column>
             <!--<el-table-column label="操作"
-                                             width="150">
-                                <template scope="scope">
-                                    <el-button size="small"
-                                               @click="handleEdit(scope.$index, scope.row)">
-                                        重入</el-button>
-                                    <el-button type="danger"
-                                               size="small"
-                                               @click="handleDel(scope.row.id)">成绩</el-button>
-                                </template>
-                            </el-table-column>-->
+                                                             width="150">
+                                                <template scope="scope">
+                                                    <el-button size="small"
+                                                               @click="handleEdit(scope.$index, scope.row)">
+                                                        重入</el-button>
+                                                    <el-button type="danger"
+                                                               size="small"
+                                                               @click="handleDel(scope.row.id)">成绩</el-button>
+                                                </template>
+                                            </el-table-column>-->
         </el-table>
     
         <!--工具条-->
@@ -105,42 +105,65 @@
                            style="float:right;">
             </el-pagination>
         </el-col>
-
+    
         <!--参赛-->
-	    <el-dialog title="报名参赛" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
-			<el-form :model="addAttendanceForm" label-width="100px" :rules="editFormRules" ref="addForm">
-				<el-form-item label="赛事" prop="matchId">
-					<el-select v-model="addAttendanceForm.matchId" placeholder="请选择赛事类型" clearable>
-						<el-option
-								v-for="item in availableMatchList"
-								:label="item.matchConfig.name"
-								:value="item.id.toString()">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<!--<el-form-item label="状态" prop="status">
-					<el-select v-model="addForm.status" placeholder="请选择赛事状态" clearable>
-						<el-option label="已开始" value="1"></el-option>
-						<el-option label="已结束" value="2"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="报名时间" prop="openingDatetime">
-					<el-date-picker v-model="addForm.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="比赛时间" prop="closingDatetime">
-					<el-date-picker v-model="addForm.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="每首价格" prop="perHand">
-					<el-col :span="5">
-						<el-input v-model.number="addForm.perHand"  auto-complete="off"></el-input>
-					</el-col>				
-				</el-form-item>-->
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="closeDialog('add')">取消</el-button>
-				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">保存</el-button>
-			</div>
-		</el-dialog>
+        <el-dialog title="报名参赛"
+                   v-model="addFormVisible"
+                   :close-on-click-modal="true"
+                   @close="closeDialog('add')">
+            <el-form :model="addAttendanceForm"
+                     label-width="100px"
+                     :rules="editFormRules"
+                     ref="addForm">
+                <el-form-item label="赛事"
+                              prop="matchId">
+                    <el-select v-model="addAttendanceForm.matchId"
+                               placeholder="请选择赛事类型"
+                               clearable
+                               @change='matchChange'>
+                        <el-option v-for="item in availableMatchList"
+                                   :label="formatMatch(item.matchConfig.name,item.closingDatetime)"
+                                   :value="item.id.toString()">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="价格"
+                              prop="matchPriceId">
+                    <el-select v-model="addAttendanceForm.matchPriceId"
+                               placeholder="请选择价格"
+                               clearable>
+                        <el-option v-for="item in priceList"
+                                   :label="formatPrice(item.type.name,item.price,item.points)"
+                                   :value="item.id.toString()">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <!--<el-form-item label="状态" prop="status">
+                					<el-select v-model="addForm.status" placeholder="请选择赛事状态" clearable>
+                						<el-option label="已开始" value="1"></el-option>
+                						<el-option label="已结束" value="2"></el-option>
+                					</el-select>
+                				</el-form-item>
+                				<el-form-item label="报名时间" prop="openingDatetime">
+                					<el-date-picker v-model="addForm.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+                				</el-form-item>
+                				<el-form-item label="比赛时间" prop="closingDatetime">
+                					<el-date-picker v-model="addForm.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+                				</el-form-item>
+                				<el-form-item label="每首价格" prop="perHand">
+                					<el-col :span="5">
+                						<el-input v-model.number="addForm.perHand"  auto-complete="off"></el-input>
+                					</el-col>				
+                				</el-form-item>-->
+            </el-form>
+            <div slot="footer"
+                 class="dialog-footer">
+                <el-button @click.native="closeDialog('add')">取消</el-button>
+                <el-button type="primary"
+                           @click.native="addSubmit"
+                           :loading="addLoading">保存</el-button>
+            </div>
+        </el-dialog>
     </section>
 </template>
 
@@ -174,7 +197,8 @@ export default {
                 //     { type: 'number', message: '价格必须为数字值' }
                 // ]
             },
-            addLoading:false
+            addLoading: false,
+            priceList: []
         }
     },
     computed: {
@@ -192,9 +216,18 @@ export default {
         formatOpening: function (val) {
             return util.formatDate.utcToLocal(val)
         },
+        formatPrice: function (name, amount, points) {
+            return name + '-' + amount + '元或' + 'points' + '积分'
+        },
+        formatMatch: function (name, time) {
+            return name + '（' + util.formatDate.utcToLocal(time) + '）'
+        },
         handleCurrentChange(val) {
             this.$store.commit(types.COM_PAGE_NUM, val);
             this.getList();
+        },
+        matchChange(){
+
         },
         getList() {
             this.$store.dispatch('getAttendanceList')
