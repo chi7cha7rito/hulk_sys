@@ -2,16 +2,16 @@
     <div class="recharge-form">
         <el-tabs @tab-click="handleClick"
                  value="balance">
-            <el-tab-pane label="余额消费"
+            <el-tab-pane label="余额调整"
                          name="balance">
-                <el-form :model="balanceDecrease"
+                <el-form :model="balanceChange"
                          :rules="addFormRules"
                          ref="addForm"
                          label-width="100px">
                     <el-form-item label="手机号"
                                   prop="phoneNo">
                         <el-col :span="10">
-                            <el-input v-model="balanceDecrease.phoneNo"></el-input>
+                            <el-input v-model="balanceChange.phoneNo"></el-input>
                         </el-col>
                         <el-button type="primary"
                                    :style="{marginLeft:'10px'}"
@@ -19,24 +19,24 @@
                     </el-form-item>
                     <el-form-item label="余额">
                         <el-col :span="10">
-                            <el-input v-model="totalBalance"
+                            <el-input v-model="totalAvlBalance"
                                       :disabled="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="消费方式"
-                                  prop="source">
-                        <el-select v-model="balanceDecrease.source"
-                                   placeholder="请选择消费方式">
-                            <el-option label="店内消费"
-                                       value="5"></el-option>
-                            <el-option label="购买积分"
-                                       value="8"></el-option>
+                    <el-form-item label="调整类型"
+                                  prop="type">
+                        <el-select v-model="balanceChange.type"
+                                   placeholder="请选择调整类型">
+                            <el-option label="正调整"
+                                       value="3"></el-option>
+                            <el-option label="负调整"
+                                       value="6"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="消费金额"
+                    <el-form-item label="调整金额"
                                   prop="amount">
                         <el-col :span="10">
-                            <el-input v-model="balanceDecrease.amount"></el-input>
+                            <el-input v-model="balanceChange.amount"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="备注"
@@ -44,7 +44,7 @@
                         <el-col :span="10">
                             <el-input type="textarea"
                                       :rows="4"
-                                      v-model="balanceDecrease.remark"></el-input>
+                                      v-model="balanceChange.remark"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
@@ -55,16 +55,16 @@
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
-            <el-tab-pane label="积分消费"
+            <el-tab-pane label="积分调整"
                          name="point">
-                <el-form :model="pointDecrease"
+                <el-form :model="pointChange"
                          :rules="addPointFormRules"
                          ref="addPointForm"
                          label-width="100px">
                     <el-form-item label="手机号"
                                   prop="phoneNo">
                         <el-col :span="10">
-                            <el-input v-model="pointDecrease.phoneNo"></el-input>
+                            <el-input v-model="pointChange.phoneNo"></el-input>
                         </el-col>
                         <el-button type="primary"
                                    :style="{marginLeft:'10px'}"
@@ -72,22 +72,24 @@
                     </el-form-item>
                     <el-form-item label="可用积分">
                         <el-col :span="10">
-                            <el-input v-model="totalPoints"
+                            <el-input v-model="totalAvlPoints"
                                       :disabled="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="消费方式"
-                                  prop="source">
-                        <el-select v-model="pointDecrease.source"
-                                   placeholder="请选择消费方式">
-                            <el-option label="店内消费"
+                    <el-form-item label="调整类型"
+                                  prop="type">
+                        <el-select v-model="pointChange.type"
+                                   placeholder="请选择调整类型">
+                            <el-option label="正调整"
+                                       value="3"></el-option>
+                            <el-option label="负调整"
                                        value="4"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="消费积分"
+                    <el-form-item label="调整积分"
                                   prop="points">
                         <el-col :span="10">
-                            <el-input v-model="pointDecrease.points"></el-input>
+                            <el-input v-model="pointChange.points"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="备注"
@@ -95,7 +97,7 @@
                         <el-col :span="10">
                             <el-input type="textarea"
                                       :rows="4"
-                                      v-model="pointDecrease.remark"></el-input>
+                                      v-model="pointChange.remark"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
@@ -121,7 +123,7 @@ import util from '../../common/js/util'
 
 export default {
     data() {
-        var checkAmount = (rule, value, callback) => {
+        let checkAmount = (rule, value, callback) => {
             if (!value) {
                 return callback(new Error('请填写金额'));
             }
@@ -129,7 +131,7 @@ export default {
                 if (!/^[0-9]*[1-9][0-9]*$/.test(value)) {
                     callback(new Error('必须为正整数'));
                 } else {
-                    if (value > this.totalBalance) {
+                    if (this.balanceChange.type == '6' && value > this.totalAvlBalance) {
                         callback(new Error('不能大于余额'));
                     } else {
                         callback();
@@ -137,7 +139,7 @@ export default {
                 }
             }, 1000);
         };
-        var checkPoint = (rule, value, callback) => {
+        let checkPoint = (rule, value, callback) => {
             if (!value) {
                 return callback(new Error('请填写积分'));
             }
@@ -145,7 +147,7 @@ export default {
                 if (!/^[0-9]*[1-9][0-9]*$/.test(value)) {
                     callback(new Error('必须为正整数'));
                 } else {
-                    if (value > this.totalPoints) {
+                    if (this.pointChange.type == '4' && value > this.totalAvlPoints) {
                         callback(new Error('不能大于可用积分'));
                     } else {
                         callback();
@@ -158,26 +160,30 @@ export default {
                 phoneNo: [
                     { required: true, message: '请填写手机号', trigger: 'blur' }
                 ],
-                source: [
-                    { required: true, message: '请选择消费方式', trigger: 'change' }
+                type: [
+                    { required: true, message: '请选择调整方式', trigger: 'change' }
                 ],
-                amount:
-                [
+                amount: [
                     { required: true, message: '请填写金额', trigger: 'blur' },
                     { validator: checkAmount, trigger: 'blur,change' }
+                ],
+                remark: [
+                    { required: true, message: '请填写备注', trigger: 'blur' }
                 ]
             },
             addPointFormRules: {
                 phoneNo: [
                     { required: true, message: '请填写手机号', trigger: 'blur' }
                 ],
-                source: [
-                    { required: true, message: '请选择消费方式', trigger: 'change' }
+                type: [
+                    { required: true, message: '请选择调整方式', trigger: 'change' }
                 ],
-                points:
-                [
+                points: [
                     { required: true, message: '请填写积分', trigger: 'blur' },
                     { validator: checkPoint, trigger: 'blur,change' }
+                ],
+                remark: [
+                    { required: true, message: '请填写备注', trigger: 'blur' }
                 ]
             },
             addLoading: false,
@@ -186,21 +192,21 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'balanceDecrease',
-            'totalBalance',
-            'pointDecrease',
-            'totalPoints'
+            'balanceChange',
+            'totalAvlBalance',
+            'pointChange',
+            'totalAvlPoints'
         ])
     },
     methods: {
         handleClick: function (tab, event) {
             if (tab.name === 'balance') {
                 this.$refs.addPointForm.resetFields()
-                this.$store.dispatch('clearTotalPoints')
+                this.$store.dispatch('clearTotalAvlPoints')
             }
             if (tab.name === 'point') {
                 this.$refs.addForm.resetFields()
-                this.$store.dispatch('clearTotalBalance')
+                this.$store.dispatch('clearTotalAvlBalance')
             }
         },
         addSubmit: function () {
@@ -208,11 +214,11 @@ export default {
             this.$refs.addForm.validate((valid) => {
                 if (valid) {
                     this.addLoading = true
-                    this.$store.dispatch("balanceDecrease").then(res => {
-                        this.$message.success("余额扣减成功")
+                    this.$store.dispatch("balanceChange").then(res => {
+                        this.$message.success("余额调整成功")
                         this.addLoading = false
                         this.$refs.addForm.resetFields()
-                        this.$store.dispatch('clearTotalBalance')
+                        this.$store.dispatch('clearTotalAvlBalance')
                     }, err => {
                         this.addLoading = false
                         this.$message.error(err.message)
@@ -224,18 +230,18 @@ export default {
             this.$refs.addForm.resetFields()
         },
         getTotal: function () {
-            this.$store.dispatch("getTotalBalance")
+            this.$store.dispatch("getTotalAvlBalance")
         },
         addPointSubmit: function () {
             if (this.addPointLoading) { return false }
             this.$refs.addPointForm.validate((valid) => {
                 if (valid) {
                     this.addPointLoading = true
-                    this.$store.dispatch("pointDecrease").then(res => {
-                        this.$message.success("积分扣减成功")
+                    this.$store.dispatch("pointChange").then(res => {
+                        this.$message.success("积分调整成功")
                         this.addPointLoading = false
                         this.$refs.addPointForm.resetFields()
-                        this.$store.dispatch('clearTotalPoints')
+                        this.$store.dispatch('clearTotalAvlPoints')
                     }, err => {
                         this.addPointLoading = false
                         this.$message.error(err.message)
@@ -247,7 +253,7 @@ export default {
             this.$refs.addPointForm.resetFields()
         },
         getPointsTotal: function () {
-            this.$store.dispatch("getTotalPoints")
+            this.$store.dispatch("getTotalAvlPoints")
         }
     }
 }

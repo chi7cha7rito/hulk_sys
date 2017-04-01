@@ -17,6 +17,7 @@ import rechargeSetup from './modules/rechargeSetup'
 import recharge from './modules/recharge'
 import consume from './modules/consume'
 import campaign from './modules/campaign'
+import accountChange from './modules/accountChange'
 
 Vue.use(Vuex)
 
@@ -37,5 +38,6 @@ export default new Vuex.Store({
     rechargeSetup,
     recharge,
     consume,
-  campaign}
+    campaign,
+  accountChange}
 })

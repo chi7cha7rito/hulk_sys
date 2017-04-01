@@ -330,14 +330,14 @@ export default {
     return fetch('/rechargeSetup/create', 'post', params)
   },
   /**
-    * @desc 充值
+    * @desc 余额增加
     * @param {} params 
     */
   BalanceIncrease(params) {
     return fetch('/balance/increase', 'post', params)
   },
   /**
-    * @desc 余额消费
+    * @desc 余额扣减
     * @param {} params 
     */
   BalanceDecrease(params) {
@@ -358,11 +358,18 @@ export default {
     return fetch('/balance/totalByPhoneNo', 'get', params)
   },
   /**
-  * @desc 积分消费
+  * @desc 积分扣减
   * @param {} params 
   */
   PointDecrease(params) {
     return fetch('/point/decrease', 'post', params)
+  },
+  /**
+  * @desc 积分增加
+  * @param {} params 
+  */
+  PointIncrease(params) {
+    return fetch('/point/increase', 'post', params)
   },
   /**
   * @desc 获取余额
