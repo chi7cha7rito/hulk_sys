@@ -111,7 +111,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '系统管理',
-    iconCls: 'el-icon-message',
+    iconCls: 'el-icon-setting',
     children: [
       { path: '/rechargeConfig', component: RechargeConfig, name: '充值返现' },
       { path: '/memberLevel', component: MemberLevel, name: '会员等级' }

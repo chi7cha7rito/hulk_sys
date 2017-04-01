@@ -74,7 +74,10 @@
    		 mapGetters
 	} from 'vuex'
 
-	import util from '../common/js/util'
+	import Util from '../common/js/util'
+
+	//cache util object;
+	const util=Util; 
 
 	export default {
 		data() {
@@ -122,15 +125,14 @@
 			}
 		},
 		mounted() {
-			debugger;
 			let userInfo=util.getUserInfo();
-			if(userinfo){
-				let user=JSON.parse(userInfo);
+			let tmpArray=[],user;	
+			if(userInfo){
+			  user=JSON.parse(userInfo);
 			}
-			debugger;
-			let tmpArray=[];	
+			
 			this.$router.options.routes.forEach(oRoute=>{
-				if(oRoute.name=="后台账号管理"&&userinfo&&userinfo.roleType!="1"){
+				if(oRoute.name=="后台账号管理"&&user&&user.roleType!="1"){
 					oRoute.hidden=true;
 				}
 				tmpArray.push(oRoute);
