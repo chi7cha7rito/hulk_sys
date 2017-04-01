@@ -339,5 +339,18 @@ export default {
   */
   TotalPointsByPhoneNo(params) {
     return fetch('/point/totalByPhoneNo', 'get', params)
+  },
+  /**
+  * @desc 获取参赛人员
+  * @param {} params 
+  */
+  GetAttendances(params) {
+    return fetch('/attendance/findAll', 'get', params)
+  },
+  /**
+  * @desc 获取可报名赛事
+  */
+  GetAvailableMatches() {
+    return fetch('/match/findAvailable', 'get')
   }
 }

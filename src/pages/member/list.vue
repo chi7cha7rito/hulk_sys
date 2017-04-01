@@ -140,7 +140,7 @@
         <el-dialog title="会员编辑"
                    v-model="memberEditFormVisible"
                    :close-on-click-modal="true"
-                   @close="closeDialog">
+                   @close="closeDialog('edit')">
             <el-form :model="memberDetails"
                      label-width="100px"
                      :rules="editFormRules"
@@ -218,7 +218,7 @@
                    v-model="memberBpFormVisible"
                    size='tiny'
                    :close-on-click-modal="true"
-                   @close="closeDialog">
+                   @close="closeDialog('bp')">
             <el-form :model="memberBP"
                      label-width="100px">
                 <el-form-item label="余额"
@@ -344,10 +344,14 @@ export default {
                 }
             });
         },
-        closeDialog: function () {
-            this.$refs.editForm.resetFields();
-            this.$store.commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false);
-            this.$store.commit(types.MEMBER_LIST_BP_FORM_VISIBLE, false);
+        closeDialog: function (type) {
+            if (type == 'edit') {
+                this.$refs.editForm.resetFields();
+                this.$store.commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false);
+            }
+            if (type == 'bp') {
+                this.$store.commit(types.MEMBER_LIST_BP_FORM_VISIBLE, false);
+            }
         }
     },
     mounted() {

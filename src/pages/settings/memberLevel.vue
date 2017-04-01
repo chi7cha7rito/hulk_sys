@@ -214,24 +214,24 @@ export default {
                     { required: true, message: "请填写名称", trigger: 'blur' }
                 ],
                 threshold: [
-                    { required: true, message: '请填写单次充值升级', trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    // { required: true, message: '请填写单次充值升级', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请填写单次充值升级，必须为数字值',trigger: 'blur' }
                 ],
                 apply: [
-                    { required: true, message: '请填写参赛获豪气', trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    // { required: true, message: '请填写参赛获豪气', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请填写参赛获豪气，必须为数字值',trigger: 'blur' }
                 ],
                 buyChip: [
-                    { required: true, message: '请填写重入获豪气', trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    // { required: true, message: '请填写重入获豪气', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请填写重入获豪气，必须为数字值',trigger: 'blur' }
                 ],
                 consume: [
-                    { required: true, message: '请填写消费获豪气', trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    // { required: true, message: '请填写消费获豪气', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请填写消费获豪气，必须为数字值' ,trigger: 'blur'}
                 ],
                 weeklyTicket: [
-                    { required: true, message: '请填写签到获周赛票次数' },
-                    { type: 'number', message: '必须为数字值' }
+                    // { required: true, message: '请填写签到获周赛票次数' },
+                    { required: true, type: 'number', message: ',请填写签到获周赛票次数，必须为数字值' ,trigger: 'blur'}
                 ],
                 status: [
                     { required: true, message: '请选择状态', trigger: 'change' },

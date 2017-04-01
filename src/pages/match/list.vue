@@ -141,10 +141,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="报名时间" prop="openingDatetime">
-					<el-date-picker v-model="addForm.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+					<el-date-picker v-model="addForm.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="比赛时间" prop="closingDatetime">
-					<el-date-picker v-model="addForm.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+					<el-date-picker v-model="addForm.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="每首价格" prop="perHand">
 					<el-col :span="5">

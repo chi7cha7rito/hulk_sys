@@ -171,12 +171,10 @@ export default {
         return {
             editFormRules: {
                 threshold: [
-                    { required: true, message: "请填写满额", trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    { required: true, type: 'number', message: '请填写满额，必须为数字值', trigger: 'blur' }
                 ],
                 reward: [
-                    { required: true, message: '请填写返现积分', trigger: 'blur' },
-                    { type: 'number', message: '必须为数字值' }
+                    { required: true, type: 'number', message: '请填写返现积分，必须为数字值', trigger: 'blur' }
                 ],
                 status: [
                     { required: true, message: '请选择状态', trigger: 'change' }

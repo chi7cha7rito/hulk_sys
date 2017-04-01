@@ -66,8 +66,8 @@
 					                <span>{{scope.row.type.name}}</span>
 				                </template>
                             </el-table-column>
-                            <el-table-column width="80" property="price" label="价格"></el-table-column>
-							<el-table-column width="80" property="points" label="积分"></el-table-column>
+                            <el-table-column width="90" property="price" label="价格"></el-table-column>
+							<el-table-column width="90" property="points" label="积分"></el-table-column>
                         </el-table>
                     </el-popover>
                     <span v-popover:pricePopover class="view">查看价格</span>

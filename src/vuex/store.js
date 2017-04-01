@@ -16,6 +16,7 @@ import memberLevel from './modules/memberLevel'
 import rechargeSetup from './modules/rechargeSetup'
 import recharge from './modules/recharge'
 import consume from './modules/consume'
+import campaign from './modules/campaign'
 
 Vue.use(Vuex)
 
@@ -35,5 +36,6 @@ export default new Vuex.Store({
     memberLevel,
     rechargeSetup,
     recharge,
-  consume}
+    consume,
+  campaign}
 })
