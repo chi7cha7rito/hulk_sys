@@ -7,7 +7,7 @@
     <el-form-item prop="checkPass">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
-    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+    <!--<el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>-->
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
     </el-form-item>
@@ -16,6 +16,7 @@
 
 <script>
   import api from '../../fetch/api'
+  import md5 from 'md5'
   import {
     mapActions
   } from 'vuex'
@@ -26,20 +27,20 @@
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
+          account: '',
+          checkPass: ''
         },
         rules2: {
           account: [{
             required: true,
             message: '请输入账号',
             trigger: 'blur'
-          }, ],
+          }],
           checkPass: [{
             required: true,
             message: '请输入密码',
             trigger: 'blur'
-          }, ]
+          }]
         },
         checked: true
       };
@@ -54,15 +55,15 @@
           if (valid) {
             this.logining = true;
             var loginParams = {
-              username: this.ruleForm2.account,
-              password: this.ruleForm2.checkPass
+              phoneNo: this.ruleForm2.account,
+              password: md5(this.ruleForm2.checkPass)
             };
   
             if (this.logining) {
               api.Login(loginParams)
                 .then(res => {
                   this.setUserInfo(res)
-                  this.$router.replace('/match')
+                  this.$router.replace('/')
                 })
                 .catch(error => {
                   this.logining = false;

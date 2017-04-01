@@ -16,7 +16,6 @@ import AccountList from './pages/account/list.vue'
  */
 import MatchList from './pages/match/list' // 查询列表
 import MatchConfig from './pages/match/config' // 赛事配置
-import MatchType from './pages/match/type' // 赛事类型
 
 
 /**
@@ -43,6 +42,10 @@ import Campaign from './pages/operation/campaign' // 报名及重入
 import Recharge from './pages/operation/recharge' // 店内充值
 import ChipHistory from './pages/operation/chipHistory' // 店内充值
 import Consume from './pages/operation/consume' // 店内消费
+
+//个人信息修改
+import EditPassword from './pages/personal/password' //个人修改密码
+
 
 
 let routes = [
@@ -78,8 +81,7 @@ let routes = [
     children: [
       { path: '/main', component: Main, name: '主页', hidden: true },
       { path: '/match', component: MatchList, name: '赛事查询' },
-      { path: '/matchConfig', component: MatchConfig, name: '赛事配置' },
-      { path: '/matchType', component: MatchType, name: '赛事类型' }
+      { path: '/matchConfig', component: MatchConfig, name: '赛事配置' }
     ]
   },
   {
@@ -113,6 +115,15 @@ let routes = [
     children: [
       { path: '/rechargeConfig', component: RechargeConfig, name: '充值返现' },
       { path: '/memberLevel', component: MemberLevel, name: '会员等级' }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '我的后台',
+    iconCls: 'el-icon-message',
+    children: [
+      { path: '/editPassword', component: EditPassword, name: '修改密码' }
     ]
   },
   {

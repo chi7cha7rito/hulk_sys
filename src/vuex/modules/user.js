@@ -4,6 +4,7 @@
 
 import api from '../../fetch/api'
 import * as types from '../types'
+import util from '../../common/js/util'
 
 const state = {
   // 用户登录状态
@@ -19,8 +20,8 @@ const actions = {
    * 用户登录
    */
   setUserInfo({ commit }, res) {
-    localStorage.setItem('userInfo', JSON.stringify(res))
-    localStorage.setItem('loginStatus', true)
+    util.removeUserInfo()
+    util.setUserInfo(JSON.stringify({'id': res.id,'roleType': res.roleType.val}))
     commit(types.SET_USER_INFO, res)
     commit(types.SET_LOGIN_STATUS, true)
   },
@@ -29,8 +30,7 @@ const actions = {
    * 退出登录
    */
   setSignOut({ commit }) {
-    localStorage.removeItem('loginStatus')
-    localStorage.removeItem('userInfo')
+    util.removeUserInfo()
     commit(types.SET_LOGIN_STATUS, false)
     commit(types.SET_USER_INFO, {})
   },

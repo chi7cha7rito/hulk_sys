@@ -11,9 +11,8 @@
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
-					<span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
+					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{userInfo.name}}</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item>设置</el-dropdown-item>
 						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
@@ -24,7 +23,7 @@
 				<!--导航菜单-->
 				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
 					 unique-opened router v-show="!collapsed">
-					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+					<template v-for="(item,index) in this.routers" v-if="!item.hidden">
 						<el-submenu :index="index+''" v-if="!item.leaf">
 							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
 							<el-menu-item v-for="child in item.children" :index="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
@@ -34,7 +33,7 @@
 				</el-menu>
 				<!--导航菜单-折叠后-->
 				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+					<li v-for="(item,index) in this.routers" v-if="!item.hidden" class="el-submenu item">
 						<template v-if="!item.leaf">
 							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
 							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"> 
@@ -71,23 +70,25 @@
 </template>
 
 <script>
+	import {
+   		 mapGetters
+	} from 'vuex'
+
+	import util from '../common/js/util'
+
 	export default {
 		data() {
 			return {
 				sysName:'豪客后台管理系统',
 				collapsed:false,
-				sysUserName: '',
-				form: {
-					name: '',
-					region: '',
-					date1: '',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
-				}
+				sysUserAvatar:'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
+				routers:''
 			}
+		},
+		computed:{
+			...mapGetters([
+				'userInfo'
+        	])
 		},
 		methods: {
 			onSubmit() {
@@ -106,7 +107,7 @@
 				var _this = this;
 				this.$confirm('确认退出吗?', '提示', {
 				}).then(() => {
-					localStorage.removeItem('userInfo');
+					this.$store.dispatch("setSignOut");
 					_this.$router.push('/login');
 				}).catch(() => {
 
@@ -121,11 +122,20 @@
 			}
 		},
 		mounted() {
-			var user = localStorage.getItem('userInfo');
-			if (user) {
-				user = JSON.parse(user);
-				this.sysUserName = user.name || '';
+			debugger;
+			let userInfo=util.getUserInfo();
+			if(userinfo){
+				let user=JSON.parse(userInfo);
 			}
+			debugger;
+			let tmpArray=[];	
+			this.$router.options.routes.forEach(oRoute=>{
+				if(oRoute.name=="后台账号管理"&&userinfo&&userinfo.roleType!="1"){
+					oRoute.hidden=true;
+				}
+				tmpArray.push(oRoute);
+			});
+			this.routers=tmpArray;
 		}
 	}
 

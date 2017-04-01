@@ -206,7 +206,8 @@
 				'listLoading',
 				'addFormVisible',
 				'total',
-				'addForm'
+				'addForm',
+				'userInfo'
 			])
 		},
 		methods: {
