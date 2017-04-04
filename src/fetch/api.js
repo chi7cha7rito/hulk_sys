@@ -390,5 +390,11 @@ export default {
   */
   GetAvailableMatches() {
     return fetch('/match/findAvailable', 'get')
+  },
+  /**
+  * @desc 线下报名
+  */
+  CreateOffline(params){
+    return fetch('/attendance/createOffline','post',params);
   }
 }

@@ -133,5 +133,4 @@ export const GET_TOTAL_POINTS = 'GET_TOTAL_POINTS' // 获取积分
 export const GET_ATTENDANCE_LIST = 'GET_ATTENDANCE_LIST' // 获取参赛列表
 export const GET_AVAILABLE_MATCHES = 'GET_AVAILABLE_MATCHES' // 可报名参赛赛事
 export const ADD_ATTENDANCE = 'ADD_ATTENDANCE' // 新增参赛信息
-export const SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN="SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN" //设置报名会员选择表单中member的账户信息
 

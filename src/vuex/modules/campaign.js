@@ -19,13 +19,6 @@ const state = {
     openingEnd: ''
   },
   memberInfo: {},
-  memberSelectForm: {
-    phoneNo: '',
-    payType: '',
-    balance: '',
-    points: '',
-    couponList: []
-  },
   addForm: {
     phoneNo: '',
     matchId: '',
@@ -44,8 +37,7 @@ const getters = {
   attendanceList: state => state.attendanceList,
   availableMatchList: state => state.availableMatchList,
   attendanceFilters: state => state.filters,
-  addAttendanceForm: state => state.addForm,
-  memberSelectForm: state => state.memberSelectForm
+  addAttendanceForm: state => state.addForm
 }
 
 /**
@@ -76,39 +68,15 @@ const actions = {
       commit(types.GET_AVAILABLE_MATCHES, res)
     })
   },
-//   /**
-//    * @desc 获取赛事详情
-//    */
-//   getMatchDetails({commit}, palyload) {
-//     commit(types.COM_EDIT_FORM_VISIBLE, true)
-//     api.GetMacthDetails(palyload).then(res => {
-//       commit(types.GET_MATCH_DETAILS, res)
-//     })
-//   },
-//   /**
-//    * @desc 添加赛事
-//    */
-//   addMatch({commit}, palyload) {
-//     return api.AddMatch(state.addForm).then(res => {
-//       commit(types.COM_ADD_FORM_VISIBLE, false)
-//     })
-//   },
-//   /**
-//    * @desc 编辑赛事
-//    */
-//   editMatch({commit}, palyload) {
-//     let data = state.matchDetails
-//     return api.EditMatch(data).then(res => {
-//       commit(types.COM_EDIT_FORM_VISIBLE, false)
-//     })
-//   },
-//   /**
-//   * @desc 删除赛事
-//   */
-//   delMatch({commit}, id) {
-//     return api.DelMatch({id: id,status: '3'}).then(res => {
-//     })
-//   }
+  /**
+   * 线下报名
+   * @param {*} param
+   */
+  createOffline({commit},params){
+     return api.CreateOffline(params).then(res=>{
+       commit(types.COM_ADD_FORM_VISIBLE,false);
+     })
+  }
 }
 
 /**
@@ -128,23 +96,7 @@ const mutations = {
       data.forEach(oRow => {
         state.availableMatchList.push(oRow)})
     }
-  },
-  [types.SET_MEMBER_ACCOUNT_INFO_IN_CAMPAIGN](state,res){
-    state.memberSelectForm.points=res.points;
-    state.memberSelectForm.balance=res.balance;
-    state.memberSelectForm.couponList=res.coupon;
   }
-//   [types.GET_MATCH_DETAILS](state, data) {
-//     let tmpData = {
-//       'id': data.id,
-//       'closingDatetime': new Date(data.closingDatetime),
-//       'openingDatetime': new Date(data.openingDatetime),
-//       'matchConfigId': data.matchConfig.id.toString(),
-//       'perHand': data.perHand,
-//       'status': data.status.toString()
-//     }
-//     state.matchDetails = tmpData
-//   }
 }
 
 export default {
