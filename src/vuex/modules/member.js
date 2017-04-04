@@ -119,9 +119,9 @@ const actions = {
    * @param {*} param0 
    * @param {*} palyload 
    */
-  getAccountInfo({commit},palyload){
-    return api.FindAccountInfo({phoneNo:palyload}).then(res=>{
-       return res;
+  getAccountInfo({commit}, palyload) {
+    return api.FindAccountInfo({phoneNo: palyload}).then(res => {
+      return res
     })
   }
 }
@@ -148,7 +148,7 @@ const mutations = {
   },
   [types.GET_MEMBER_DETAILS](state, data) {
     let tmpData = {
-      'id': data.id,
+      'id': data.member.id,
       'gender': data.gender.val.toString(),
       'phoneNo': data.phoneNo,
       'name': data.name,
