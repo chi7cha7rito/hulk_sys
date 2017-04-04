@@ -83,28 +83,28 @@
                 <el-form-item label="参赛获豪气"
                               prop="apply">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelDetails.apply"
+                        <el-input v-model.number="memberLevelDetails.apply"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="重入获豪气"
                               prop="buyChip">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelDetails.buyChip"
+                        <el-input v-model.number="memberLevelDetails.buyChip"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="消费获豪气(%)"
                               prop="apply">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelDetails.consume"
+                        <el-input v-model.number="memberLevelDetails.consume"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="签到获周赛票"
                               prop="weeklyTicket">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelDetails.weeklyTicket"
+                        <el-input v-model.number="memberLevelDetails.weeklyTicket"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
@@ -141,7 +141,7 @@
                 <el-form-item label="名称"
                               prop="name">
                     <el-col :span="10">
-                        <el-input v-model.number="memberLevelAddForm.name"
+                        <el-input v-model="memberLevelAddForm.name"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
