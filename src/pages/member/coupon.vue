@@ -163,11 +163,11 @@
                         <el-option label="平日赛"
                                    value="1"></el-option>
                         <el-option label="周赛"
-                                   value="1"></el-option>
+                                   value="2"></el-option>
                         <el-option label="月度会员杯"
-                                   value="1"></el-option>
+                                   value="3"></el-option>
                         <el-option label="年度会员杯"
-                                   value="1"></el-option>
+                                   value="4"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="来源"
