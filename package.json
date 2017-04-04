@@ -10,7 +10,9 @@
     "start": "node server/bin/www",
     "server_build": "babel ./server/src --out-dir ./server/dist --source-maps",
     "watch": "babel src --out-dir  ./server/dist --watch --source-maps",
-    "nopm2": "cross-env STAGE_ENV=dev PORT=9108 node ./server/bin/www"
+    "nopm2": "cross-env STAGE_ENV=dev PORT=9108 node ./server/bin/www",
+    "stop": "pm2 stop hulk_sys_prod",
+    "prod": "pm2 start pm2.config.js --only hulk_sys_prod"
   },
   "dependencies": {
     "axios": "^0.15.3",
