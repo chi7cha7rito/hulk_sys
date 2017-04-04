@@ -76,7 +76,7 @@
                 <el-form-item label="单次充值升级"
                               prop="threshold">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelDetails.threshold"
+                        <el-input v-model.number="memberLevelDetails.threshold"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
@@ -148,7 +148,7 @@
                 <el-form-item label="单次充值升级"
                               prop="threshold">
                     <el-col :span="10">
-                        <el-input v-model="memberLevelAddForm.threshold"
+                        <el-input v-model.number="memberLevelAddForm.threshold"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
