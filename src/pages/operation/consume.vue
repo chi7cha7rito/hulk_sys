@@ -81,7 +81,7 @@
                         <el-select v-model="pointDecrease.source"
                                    placeholder="请选择消费方式">
                             <el-option label="店内消费"
-                                       value="4"></el-option>
+                                       value="3"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="消费积分"

@@ -185,6 +185,8 @@
                               prop="status">
                     <el-select v-model="memberDetails.gender"
                                placeholder="请选性别">
+                        <el-option label="未知"
+                                   value="0"></el-option>
                         <el-option label="男"
                                    value="1"></el-option>
                         <el-option label="女"
