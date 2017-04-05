@@ -331,12 +331,12 @@
         <!--成绩-->
         <el-dialog title="成绩" v-model="scoreFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
             <el-form :model="scoreForm" label-width="100px" :rules="scoreFormRules" ref="scoreForm">
-                <el-form-item label="参赛人">
+                <el-form-item label="参赛人" class="label-item">
                     <el-col :span="12">
                         <label for="">{{scoreForm.phoneNo}}-{{scoreForm.name}}</label>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="赛事名称">
+                <el-form-item label="赛事名称" class="label-item">
                     <el-col :span="12">
                         <label for="">{{scoreForm.matchName}}</label>
                     </el-col>
