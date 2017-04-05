@@ -6,9 +6,18 @@
                  label-width="100px">
             <el-form-item label="手机号"
                           prop="phoneNo">
-                <el-col :span="10">
-                    <el-input v-model="balanceIncrease.phoneNo"></el-input>
-                </el-col>
+                <el-select v-model="balanceIncrease.phoneNo"
+                           filterable
+                           remote
+                           placeholder="请输入手机号"
+                           :remote-method="getMemberList"
+                           :loading="selectLoading">
+                    <el-option v-for="item in availableMembers"
+                               :key="item.id"
+                               :label="item.phoneNoName"
+                               :value="item.id">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="充值方式"
                           prop="source">
@@ -76,15 +85,27 @@ export default {
                     { pattern: /^[0-9]*[1-9][0-9]*$/, message: '必须为正整数', trigger: 'blur,change' }
                 ]
             },
-            addLoading: false
+            addLoading: false,
+            selectLoading: false
         }
     },
     computed: {
         ...mapGetters([
-            'balanceIncrease'
+            'balanceIncrease',
+            'availableMembers'
         ])
     },
     methods: {
+        getMemberList: function (phoneNo) {
+            if (phoneNo != '') {
+                this.selectLoading = true;
+                this.$store.dispatch('getAllMembers', phoneNo).then(() => {
+                    this.selectLoading = false;
+                }, err => {
+                    this.selectLoading = false;
+                })
+            }
+        },
         addSubmit: function () {
             if (this.addLoading) { return false }
             this.$refs.addForm.validate((valid) => {

@@ -176,7 +176,8 @@ const mutations = {
       res.rows.forEach(oRow => {
         tmpArray.push({
           'id': oRow.phoneNo,
-          'name': oRow.phoneNo
+          'name': oRow.phoneNo,
+          'phoneNoName': `${oRow.phoneNo}-${oRow.name}`
         })
       })
     }

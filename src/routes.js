@@ -39,7 +39,7 @@ import ChangeAccount from './pages/settings/changeAccount' // 充值返现
  */
 import Campaign from './pages/operation/campaign' // 报名及重入
 import Recharge from './pages/operation/recharge' // 店内充值
-import ChipHistory from './pages/operation/chipHistory' // 店内充值
+import chipStats from './pages/operation/chipStats' // 重入统计
 import Consume from './pages/operation/consume' // 店内消费
 
 // 个人信息修改
@@ -67,7 +67,7 @@ let routes = [
       { path: '/campaign', component: Campaign, name: '报名及重入' },
       { path: '/recharge', component: Recharge, name: '店内充值' },
       { path: '/consume', component: Consume, name: '店内消费' },
-      { path: '/chipHistory', component: ChipHistory, name: '重入统计' }
+      { path: '/chipStats', component: chipStats, name: '重入统计' }
     ]
   },
   {
@@ -90,7 +90,7 @@ let routes = [
       { path: '/member', component: MemberList, name: '会员查询' },
       { path: '/balance', component: BalanceList, name: '余额记录' },
       { path: '/points', component: PointsList, name: '积分记录' },
-      { path: '/sprit', component: Sprit,  name: '豪气查询' },
+      { path: '/sprit', component: Sprit, name: '豪气查询' },
       { path: '/coupon', component: Coupon, name: '优惠券查询' },
       { path: '/signIn', component: SignIn, name: '签到查询' }
     ]

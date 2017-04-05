@@ -18,6 +18,7 @@ import recharge from './modules/recharge'
 import consume from './modules/consume'
 import campaign from './modules/campaign'
 import accountChange from './modules/accountChange'
+import chip from './modules/chip'
 
 Vue.use(Vuex)
 
@@ -39,5 +40,6 @@ export default new Vuex.Store({
     recharge,
     consume,
     campaign,
-  accountChange}
+    accountChange,
+  chip}
 })

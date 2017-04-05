@@ -5,7 +5,8 @@ import util from '../common/js/util'
 // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = '/'
+// axios.defaults.baseURL = '/'
+axios.defaults.baseURL = 'http://localhost:3000/'
 
 // POST传参序列化
 axios.interceptors.request.use((config) => {
@@ -266,13 +267,13 @@ export default {
   /**
    * @desc 获取所有有效的会员信息
    */
-  FindAllMembers(params){
+  FindAllMembers(params) {
     return fetch('/member/findAllMembers', 'get', params)
   },
   /**
    * @desc 获取会员账户详情信息
    */
-  FindAccountInfo(params){
+  FindAccountInfo(params) {
     return fetch('/member/findAccountInfo', 'get', params)
   },
   /**
@@ -394,7 +395,14 @@ export default {
   /**
   * @desc 线下报名
   */
-  CreateOffline(params){
-    return fetch('/attendance/createOffline','post',params);
+  CreateOffline(params) {
+    return fetch('/attendance/createOffline', 'post', params)
+  },
+  /**
+  * @desc 获取重入统计
+  */
+  GetChipStats(params) {
+    return fetch('/chip/matchChipStats', 'get', params)
   }
+
 }

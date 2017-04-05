@@ -10,17 +10,24 @@
                          label-width="100px">
                     <el-form-item label="手机号"
                                   prop="phoneNo">
-                        <el-col :span="10">
-                            <el-input v-model="balanceChange.phoneNo"></el-input>
-                        </el-col>
-                        <el-button type="primary"
-                                   :style="{marginLeft:'10px'}"
-                                   @click.native="getTotal">查询</el-button>
+                        <el-select v-model="balanceChange.phoneNo"
+                                   filterable
+                                   remote
+                                   placeholder="请输入手机号"
+                                   :remote-method="getMemberList"
+                                   :loading="selectLoading"
+                                   @change="balancePhoneChange">
+                            <el-option v-for="item in availableMembers"
+                                       :key="item.id"
+                                       :label="item.phoneNoName"
+                                       :value="item.id">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="余额">
                         <el-col :span="10">
                             <el-input v-model="totalAvlBalance"
-                                      :disabled="true"></el-input>
+                                      :readonly="true"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="调整类型"
@@ -63,17 +70,24 @@
                          label-width="100px">
                     <el-form-item label="手机号"
                                   prop="phoneNo">
-                        <el-col :span="10">
-                            <el-input v-model="pointChange.phoneNo"></el-input>
-                        </el-col>
-                        <el-button type="primary"
-                                   :style="{marginLeft:'10px'}"
-                                   @click.native="getPointsTotal">查询</el-button>
+                        <el-select v-model="pointChange.phoneNo"
+                                   filterable
+                                   remote
+                                   placeholder="请输入手机号"
+                                   :remote-method="getMemberList"
+                                   :loading="selectLoading"
+                                   @change="pointPhoneChange">
+                            <el-option v-for="item in availableMembers"
+                                       :key="item.id"
+                                       :label="item.phoneNoName"
+                                       :value="item.id">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="可用积分">
                         <el-col :span="10">
                             <el-input v-model="totalAvlPoints"
-                                      :disabled="true"></el-input>
+                                      :readonly="true"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="调整类型"
@@ -187,7 +201,8 @@ export default {
                 ]
             },
             addLoading: false,
-            addPointLoading: false
+            addPointLoading: false,
+            selectLoading: false
         }
     },
     computed: {
@@ -195,7 +210,8 @@ export default {
             'balanceChange',
             'totalAvlBalance',
             'pointChange',
-            'totalAvlPoints'
+            'totalAvlPoints',
+            'availableMembers'
         ])
     },
     methods: {
@@ -208,6 +224,24 @@ export default {
                 this.$refs.addForm.resetFields()
                 this.$store.dispatch('clearTotalAvlBalance')
             }
+        },
+        getMemberList: function (phoneNo) {
+            if (phoneNo != '') {
+                this.selectLoading = true;
+                this.$store.dispatch('getAllMembers', phoneNo).then(() => {
+                    this.selectLoading = false;
+                }, err => {
+                    this.selectLoading = false;
+                })
+            }
+        },
+        pointPhoneChange: function (id) {
+            this.$store.dispatch('clearTotalAvlPoints')
+            this.$store.dispatch("getTotalAvlPoints")
+        },
+        balancePhoneChange: function (id) {
+            this.$store.dispatch('clearTotalAvlBalance')
+            this.$store.dispatch("getTotalAvlBalance")
         },
         addSubmit: function () {
             if (this.addLoading) { return false }
@@ -229,9 +263,6 @@ export default {
         cancel: function () {
             this.$refs.addForm.resetFields()
         },
-        getTotal: function () {
-            this.$store.dispatch("getTotalAvlBalance")
-        },
         addPointSubmit: function () {
             if (this.addPointLoading) { return false }
             this.$refs.addPointForm.validate((valid) => {
@@ -251,9 +282,6 @@ export default {
         },
         cancelPoint: function () {
             this.$refs.addPointForm.resetFields()
-        },
-        getPointsTotal: function () {
-            this.$store.dispatch("getTotalAvlPoints")
         }
     }
 }
