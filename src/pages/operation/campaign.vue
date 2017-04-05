@@ -85,7 +85,7 @@
                    width="150">
                 <template scope="scope">
                     <el-button size="small" @click="handleBuy(scope.$index, scope.row)">重入</el-button>
-                    <el-button type="danger" size="small" @click="handleGenGrade(scope.row.id)">成绩</el-button>
+                    <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)">成绩</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -328,6 +328,36 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+        <!--成绩-->
+        <el-dialog title="成绩" v-model="scoreFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
+            <el-form :model="scoreForm" label-width="100px" :rules="scoreFormRules" ref="scoreForm">
+                <el-form-item label="参赛人">
+                    <el-col :span="12">
+                        <label for="">{{scoreForm.phoneNo}}-{{scoreForm.name}}</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="赛事名称">
+                    <el-col :span="12">
+                        <label for="">{{scoreForm.matchName}}</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="赛事奖励" prop="matchRewardId">
+                    <el-select v-model="scoreForm.matchRewardId"
+                        placeholder="请选择奖励"
+                        clearable>
+                        <el-option v-for="item in scoreForm.matchRewardList"
+                            :label="formatMatchReward(item)"
+                            :value="item.id.toString()"
+                            >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="danger" style="margin-right:40px;" @click.native="closeDialog('edit')">取消</el-button>
+                    <el-button type="primary" @click.native="scoreFormSubmit" :loading="scoreLoading">确认</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </section>
 </template>
 
@@ -372,6 +402,8 @@ export default {
             applyLoading:false,
             buyLoading:false,
             addLoading: false,
+            scoreLoading:false,
+            scoreFormVisible:false,
             matchSelectForm:{
                 matchId:'',
                 matchPriceId:'',
@@ -412,6 +444,7 @@ export default {
                 memberId:'',
                 matchId:'',
                 phoneNo:'',
+                name:'',
                 balance:'',
                 points:'',
                 perHand:'',
@@ -434,6 +467,21 @@ export default {
                 ],
                 remark:[
                     { validator: buyFormRemarkValidator, trigger: 'blur' }
+                ]
+            },
+            scoreForm:{
+                attendanceId:'',
+                memberId:'',
+                matchId:'',
+                matchName:'',
+                phoneNo:'',
+                name:'',
+                matchRewardId:'',
+                matchRewardList:[]
+            },
+            scoreFormRules:{
+                matchRewardId:[
+                    { required: true, message: "请选择奖励", trigger: 'change' }
                 ]
             },
             selectedMatch:{
@@ -494,6 +542,9 @@ export default {
                 str="优惠券"
             }
             return str;
+        },
+        formatMatchReward:function(item){
+            return `第${item.ranking}名-${item.rewardPoints}分`
         },
         handleCurrentChange(val) {
             this.$store.commit(types.COM_PAGE_NUM, val);
@@ -615,8 +666,26 @@ export default {
                 that.$message.error(err.message);
             })
         },
-        handleGenGrade:function(){
+        handleScore:function(index,row){
+            let that=this;
 
+            this.scoreForm.phoneNo=row.member.user.phoneNo;
+            this.scoreForm.name=row.member.user.name;
+            this.scoreForm.matchName=row.match.matchConfig.name;
+            this.scoreForm.memberId=row.member.id;
+            this.scoreForm.matchId=row.match.id;
+            this.scoreForm.attendanceId=row.id;
+
+            this.$store.dispatch('getAccountInfo',row.member.user.phoneNo).then(res=>{
+                that.scoreForm.balance=res.balance;
+                that.scoreForm.points=res.points;
+                that.$store.dispatch('findAllActive',row.match.matchConfigId).then(res=>{
+                   res.forEach(oData=>{that.scoreForm.matchRewardList.push(oData)})
+                })
+            },err=>{
+
+            })
+            this.scoreFormVisible=true;
         },
         handleBuy:function(index,row){
             this.buyForm.phoneNo=row.member.user.phoneNo;
@@ -662,6 +731,29 @@ export default {
             }else{
                 this.buyForm.totalPrice='0';
             }  
+        },
+        scoreFormSubmit:function(){
+            let that=this;
+            let params={
+                "id":this.scoreForm.attendanceId,
+                "memberId":this.scoreForm.memberId,
+                "matchId":this.scoreForm.matchId,
+                "matchRewardId":this.scoreForm.matchRewardId
+            }
+            that.$refs.scoreForm.validate((valid)=>{
+                if(valid){
+                    that.scoreLoading=true;
+                    that.$store.dispatch('setMatchReward',params).then(res=>{
+                        that.scoreLoading=false;
+                        that.$message.success('成绩设置成功')
+                        that.scoreFormVisible=false;
+                        that.getList();
+                    },err=>{
+                        that.scoreLoading=false;
+                        that.$message.error(err.message)
+                    })
+                }
+            })
         },
         closeDialog: function (type) {
             if (type == "add") {

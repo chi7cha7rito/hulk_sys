@@ -409,6 +409,19 @@ export default {
   */
   BuyChips(params) {
     return fetch('/chip/create', 'post', params)
+  },
+  /**
+   * 获取有效的赛事奖励配置
+   * @param {*} params 
+   */
+  FindAllActiveReward(params){
+    return fetch('/matchReward/findAllActive','get',params)
+  },
+  /**
+   * 设置赛事奖励
+   * @param {*} params 
+   */
+  SetMatchReward(params){
+    return fetch('/attendance/award','post',params)
   }
-
 }
