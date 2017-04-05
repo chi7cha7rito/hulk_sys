@@ -675,6 +675,7 @@ export default {
             this.scoreForm.memberId=row.member.id;
             this.scoreForm.matchId=row.match.id;
             this.scoreForm.attendanceId=row.id;
+            this.scoreForm.matchRewardList=[];
 
             this.$store.dispatch('getAccountInfo',row.member.user.phoneNo).then(res=>{
                 that.scoreForm.balance=res.balance;
@@ -763,8 +764,13 @@ export default {
                 this.$store.commit(types.COM_ADD_FORM_VISIBLE, false);  
             }
             else {
-                this.$refs.buyForm.resetFields();
-                this.$store.commit(types.COM_EDIT_FORM_VISIBLE, false);
+                if(this.editFormVisible){
+                     this.$refs.buyForm.resetFields();
+                     this.$store.commit(types.COM_EDIT_FORM_VISIBLE, false);
+                }else if(this.scoreFormVisible){
+                    this.$refs.scoreForm.resetFields();
+                    this.scoreFormVisible=false;
+                }     
             }
         },
         resetMatchSelectForm:function(){
