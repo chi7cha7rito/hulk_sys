@@ -5,7 +5,7 @@ import util from '../common/js/util'
 // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = '/'
+axios.defaults.baseURL = 'http://localhost:3000'
 
 // POST传参序列化
 axios.interceptors.request.use((config) => {
@@ -396,5 +396,11 @@ export default {
   */
   CreateOffline(params){
     return fetch('/attendance/createOffline','post',params);
+  },
+  /**
+  * @desc 购买筹码
+  */
+  BuyChips(params){
+      return fetch('/chip/create','post',params);
   }
 }

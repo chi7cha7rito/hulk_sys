@@ -76,6 +76,15 @@ const actions = {
      return api.CreateOffline(params).then(res=>{
        commit(types.COM_ADD_FORM_VISIBLE,false);
      })
+  },
+  /**
+   * 购买筹码
+   * @param {*} param
+   */
+  buyChips({commit},params){
+    return api.BuyChips(params).then(res=>{
+      commit(types.COM_EDIT_FORM_VISIBLE,false);
+    })
   }
 }
 

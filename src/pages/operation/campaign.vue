@@ -144,7 +144,7 @@
                     <el-button type="primary" @click.native="handleStep1" >下一步</el-button>
                 </el-form-item>                                         
             </el-form>
-            <el-form :model="memberSelectForm" label-width="100px" :rules="memberSelectFormRules" ref="memberSelectForm" v-show="this.activeStep==2">
+            <el-form :model="memberSelectForm" label-width="100px" :rules="memberSelectFormRules" ref="memberSelectForm" v-show="this.activeStep==2" style="margin-left:30px;">
                         <el-form-item>
                             <!--<el-col :span="8">
                                 <el-alert
@@ -214,69 +214,119 @@
                     <el-form  label-width="100px"  v-show="this.activeStep==3">
                         <el-form-item label="赛事名称">
                             <el-col :span="8">
-                                <el-input :value="selectedMatch.matchConfig.name" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{selectedMatch.matchConfig.name}}</label>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="报名截止时间">
                             <el-col :span="10">
-                                <el-input :value="formatOpening(selectedMatch.closingDatetime)" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{formatOpening(selectedMatch.closingDatetime)}}</label>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="比赛开始时间">
                             <el-col :span="10">
-                                <el-input :value="formatOpening(selectedMatch.openingDatetime)" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{formatOpening(selectedMatch.openingDatetime)}}</label>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="比赛价格" v-if="this.memberSelectForm.payType=='1'">
                             <el-col :span="6">
-                                <el-input :value="selectedPrice.price" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{selectedPrice.price}}元</label>
                             </el-col>        
                         </el-form-item>
                         <el-form-item label="比赛所需积分" v-if="this.memberSelectForm.payType=='2'">
                             <el-col :span="6">
-                                <el-input :value="selectedPrice.points" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{selectedPrice.points}}</label>
                             </el-col> 
                         </el-form-item>
                         <el-form-item label="参赛人">
-                            <el-col :span="6">
-                                <el-input :value="memberSelectForm.name" auto-complete="off" :readonly="true"></el-input>
+                            <el-col :span="12">
+                                <label for="">{{memberSelectForm.phoneNo}}-{{memberSelectForm.name}}</label>
                             </el-col>            
                         </el-form-item>
-                        <el-form-item label="手机号码">
-                             <el-col :span="8">
-                                <el-input :value="memberSelectForm.phoneNo" auto-complete="off" :readonly="true"></el-input>
-                            </el-col>   
-                        </el-form-item>
-                        <el-form-item label="付款方式">
+                        <el-form-item label="支付方式">
                             <el-col :span="5">
-                                <el-input :value="formatPayType(memberSelectForm.payType)" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{formatPayType(memberSelectForm.payType)}}</label>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="扣除费用" v-if="this.memberSelectForm.payType=='1'">
-                            <el-col :span="5">
-                                <el-input :value="selectedPrice.price" auto-complete="off" :readonly="true"></el-input>
-                                <span>余额为:{{this.memberSelectForm.balance-this.selectedPrice.price}}</span>
+                            <el-col :span="12">
+                                <label for="">{{selectedPrice.price}}元</label>
+                                <span style="margin-left:10px;color:#FF4949">余额:{{this.memberSelectForm.balance-this.selectedPrice.price}}元</span>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="扣除积分" v-if="this.memberSelectForm.payType=='2'">
-                            <el-col :span="5">
-                                <el-input :value="selectedPrice.points" auto-complete="off" :readonly="true"></el-input>
-                                <span>剩余积分:{{this.memberSelectForm.points-this.selectedPrice.points}}</span>
+                            <el-col :span="12">
+                                <label for="">{{selectedPrice.points}}</label>
+                                <span style="margin-left:10px;color:#FF4949">剩余积分:{{this.memberSelectForm.points-this.selectedPrice.points}}</span>
                             </el-col>
                         </el-form-item>
                         <el-form-item label="使用优惠券" v-if="this.memberSelectForm.payType=='3'">
                             <el-col :span="5">
-                                <el-input :value="formatCouponName(this.selectedCoupon)" auto-complete="off" :readonly="true"></el-input>
+                                <label for="">{{formatCouponName(this.selectedCoupon)}}</label>
                             </el-col>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="danger" @click.native="handleBack2" style="margin-right:20px;">上一步</el-button>
+                            <el-button type="danger" @click.native="handleBack2" style="margin-right:40px;">上一步</el-button>
                             <el-button type="primary" @click.native="applySubmit" :loading="applyLoading">确认报名</el-button>
                         </el-form-item>  
                     </el-form>
             <div slot="footer"
                  class="dialog-footer">
             </div>
+        </el-dialog>
+        <!--重入-->
+        <el-dialog title="重入" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
+            <el-form :model="buyForm" label-width="100px" :rules="buyFormRules" ref="buyForm">
+                <el-form-item label="参赛人">
+                    <el-col :span="12">
+                        <label for="">{{buyForm.phoneNo}}-{{buyForm.name}}</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="余额">
+                    <el-col :span="12">
+                        <label for="">{{buyForm.balance}}元</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="积分">
+                    <el-col :span="12">
+                        <label for="">{{buyForm.points}}</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="每首价格">
+                    <el-col :span="6">
+                        <label for="">{{buyForm.perHand}}元</label>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="手数" prop="handCount">
+                    <el-col :span="6">
+                        <el-input v-model="buyForm.handCount" auto-complete="off" @blur="calcTotalPrice"></el-input>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="总价" prop="totalPrice">
+                    <el-col :span="6">
+                        <el-input v-model="buyForm.totalPrice" auto-complete="off"></el-input>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="支付方式" prop="payType">
+                     <el-select v-model="buyForm.payType"  placeholder="请选择支付类型" clearable>
+                        <el-option label="余额" value="1" :disabled="buyForm.balance<buyForm.totalPrice"></el-option>
+                        <el-option label="积分" value="2" :disabled="buyForm.points<buyForm.totalPrice"></el-option>
+                    </el-select>    
+                </el-form-item>  
+                <el-form-item label="备注" prop="remark">
+                    <el-col :span="12">
+                        <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入备注"
+                            v-model="buyForm.remark">
+                            </el-input>
+                    </el-col>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="danger" style="margin-right:40px;" @click.native="closeDialog('edit')">取消</el-button>
+                    <el-button type="primary" @click.native="buyFormSubmit" :loading="buyLoading">确认</el-button>
+                </el-form-item>
+            </el-form>
         </el-dialog>
     </section>
 </template>
@@ -302,12 +352,26 @@ export default {
             callback();
         }
 
+        let buyFormRemarkValidator=(rule,value,callback)=>{
+            let perHand=that.buyForm.perHand;
+            let handCount=that.buyForm.handCount;
+            let totalPrice=that.buyForm.totalPrice;
+
+            if(perHand*handCount!=totalPrice){
+                callback(new Error('自定义总价时候，请输入备注'))
+            }
+
+            callback();
+        }
+
         return {
             activeStep:1,
             stepCenter:true,
             stepTextCenter:true,
             selectLoading:false,
             applyLoading:false,
+            buyLoading:false,
+            addLoading: false,
             matchSelectForm:{
                 matchId:'',
                 matchPriceId:'',
@@ -344,7 +408,34 @@ export default {
                     { validator:payTypeValidator,trigger:'change'}           
                 ]
             },
-            addLoading: false,
+            buyForm:{
+                memberId:'',
+                matchId:'',
+                phoneNo:'',
+                balance:'',
+                points:'',
+                perHand:'',
+                handCount:'',
+                totalPrice:'',
+                remark:'',
+                payType:''
+            },
+            buyFormRules:{
+                handCount:[
+                     { required: true, message: "请输入手数", trigger: 'blur' },
+                     { pattern:/^[0-9]*[1-9][0-9]*$/,message:'请输入正确的手数',trigger: 'blur'}
+                ],
+                totalPrice:[
+                    { required: true, message: "请输入总价", trigger: 'blur' },
+                    { pattern:/^[0-9]+\.{0,1}[0-9]{0,2}$/,message:"必须为有效数字"}
+                ],
+                payType:[
+                    { required: true, message: "请选择支付方式", trigger: 'change' },
+                ],
+                remark:[
+                    { validator: buyFormRemarkValidator, trigger: 'blur' }
+                ]
+            },
             selectedMatch:{
                 matchConfig:{
                     name:''
@@ -372,6 +463,7 @@ export default {
             'listLoading',
             'total',
             'addFormVisible',
+            'editFormVisible',
             'payTypeConfig',
             'availableMembers'
         ])
@@ -447,7 +539,6 @@ export default {
                     }
                 })
             }
-            console.log
         },
         getList() {
             this.$store.dispatch('getAttendanceList')
@@ -516,6 +607,7 @@ export default {
                 payType:this.memberSelectForm.payType,
                 couponId:this.memberSelectForm.couponId
             }).then(res=>{
+                that.$message.success('报名成功！')
                 that.applyLoading=false;
                 that.getList();
             },err=>{
@@ -526,8 +618,50 @@ export default {
         handleGenGrade:function(){
 
         },
-        handleBuy:function(){
+        handleBuy:function(index,row){
+            this.buyForm.phoneNo=row.member.user.phoneNo;
+            this.buyForm.name=row.member.user.name;
+            this.buyForm.perHand=row.match.perHand;
+            this.buyForm.memberId=row.member.id;
+            this.buyForm.matchId=row.match.id;
+            this.$store.dispatch('getAccountInfo',row.member.user.phoneNo).then(res=>{
+                this.buyForm.balance=res.balance;
+                this.buyForm.points=res.points;
+            },err=>{
 
+            })
+            this.$store.commit(types.COM_EDIT_FORM_VISIBLE, true);
+        },
+        buyFormSubmit:function(){
+            let that=this;
+            let params={
+                "memberId":this.buyForm.memberId,
+                "matchId":this.buyForm.matchId,
+                "quantity":this.buyForm.handCount,
+                "payAmount":this.buyForm.totalPrice,
+                "payType":this.buyForm.payType,
+                "remark":this.buyForm.remark
+            }
+
+            this.$refs.buyForm.validate((valid)=>{
+                if(valid){
+                     that.buyLoading=true;
+                     that.$store.dispatch('buyChips',params).then(res=>{
+                        that.$message.success('重入成功')
+                        that.buyLoading=false;
+                    },(err)=>{
+                        that.buyLoading=false;
+                        that.$message.error(err.message);
+                    })
+                }
+            })      
+        },
+        calcTotalPrice:function(obj){
+            if(/^[0-9]*[1-9][0-9]*$/.test(obj.target.value)){
+                this.buyForm.totalPrice=(obj.target.value*this.buyForm.perHand).toString();
+            }else{
+                this.buyForm.totalPrice='0';
+            }  
         },
         closeDialog: function (type) {
             if (type == "add") {
@@ -537,7 +671,7 @@ export default {
                 this.$store.commit(types.COM_ADD_FORM_VISIBLE, false);  
             }
             else {
-                this.$refs.editForm.resetFields();
+                this.$refs.buyForm.resetFields();
                 this.$store.commit(types.COM_EDIT_FORM_VISIBLE, false);
             }
         },
