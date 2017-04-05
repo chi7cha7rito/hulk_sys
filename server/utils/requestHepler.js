@@ -11,7 +11,7 @@ var appConfig = require('../config/app.json')
 axios.defaults.timeout = 5000
 
 axios.defaults.headers.common['hulk_token'] = md5(appConfig.soa.token)
-axios.defaults.baseURL = 'http://localhost:7001/'
+axios.defaults.baseURL = 'http://127.0.0.1:7001/'
 
 /**
  * desc 定义统一的返回信息
