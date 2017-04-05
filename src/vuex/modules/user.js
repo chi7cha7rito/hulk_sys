@@ -5,6 +5,7 @@
 import api from '../../fetch/api'
 import * as types from '../types'
 import util from '../../common/js/util'
+import md5 from 'md5'
 
 const state = {
   // 用户登录状态
@@ -12,7 +13,14 @@ const state = {
   // 用户登录信息
   userInfo: {},
   // 用户数据信息
-  userData: []
+  userData: [],
+  // 修改密码
+  changePassword: {
+    id: '',
+    originalPwd: '',
+    newPwd: '',
+    confirmPwd: ''
+  }
 }
 
 const actions = {
@@ -21,7 +29,7 @@ const actions = {
    */
   setUserInfo({ commit }, res) {
     util.removeUserInfo()
-    util.setUserInfo(JSON.stringify({'id': res.id,'roleType': res.roleType.val}))
+    util.setUserInfo(JSON.stringify({'id': res.id, 'roleType': res.roleType.val}))
     commit(types.SET_USER_INFO, res)
     commit(types.SET_LOGIN_STATUS, true)
   },
@@ -34,7 +42,20 @@ const actions = {
     commit(types.SET_LOGIN_STATUS, false)
     commit(types.SET_USER_INFO, {})
   },
-
+  /**
+   * 重置密码
+   */
+  changePwd({ commit }, palyload) {
+    let user = JSON.parse(util.getUserInfo())
+    let data = state.changePassword
+    data.id = user.id
+    data.originalPwd = md5(state.changePassword.originalPwd)
+    data.newPwd = md5(state.changePassword.newPwd)
+    data.confirmPwd = md5(state.changePassword.confirmPwd)
+    return api.EditPwd(data).then(res => {
+      state.changePassword = {}
+    })
+  },
   /**
    * 请求用户信息
    */
@@ -51,7 +72,8 @@ const actions = {
 const getters = {
   getUserData: state => state.userData,
   loginStatus: state => state.loginStatus,
-  userInfo: state => state.userInfo
+  userInfo: state => state.userInfo,
+  changePassword: state => state.changePassword
 }
 
 const mutations = {

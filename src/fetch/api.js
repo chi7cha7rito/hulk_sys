@@ -409,6 +409,12 @@ export default {
   */
   BuyChips(params) {
     return fetch('/chip/create', 'post', params)
+  },
+  /**
+  * @desc 充值密码
+  */
+  EditPwd(params) {
+    return fetch('/user/editPwd', 'post', params)
   }
 
 }
