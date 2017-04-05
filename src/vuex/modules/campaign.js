@@ -85,6 +85,23 @@ const actions = {
     return api.BuyChips(params).then(res=>{
       commit(types.COM_EDIT_FORM_VISIBLE,false);
     })
+  },
+  /**
+   * 获取有效的比赛奖励配置
+   * @param {*} matchConfigId
+   */
+  findAllActive({commit},matchConfigId){
+    return api.FindAllActiveReward({"matchConfigId":matchConfigId}).then(res=>{
+      return res;
+    })
+  },
+  /**
+   * 设置赛事奖励
+   * @param {*} param0 
+   * @param {*} params 
+   */
+  setMatchReward({commit},params){
+    return api.SetMatchReward(params);
   }
 }
 

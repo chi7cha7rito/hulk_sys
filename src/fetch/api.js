@@ -411,10 +411,23 @@ export default {
     return fetch('/chip/create', 'post', params)
   },
   /**
-  * @desc 充值密码
+  * @desc 重置密码
   */
   EditPwd(params) {
     return fetch('/user/editPwd', 'post', params)
+  },
+  /**
+   * 获取有效的赛事奖励配置
+   * @param {*} params 
+   */
+  FindAllActiveReward(params) {
+    return fetch('/matchReward/findAllActive', 'get', params)
+  },
+  /**
+   * 设置赛事奖励
+   * @param {*} params 
+   */
+  SetMatchReward(params) {
+    return fetch('/attendance/award', 'post', params)
   }
-
 }
