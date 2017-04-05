@@ -170,6 +170,9 @@ export default {
 			collapsed: false,
 			sysUserAvatar: 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
 			routers: '',
+			userInfo:{
+				name:''
+			},
 			addLoading: false,
 			changePwdVisable: false,
 			changeLoading: false,
@@ -194,7 +197,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'userInfo',
 			'changePassword'
 		])
 	},
@@ -260,6 +262,7 @@ export default {
 		let tmpArray = [], user;
 		if (userInfo) {
 			user = JSON.parse(userInfo);
+			this.userInfo=user;
 		}
 
 		this.$router.options.routes.forEach(oRoute => {

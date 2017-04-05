@@ -7,7 +7,7 @@ import store from './vuex/store'
 import routes from './routes'
 
 import 'element-ui/lib/theme-default/index.css'
-import 'font-awesome/css/font-awesome.min.css'
+// import 'font-awesome/css/font-awesome.min.css'
 
 Vue.config.devtools = process.env.NODE_ENV !== 'production'
 

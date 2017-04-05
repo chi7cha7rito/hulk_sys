@@ -76,7 +76,7 @@ export default {
   },
   setUserInfo: function (data) {
     let encryptedInfo = AES.encrypt(data, DATE_KEY)
-    Cookies.set('u', encryptedInfo, { expires: 0.5, path: '/' })
+    Cookies.set('u', encryptedInfo, { expires: 0.1, path: '/' })
   },
   removeUserInfo: function () {
     Cookies.remove('u', { path: '/' })

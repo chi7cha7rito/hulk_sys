@@ -62,7 +62,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '俱乐部管理',
-    iconCls: 'el-icon-message',
+    iconCls: 'fa fa-users',
     children: [
       { path: '/campaign', component: Campaign, name: '报名及重入' },
       { path: '/recharge', component: Recharge, name: '店内充值' },
@@ -74,7 +74,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '赛事管理',
-    iconCls: 'el-icon-message',
+    iconCls: 'fa fa-gamepad',
     children: [
       { path: '/main', component: Main, name: '主页', hidden: true },
       { path: '/match', component: MatchList, name: '赛事查询' },
@@ -85,7 +85,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '会员管理',
-    iconCls: 'el-icon-message',
+    iconCls: 'fa fa-user-o',
     children: [
       { path: '/member', component: MemberList, name: '会员查询' },
       { path: '/balance', component: BalanceList, name: '余额记录' },
@@ -99,7 +99,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '后台账号管理',
-    iconCls: 'el-icon-message',
+    iconCls: 'fa fa-user-secret',
     children: [
       { path: '/account', component: AccountList, name: '账号查询' }
     ]
@@ -113,15 +113,6 @@ let routes = [
       { path: '/rechargeConfig', component: RechargeConfig, name: '充值返现' },
       { path: '/memberLevel', component: MemberLevel, name: '会员等级' },
       { path: '/changeAccount', component: ChangeAccount, name: '余额积分调整' }
-    ]
-  },
-  {
-    path: '/',
-    component: Home,
-    name: '我的后台',
-    iconCls: 'el-icon-message',
-    children: [
-      { path: '/editPassword', component: EditPassword, name: '修改密码' }
     ]
   },
   {

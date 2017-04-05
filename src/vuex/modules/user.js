@@ -29,7 +29,7 @@ const actions = {
    */
   setUserInfo({ commit }, res) {
     util.removeUserInfo()
-    util.setUserInfo(JSON.stringify({'id': res.id, 'roleType': res.roleType.val}))
+    util.setUserInfo(JSON.stringify({'id': res.id, 'roleType': res.roleType.val,'name':res.name}))
     commit(types.SET_USER_INFO, res)
     commit(types.SET_LOGIN_STATUS, true)
   },
