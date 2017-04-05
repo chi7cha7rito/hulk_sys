@@ -403,6 +403,12 @@ export default {
   */
   GetChipStats(params) {
     return fetch('/chip/matchChipStats', 'get', params)
+  },
+  /**
+  * @desc 购买筹码
+  */
+  BuyChips(params) {
+    return fetch('/chip/create', 'post', params)
   }
 
 }
