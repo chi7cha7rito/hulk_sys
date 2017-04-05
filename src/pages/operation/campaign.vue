@@ -144,8 +144,8 @@
                     <el-button type="primary" @click.native="handleStep1" >下一步</el-button>
                 </el-form-item>                                         
             </el-form>
-            <el-form :model="memberSelectForm" label-width="100px" :rules="memberSelectFormRules" ref="memberSelectForm" v-show="this.activeStep==2" style="margin-left:30px;">
-                        <el-form-item>
+            <el-form :model="memberSelectForm" label-width="100px" :rules="memberSelectFormRules" ref="memberSelectForm" v-show="this.activeStep==2">
+                    <el-form-item>
                             <!--<el-col :span="8">
                                 <el-alert
                                     title="消息提示的文案"
@@ -210,65 +210,65 @@
                             <el-button type="danger" @click.native="handleBack1" style="margin-right:20px;">上一步</el-button>
                             <el-button type="primary" @click.native="handleStep2" >下一步</el-button>
                         </el-form-item>                                           
-                    </el-form>
-                    <el-form  label-width="100px"  v-show="this.activeStep==3">
-                        <el-form-item label="赛事名称">
+            </el-form>
+            <el-form  label-width="100px"  v-show="this.activeStep==3" style="margin-left:30px;">
+                        <el-form-item label="赛事名称" class="label-item">
                             <el-col :span="8">
                                 <label for="">{{selectedMatch.matchConfig.name}}</label>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="报名截止时间">
+                        <el-form-item label="报名截止时间" class="label-item">
                             <el-col :span="10">
                                 <label for="">{{formatOpening(selectedMatch.closingDatetime)}}</label>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="比赛开始时间">
+                        <el-form-item label="比赛开始时间" class="label-item">
                             <el-col :span="10">
                                 <label for="">{{formatOpening(selectedMatch.openingDatetime)}}</label>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="比赛价格" v-if="this.memberSelectForm.payType=='1'">
+                        <el-form-item label="比赛价格" v-if="this.memberSelectForm.payType=='1'" class="label-item">
                             <el-col :span="6">
                                 <label for="">{{selectedPrice.price}}元</label>
                             </el-col>        
                         </el-form-item>
-                        <el-form-item label="比赛所需积分" v-if="this.memberSelectForm.payType=='2'">
+                        <el-form-item label="比赛所需积分" v-if="this.memberSelectForm.payType=='2'" class="label-item">
                             <el-col :span="6">
                                 <label for="">{{selectedPrice.points}}</label>
                             </el-col> 
                         </el-form-item>
-                        <el-form-item label="参赛人">
+                        <el-form-item label="参赛人" class="label-item">
                             <el-col :span="12">
                                 <label for="">{{memberSelectForm.phoneNo}}-{{memberSelectForm.name}}</label>
                             </el-col>            
                         </el-form-item>
-                        <el-form-item label="支付方式">
+                        <el-form-item label="支付方式" class="label-item">
                             <el-col :span="5">
                                 <label for="">{{formatPayType(memberSelectForm.payType)}}</label>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="扣除费用" v-if="this.memberSelectForm.payType=='1'">
+                        <el-form-item label="扣除费用" v-if="this.memberSelectForm.payType=='1'" class="label-item">
                             <el-col :span="12">
                                 <label for="">{{selectedPrice.price}}元</label>
                                 <span style="margin-left:10px;color:#FF4949">余额:{{this.memberSelectForm.balance-this.selectedPrice.price}}元</span>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="扣除积分" v-if="this.memberSelectForm.payType=='2'">
+                        <el-form-item label="扣除积分" v-if="this.memberSelectForm.payType=='2'" class="label-item">
                             <el-col :span="12">
                                 <label for="">{{selectedPrice.points}}</label>
                                 <span style="margin-left:10px;color:#FF4949">剩余积分:{{this.memberSelectForm.points-this.selectedPrice.points}}</span>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="使用优惠券" v-if="this.memberSelectForm.payType=='3'">
+                        <el-form-item label="使用优惠券" v-if="this.memberSelectForm.payType=='3'" class="label-item">
                             <el-col :span="5">
                                 <label for="">{{formatCouponName(this.selectedCoupon)}}</label>
                             </el-col>
                         </el-form-item>
-                        <el-form-item>
+                        <el-form-item style="margin-top:20px">
                             <el-button type="danger" @click.native="handleBack2" style="margin-right:40px;">上一步</el-button>
                             <el-button type="primary" @click.native="applySubmit" :loading="applyLoading">确认报名</el-button>
                         </el-form-item>  
-                    </el-form>
+            </el-form>
             <div slot="footer"
                  class="dialog-footer">
             </div>
@@ -276,22 +276,22 @@
         <!--重入-->
         <el-dialog title="重入" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
             <el-form :model="buyForm" label-width="100px" :rules="buyFormRules" ref="buyForm">
-                <el-form-item label="参赛人">
+                <el-form-item label="参赛人" class="label-item">
                     <el-col :span="12">
                         <label for="">{{buyForm.phoneNo}}-{{buyForm.name}}</label>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="余额">
+                <el-form-item label="余额" class="label-item">
                     <el-col :span="12">
                         <label for="">{{buyForm.balance}}元</label>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="积分">
+                <el-form-item label="积分" class="label-item">
                     <el-col :span="12">
                         <label for="">{{buyForm.points}}</label>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="每首价格">
+                <el-form-item label="每首价格" class="label-item">
                     <el-col :span="6">
                         <label for="">{{buyForm.perHand}}元</label>
                     </el-col>
@@ -800,5 +800,9 @@ export default {
 <style scoped>
 .line {
     text-align: center;
+}
+
+.label-item{
+    margin-bottom:5px;
 }
 </style>
