@@ -12,7 +12,7 @@ const state = {
   balanceList: [],
   listLoading: false,
   total: 0,
-  filters: {
+  balanceFilters: {
     pageSize: 10,
     pageIndex: 1,
     phoneNo: '',
@@ -29,7 +29,7 @@ const getters = {
   balanceList: state => state.balanceList,
   balanceListLoading: state => state.listLoading,
   balanceTotal: state => state.total,
-  balanceFilters: state => state.filters
+  balanceFilters: state => state.balanceFilters
 }
 
 /**
@@ -41,7 +41,7 @@ const actions = {
    */
   getBalanceList({ commit }) {
     commit(types.GET_BALANCE_LOADING_STATUS, true)
-    api.GetBalances(state.filters)
+    api.GetBalances(state.balanceFilters)
       .then(res => {
         commit(types.GET_BALANCE_LOADING_STATUS, false)
         commit(types.GET_BALANCE_TOTAL_COUNT, res.count)

@@ -12,7 +12,7 @@ const state = {
   pointsList: [],
   listLoading: false,
   total: 0,
-  filters: {
+  pointsFilters: {
     pageSize: 10,
     pageIndex: 1,
     phoneNo: '',
@@ -29,7 +29,7 @@ const getters = {
   pointsList: state => state.pointsList,
   pointsListLoading: state => state.listLoading,
   pointsTotal: state => state.total,
-  pointsFilters: state => state.filters
+  pointsFilters: state => state.pointsFilters
 }
 
 /**
@@ -41,7 +41,7 @@ const actions = {
    */
   getPointsList({ commit }) {
     commit(types.GET_POINTS_LOADING_STATUS, true)
-    api.GetPoints(state.filters)
+    api.GetPoints(state.pointsFilters)
       .then(res => {
         commit(types.GET_POINTS_LOADING_STATUS, false)
         commit(types.GET_POINTS_TOTAL_COUNT, res.count)
