@@ -9,6 +9,7 @@ const state = {
   total: 0, // 查询列表的总数量
   editFormVisible: false, // 弹框编辑Form的显示状态
   addFormVisible: false, // 弹框添加Form的显示状态,
+  thirdFormVisible:false,// 当前页面第三个弹框添加Form的显示状态,
   pageIndex: 1, // 全局的页面维护
   pageSize: 10, // 全局的pageSize 定义
   payTypeConfig: [
@@ -61,6 +62,14 @@ const actions = {
     commit(types.COM_ADD_FORM_VISIBLE, status)
   },
   /**
+   * @desc 设置第三个弹框Form的显示状态
+   * @param {*} param0 
+   * @param {*} status 
+   */
+  setThirdFormVisible({commit},status){
+    commit(types.COM_THIRD_FORM_VISIBLE, status)
+  },
+  /**
    * @desc 设置列表的total
    * @param {*} param0 
    * @param {*} status 
@@ -82,6 +91,7 @@ const getters = {
   total: state => state.total,
   editFormVisible: state => state.editFormVisible,
   addFormVisible: state => state.addFormVisible,
+  thirdFormVisible:state=>state.thirdFormVisible,
   pageIndex: state => state.pageIndex,
   payTypeConfig:state=>state.payTypeConfig
 }
@@ -101,6 +111,9 @@ const mutations = {
   },
   [types.COM_ADD_FORM_VISIBLE](state, status) {
     state.addFormVisible = status
+  },
+  [types.COM_THIRD_FORM_VISIBLE](state, status) {
+    state.thirdFormVisible = status
   },
   [types.COM_PAGE_NUM](state, index) {
     state.pageIndex = index

@@ -329,7 +329,7 @@
             </el-form>
         </el-dialog>
         <!--成绩-->
-        <el-dialog title="成绩" v-model="scoreFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
+        <el-dialog title="成绩" v-model="thirdFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
             <el-form :model="scoreForm" label-width="100px" :rules="scoreFormRules" ref="scoreForm">
                 <el-form-item label="参赛人" class="label-item">
                     <el-col :span="12">
@@ -403,7 +403,6 @@ export default {
             buyLoading:false,
             addLoading: false,
             scoreLoading:false,
-            scoreFormVisible:false,
             matchSelectForm:{
                 matchId:'',
                 matchPriceId:'',
@@ -512,6 +511,7 @@ export default {
             'total',
             'addFormVisible',
             'editFormVisible',
+            'thirdFormVisible',
             'payTypeConfig',
             'availableMembers'
         ])
@@ -686,7 +686,7 @@ export default {
             },err=>{
 
             })
-            this.scoreFormVisible=true;
+            this.$store.dispatch('setThirdFormVisible',true);
         },
         handleBuy:function(index,row){
             this.buyForm.phoneNo=row.member.user.phoneNo;
@@ -747,7 +747,8 @@ export default {
                     that.$store.dispatch('setMatchReward',params).then(res=>{
                         that.scoreLoading=false;
                         that.$message.success('成绩设置成功')
-                        that.scoreFormVisible=false;
+                        that.$store.dispatch('setThirdFormVisible',false);
+                        that.$refs.scoreForm.resetFields();
                         that.getList();
                     },err=>{
                         that.scoreLoading=false;
@@ -767,10 +768,10 @@ export default {
                 if(this.editFormVisible){
                      this.$refs.buyForm.resetFields();
                      this.$store.commit(types.COM_EDIT_FORM_VISIBLE, false);
-                }else if(this.scoreFormVisible){
+                }else if(this.thirdFormVisible){
                     this.$refs.scoreForm.resetFields();
-                    this.scoreFormVisible=false;
-                }     
+                    this.$store.dispatch('setThirdFormVisible',false);
+                }            
             }
         },
         resetMatchSelectForm:function(){

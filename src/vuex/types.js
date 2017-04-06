@@ -5,6 +5,7 @@ export const COM_LIST_TOTAL_COUNT = 'COM_LIST_TOTAL_COUNT' // 查询列表的总
 export const COM_EDIT_FORM_VISIBLE = 'COM_EDIT_FORM_VISIBLE' // 弹框编辑Form的显示状态
 export const COM_ADD_FORM_VISIBLE = 'COM_ADD_FORM_VISIBLE' // 弹框添加Form的显示状态
 export const COM_PAGE_NUM = 'COM_PAGE_NUM' // 页码
+export const COM_THIRD_FORM_VISIBLE='COM_THIRD_FORM_VISIBLE' //当前页的第三个弹框的显示状态
 
 /**
  * desc 用户登录相关
