@@ -113,7 +113,7 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item label="在线报名"
-                              prop="applyOnly">
+                              prop="applyOnline">
                     <el-switch on-text="启用"
                                off-text="禁用"
                                v-model="memberLevelDetails.applyOnline"></el-switch>
@@ -191,10 +191,10 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item label="在线报名"
-                              prop="applyOnly">
+                              prop="applyOnline">
                     <el-switch on-text="启用"
                                off-text="禁用"
-                               v-model="memberLevelAddForm.applyOnly"></el-switch>
+                               v-model="memberLevelAddForm.applyOnline"></el-switch>
                 </el-form-item>
                 <el-form-item label="状态"
                               prop="status">
