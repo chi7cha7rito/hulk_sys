@@ -63,7 +63,9 @@ const actions = {
     commit(types.COM_LIST_LOADING_STATUS, true)
     let requestData = {}
     Object.assign(requestData, state.filters, {'pageIndex': rootState.com.pageIndex,'pageSize': rootState.com.pageSize})
-    requestData.applyOnline=state.filters.applyOnline=="1"?true:false;
+    if(state.filters.applyOnline){
+      requestData.applyOnline=state.filters.applyOnline=="1"?true:false;
+    }   
     api.GetMatchList(requestData)
       .then(res => {
         commit(types.COM_LIST_LOADING_STATUS, false)
@@ -119,7 +121,14 @@ const actions = {
   * @desc 删除赛事
   */
   delMatch({commit}, id) {
-    return api.DelMatch({id: id,status: '3'}).then(res => {
+    return api.ChangeMatchStatus({id: id,status: '3'}).then(res => {
+    })
+  },
+  /**
+  * @desc 结束比赛
+  */
+  closeMatch({commit}, id) {
+    return api.ChangeMatchStatus({id: id,status: '2'}).then(res => {
     })
   }
 }

@@ -72,27 +72,27 @@ const actions = {
    * 线下报名
    * @param {*} param
    */
-  createOffline({commit},params){
-     return api.CreateOffline(params).then(res=>{
-       commit(types.COM_ADD_FORM_VISIBLE,false);
-     })
+  createOffline({commit}, params) {
+    return api.CreateOffline(params).then(res => {
+      commit(types.COM_ADD_FORM_VISIBLE, false)
+    })
   },
   /**
    * 购买筹码
    * @param {*} param
    */
-  buyChips({commit},params){
-    return api.BuyChips(params).then(res=>{
-      commit(types.COM_EDIT_FORM_VISIBLE,false);
+  buyChips({commit}, params) {
+    return api.BuyChips(params).then(res => {
+      commit(types.COM_EDIT_FORM_VISIBLE, false)
     })
   },
   /**
    * 获取有效的比赛奖励配置
    * @param {*} matchConfigId
    */
-  findAllActive({commit},matchConfigId){
-    return api.FindAllActiveReward({"matchConfigId":matchConfigId}).then(res=>{
-      return res;
+  findAllActive({commit}, matchConfigId) {
+    return api.FindAllActiveReward({'matchConfigId': matchConfigId}).then(res => {
+      return res
     })
   },
   /**
@@ -100,8 +100,16 @@ const actions = {
    * @param {*} param0 
    * @param {*} params 
    */
-  setMatchReward({commit},params){
-    return api.SetMatchReward(params);
+  setMatchReward({commit}, params) {
+    return api.SetMatchReward(params)
+  },
+  /**
+   * 颁发赛事奖励
+   * @param {*} param0 
+   * @param {*} params 
+   */
+  makeMatchReward({commit}, params) {
+    return api.MakeMatchReward(params)
   }
 }
 

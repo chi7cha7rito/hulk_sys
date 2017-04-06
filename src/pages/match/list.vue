@@ -54,24 +54,25 @@
 						<span>{{scope.row.matchConfig.name}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="类型">
+			<el-table-column label="类型" width="100">
 				<template scope="scope">
 					<span>{{scope.row.matchConfig.Type.name}}</span>
 				</template>
 			</el-table-column>		
 			<el-table-column prop="status" label="状态" :formatter="formatStatus">
 			</el-table-column>
-			<el-table-column prop="perHand" label="每首价格">
+			<el-table-column prop="closingDatetime" label="报名时间" :formatter="formatEndDate">
+			</el-table-column>
+			<el-table-column prop="perHand" label="每首价格(元)">
 			</el-table-column>
 			<el-table-column prop="openingDatetime" label="比赛时间" :formatter="formatSatrtDate">
 			</el-table-column>
-			<el-table-column prop="closingDatetime" label="报名时间" :formatter="formatEndDate">
-			</el-table-column>
-			<el-table-column label="操作" width="150">
+			<el-table-column label="操作" width="220">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>
 					<el-button type="danger" size="small" @click="handleDel(scope.row.id)" >删除</el-button>
+					<el-button type="warning" size="small" @click="handleClose(scope.row.id)" v-if="scope.row.status!='2'">结束</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -107,14 +108,13 @@
 						<el-option label="已结束" value="2"></el-option>
 					</el-select>
 				</el-form-item>
-				
-				<el-form-item label="比赛时间" prop="openingDatetime">
-					<el-date-picker v-model="matchDetails.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
 				<el-form-item label="报名时间" prop="closingDatetime">
 					<el-date-picker v-model="matchDetails.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="每首价格" prop="perHand">
+				<el-form-item label="比赛时间" prop="openingDatetime">
+					<el-date-picker v-model="matchDetails.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="每首价格(元)" prop="perHand">
 					<el-col :span="5">
 						<el-input v-model.number="matchDetails.perHand"  auto-complete="off"></el-input>
 					</el-col>				
@@ -141,13 +141,13 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="比赛时间" prop="openingDatetime">
-					<el-date-picker v-model="addMatchForm.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;" :picker-options="pickerOptions1"></el-date-picker>
-				</el-form-item>
 				<el-form-item label="报名时间" prop="closingDatetime">
 					<el-date-picker v-model="addMatchForm.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;" :picker-options="pickerOptions1"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="每首价格" prop="perHand">
+				<el-form-item label="比赛时间" prop="openingDatetime">
+					<el-date-picker v-model="addMatchForm.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;" :picker-options="pickerOptions1"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="每首价格(元)" prop="perHand">
 					<el-col :span="5">
 						<el-input v-model.number="addMatchForm.perHand"  auto-complete="off"></el-input>
 					</el-col>				
@@ -373,6 +373,17 @@
 						this.$message.error(err.message);
 					})
 				})			
+			},
+			handleClose:function(id){
+				this.$confirm('确认结束该比赛吗?', '提示', {
+					type: 'warning'
+				}).then(()=>{
+					this.$store.dispatch('closeMatch',id).then(()=>{
+						this.getList();
+					},err=>{
+						this.$message.error(err.message);
+					})
+				})		
 			},
 			editSubmit: function () {
 				if(this.editLoading){return false}

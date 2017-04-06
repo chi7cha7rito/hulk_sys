@@ -5,8 +5,8 @@ import util from '../common/js/util'
 // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = '/'
-// axios.defaults.baseURL = 'http://localhost:3000/'
+// axios.defaults.baseURL = '/'
+axios.defaults.baseURL = 'http://localhost:3000/'
 
 // POST传参序列化
 axios.interceptors.request.use((config) => {
@@ -96,10 +96,10 @@ export default {
     return fetch('/match/create', 'post', params)
   },
   /**
-   * @desc 删除比赛
+   * @desc 更改比赛状态
    * @param {} params 
    */
-  DelMatch(params) {
+  ChangeMatchStatus(params) {
     return fetch('/match/changeStatus', 'post', params)
   },
   /**
@@ -429,5 +429,12 @@ export default {
    */
   SetMatchReward(params) {
     return fetch('/attendance/award', 'post', params)
+  },
+  /**
+   * 设置赛事奖励
+   * @param {*} params 
+   */
+  MakeMatchReward(params){
+    return fetch('/attendance/issueReward', 'post', params)
   }
 }
