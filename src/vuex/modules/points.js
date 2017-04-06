@@ -70,7 +70,7 @@ const mutations = {
     state.total = count
   },
   [types.CHANGE_POINTS_LIST_PAGE_NUM](state, num) {
-    state.filters.pageIndex = num
+    state.pointsFilters.pageIndex = num
   }
 }
 
