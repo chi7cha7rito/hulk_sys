@@ -4,7 +4,6 @@
 
 import api from '../../fetch/api'
 import * as types from '../types'
-import utils from '../../common/js/util'
 
 /**
  * state 定义
@@ -29,7 +28,7 @@ const state = {
     apply: '',
     buyChip: '',
     consume: '',
-    applyOnline: '',
+    applyOnline: false,
     weeklyTicket: '',
     status: ''
   }
