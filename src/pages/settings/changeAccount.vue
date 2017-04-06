@@ -36,6 +36,8 @@
                                    placeholder="请选择调整类型">
                             <el-option label="正调整"
                                        value="3"></el-option>
+                            <el-option label="提现"
+                                       value="4"></el-option>
                             <el-option label="负调整"
                                        value="6"></el-option>
                         </el-select>

@@ -47,9 +47,15 @@ const actions = {
     */
   balanceChange({commit}, palyload) {
     if (state.balanceChange.type.toString() === '3') {
+      state.balanceChange.source = 10
       return api.BalanceIncrease(state.balanceChange).then(res => {
       })
     } else if (state.balanceChange.type.toString() === '6') {
+      state.balanceChange.source = 10
+      return api.BalanceDecrease(state.balanceChange).then(res => {
+      })
+    } else if (state.balanceChange.type.toString() === '4') {
+      state.balanceChange.source = 9
       return api.BalanceDecrease(state.balanceChange).then(res => {
       })
     }
