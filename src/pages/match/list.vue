@@ -21,6 +21,12 @@
       					 <el-option label="已结束" value="2"></el-option>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="是否在线报名">
+					<el-select v-model="filters.applyOnline" placeholder="请选择状态" style="width:90px" clearable>
+						 <el-option label="是" :value="1"></el-option>
+      					 <el-option label="否" :value="0"></el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="报名时间">
 					<el-col :span="10">
 						<el-date-picker v-model="filters.startClosing" type="date" placeholder="开始日期"  style="width: 100%;"></el-date-picker>
@@ -43,9 +49,6 @@
 		<el-table :data="matchList"  v-loading="listLoading" style="width: 100%;">
 			<!--<el-table-column type="selection" width="55">
 			</el-table-column>-->
-			
-			<el-table-column  prop="id" label="id">
-			</el-table-column>
 			<el-table-column label="赛事名称">
 				<template scope="scope">
 						<span>{{scope.row.matchConfig.name}}</span>
@@ -104,16 +107,20 @@
 						<el-option label="已结束" value="2"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="报名时间" prop="openingDatetime">
-					<el-date-picker v-model="matchDetails.openingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				
+				<el-form-item label="比赛时间" prop="openingDatetime">
+					<el-date-picker v-model="matchDetails.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="比赛时间" prop="closingDatetime">
-					<el-date-picker v-model="matchDetails.closingDatetime" type="date" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				<el-form-item label="报名时间" prop="closingDatetime">
+					<el-date-picker v-model="matchDetails.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="每首价格" prop="perHand">
 					<el-col :span="5">
 						<el-input v-model.number="matchDetails.perHand"  auto-complete="off"></el-input>
 					</el-col>				
+				</el-form-item>
+				<el-form-item label="在线报名" prop="applyOnline">
+					<el-switch on-text="启用" off-text="禁用" v-model="matchDetails.applyOnline"></el-switch>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -124,9 +131,9 @@
 
 		<!--添加界面-->
 	    <el-dialog title="添加赛事" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
-			<el-form :model="addForm" label-width="100px" :rules="editFormRules" ref="addForm">
+			<el-form :model="addMatchForm" label-width="100px" :rules="addFormRules" ref="addMatchForm">
 				<el-form-item label="类型" prop="matchConfigId">
-					<el-select v-model="addForm.matchConfigId" placeholder="请选择赛事类型" clearable>
+					<el-select v-model="addMatchForm.matchConfigId" placeholder="请选择赛事类型" clearable>
 						<el-option
 								v-for="item in matchConfigList"
 								:label="item.name"
@@ -134,22 +141,19 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="状态" prop="status">
-					<el-select v-model="addForm.status" placeholder="请选择赛事状态" clearable>
-						<el-option label="已开始" value="1"></el-option>
-						<el-option label="已结束" value="2"></el-option>
-					</el-select>
+				<el-form-item label="比赛时间" prop="openingDatetime">
+					<el-date-picker v-model="addMatchForm.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;" :picker-options="pickerOptions1"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="报名时间" prop="openingDatetime">
-					<el-date-picker v-model="addForm.openingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="比赛时间" prop="closingDatetime">
-					<el-date-picker v-model="addForm.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;"></el-date-picker>
+				<el-form-item label="报名时间" prop="closingDatetime">
+					<el-date-picker v-model="addMatchForm.closingDatetime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期"  style="width: 40%;" :picker-options="pickerOptions1"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="每首价格" prop="perHand">
 					<el-col :span="5">
-						<el-input v-model.number="addForm.perHand"  auto-complete="off"></el-input>
+						<el-input v-model.number="addMatchForm.perHand"  auto-complete="off"></el-input>
 					</el-col>				
+				</el-form-item>
+				<el-form-item label="在线报名" prop="applyOnline">
+					<el-switch on-text="启用" off-text="禁用" v-model="addMatchForm.applyOnline"></el-switch>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -164,6 +168,7 @@
 	import {
 		mapGetters
 	} from 'vuex'
+	import moment from 'moment'
 
 	import * as types from '../../vuex/types'
 	
@@ -171,6 +176,80 @@
 	
 	export default {
 		data() {
+			let that=this;
+
+			//添加比赛开始时间validator
+			let closeingDateTimeValidator=(rule,value,callback)=>{
+				let dateNow=moment().format('YYYY-MM-DD HH:mm');
+				let openingDatetime=moment(that.addMatchForm.openingDatetime.toString()).format('YYYY-MM-DD HH:mm');
+				let tmpDate=moment(value.toString()).format('YYYY-MM-DD HH:mm');
+				if(tmpDate<dateNow){
+					callback(new Error('报名截止时间必须大于当前时间'))
+				}
+				else{
+					if(tmpDate>=openingDatetime&&openingDatetime){
+						callback(new Error('报名截止时间必须小于比赛开始时间'))
+					}
+					else{
+						callback();
+					}
+				}
+			}
+
+			//添加比赛开始时间validator
+			let openingDatetimeValidator=(rule,value,callback)=>{
+				let dateNow=moment().format('YYYY-MM-DD HH:mm');
+				let closingDatetime=moment(that.addMatchForm.closingDatetime.toString()).format('YYYY-MM-DD HH:mm');
+				let tmpDate=moment(value.toString()).format('YYYY-MM-DD HH:mm');
+				if(tmpDate<dateNow){
+					callback(new Error('比赛开始时间必须大于当前时间'))
+				}
+				else{
+					if(tmpDate<=closingDatetime&&closingDatetime){
+						callback(new Error('比赛开始时间必须大于报名截止时间'))
+					}
+					else{
+						callback();
+					}
+				}
+			}
+
+			//编辑比赛开始时间validator
+			let editCloseingDateTimeValidator=(rule,value,callback)=>{
+				let dateNow=moment().format('YYYY-MM-DD HH:mm');
+				let openingDatetime=moment(that.matchDetails.openingDatetime.toString()).format('YYYY-MM-DD HH:mm');
+				let tmpDate=moment(value.toString()).format('YYYY-MM-DD HH:mm');
+				if(tmpDate<dateNow){
+					callback(new Error('报名截止时间必须大于当前时间'))
+				}
+				else{
+					if(tmpDate>=openingDatetime&&openingDatetime){
+						callback(new Error('报名截止时间必须小于比赛开始时间'))
+					}
+					else{
+						callback();
+					}
+				}
+			}
+
+			//编辑比赛开始时间validator
+			let editOpeningDatetimeValidator=(rule,value,callback)=>{
+				let dateNow=moment().format('YYYY-MM-DD HH:mm');
+				let closingDatetime=moment(that.matchDetails.closingDatetime.toString()).format('YYYY-MM-DD HH:mm');
+				let tmpDate=moment(value.toString()).format('YYYY-MM-DD HH:mm');
+				if(tmpDate<dateNow){
+					callback(new Error('比赛开始时间必须大于当前时间'))
+				}
+				else{
+					if(tmpDate<=closingDatetime&&closingDatetime){
+						callback(new Error('比赛开始时间必须大于报名截止时间'))
+					}
+					else{
+						callback();
+					}
+				}
+			}
+
 			return {				
 				sels: [],
 				editFormRules:{
@@ -181,15 +260,45 @@
 						{required: true, message: '请选择赛事状态', trigger: 'change'}
 					],
 					openingDatetime:[
-						{type:'date',required: true, message: '请选择报名时间', trigger: 'change'}
+						{type:'date',required: true, message: '请选择报名时间', trigger: 'change'},
+						{validator:editOpeningDatetimeValidator,trigger:'change'}
 					],
 					closingDatetime:[
-						{type:'date',required: true, message: '请选择比赛时间', trigger: 'change'}
+						{type:'date',required: true, message: '请选择比赛时间', trigger: 'change'},
+						{validator:editCloseingDateTimeValidator,trigger:'change'}
 					],
 					perHand:[
 						{ required: true, message: '请填写每手价格'},
 						{ type: 'number', message: '价格必须为数字值'}
 					]
+				},
+				addFormRules:{
+					matchConfigId:[
+						{ required: true,message:"请选择赛事类型", trigger: 'change' }
+					],
+					openingDatetime:[
+						{type:'date',required: true, message: '请选择报名时间', trigger: 'change'},
+						{validator:openingDatetimeValidator,trigger:'change'}
+					],
+					closingDatetime:[
+						{type:'date',required: true, message: '请选择比赛时间', trigger: 'change'},
+						{validator:closeingDateTimeValidator,trigger:'change'}
+					],
+					perHand:[
+						{ required: true, message: '请填写每手价格'},
+						{ type: 'number', message: '价格必须为数字值'}
+					]
+				},
+				pickerOptions1:{
+					disabledDate:function(obj){
+						let tmpDate=moment(obj.toString()).format('YYYY-MM-DD')
+						let dateNow=moment().format('YYYY-MM-DD');
+						if(tmpDate<dateNow){
+							return true;
+						}else{
+							return false;
+						}
+					}
 				},
 				editLoading:false,
 				addLoading:false
@@ -206,7 +315,7 @@
 				'listLoading',
 				'addFormVisible',
 				'total',
-				'addForm',
+				'addMatchForm',
 				'userInfo'
 			])
 		},
@@ -282,7 +391,7 @@
 			},
 			addSubmit:function(){
 				if(this.addLoading){return false}
-				this.$refs.addForm.validate((valid) => {
+				this.$refs.addMatchForm.validate((valid) => {
 					if (valid) {
 						this.addLoading=true;
 						this.$store.dispatch("addMatch").then(res=>{
@@ -297,7 +406,7 @@
 			},
 			closeDialog:function(type){
 				if(type=="add"){
-					this.$refs.addForm.resetFields();
+					this.$refs.addMatchForm.resetFields();
 					this.$store.commit(types.COM_ADD_FORM_VISIBLE,false);
 				}
 				else{

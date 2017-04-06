@@ -19,23 +19,24 @@ const state = {
     openingDatetime: '',
     matchConfigId: '',
     perHand: '',
-    status: ''
+    status: '',
+    applyOnline:false
   },
   filters: {
-    // pageSize: 10,
-    // pageIndex: '1',
     name: '',
     status: '',
     startClosing: '',
     endClosing: '',
-    type: ''
+    type: '',
+    applyOnline:''
   },
   addForm: {
     closingDatetime: '',
     openingDatetime: '',
     matchConfigId: '',
     perHand: '',
-    status: ''
+    status: '1',
+    applyOnline:false
   }
 }
 
@@ -48,7 +49,7 @@ const getters = {
   matchConfigList: state => state.matchConfigList,
   matchDetails: state => state.matchDetails,
   filters: state => state.filters,
-  addForm: state => state.addForm
+  addMatchForm: state => state.addForm
 }
 
 /**
@@ -62,6 +63,7 @@ const actions = {
     commit(types.COM_LIST_LOADING_STATUS, true)
     let requestData = {}
     Object.assign(requestData, state.filters, {'pageIndex': rootState.com.pageIndex,'pageSize': rootState.com.pageSize})
+    requestData.applyOnline=state.filters.applyOnline=="1"?true:false;
     api.GetMatchList(requestData)
       .then(res => {
         commit(types.COM_LIST_LOADING_STATUS, false)
@@ -143,7 +145,8 @@ const mutations = {
       'openingDatetime': new Date(data.openingDatetime),
       'matchConfigId': data.matchConfig.id.toString(),
       'perHand': data.perHand,
-      'status': data.status.toString()
+      'status': data.status.toString(),
+      'applyOnline':data.applyOnline
     }
     state.matchDetails = tmpData
   },
