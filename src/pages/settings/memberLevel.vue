@@ -108,6 +108,12 @@
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
+                <el-form-item label="在线报名"
+                              prop="applyOnly">
+                    <el-switch on-text="启用"
+                               off-text="禁用"
+                               v-model="memberLevelDetails.applyOnly"></el-switch>
+                </el-form-item>
                 <el-form-item label="状态"
                               prop="status">
                     <el-select v-model="memberLevelDetails.status"
@@ -180,7 +186,12 @@
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
-    
+                <el-form-item label="在线报名"
+                              prop="applyOnly">
+                    <el-switch on-text="启用"
+                               off-text="禁用"
+                               v-model="memberLevelAddForm.applyOnly"></el-switch>
+                </el-form-item>
                 <el-form-item label="状态"
                               prop="status">
                     <el-select v-model="memberLevelAddForm.status"

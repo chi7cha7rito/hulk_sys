@@ -18,6 +18,7 @@ const state = {
     apply: '',
     buyChip: '',
     consume: '',
+    applyOnline: '',
     weeklyTicket: '',
     status: ''
   },
@@ -28,6 +29,7 @@ const state = {
     apply: '',
     buyChip: '',
     consume: '',
+    applyOnline: '',
     weeklyTicket: '',
     status: ''
   }
