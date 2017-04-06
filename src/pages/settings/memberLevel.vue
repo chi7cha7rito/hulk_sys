@@ -35,6 +35,10 @@
             <el-table-column prop="weeklyTicket"
                              label="签到获周赛票">
             </el-table-column>
+            <el-table-column prop="applyOnline"
+                             label="在线报名"
+                             :formatter="formatApplyOnline">
+            </el-table-column>
             <el-table-column prop="status"
                              label="状态"
                              :formatter="formatStatus">
@@ -112,7 +116,7 @@
                               prop="applyOnly">
                     <el-switch on-text="启用"
                                off-text="禁用"
-                               v-model="memberLevelDetails.applyOnly"></el-switch>
+                               v-model="memberLevelDetails.applyOnline"></el-switch>
                 </el-form-item>
                 <el-form-item label="状态"
                               prop="status">
@@ -277,6 +281,15 @@ export default {
                 str = "正常";
             }
             else if (row.status == "2") {
+                str = "禁用";
+            }
+            return str;
+        },
+        formatApplyOnline(row, column) {
+            let str = "禁用";
+            if (row.applyOnline) {
+                str = "启用";
+            } else {
                 str = "禁用";
             }
             return str;

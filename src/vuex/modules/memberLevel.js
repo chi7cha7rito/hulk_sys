@@ -111,6 +111,7 @@ const mutations = {
       'buyChip': data.buyChip,
       'consume': data.consume,
       'weeklyTicket': data.weeklyTicket,
+      'applyOnline': data.applyOnline,
       'status': data.status.toString()
     }
     state.memberLevelDetails = tmpData
