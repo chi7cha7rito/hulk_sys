@@ -18,6 +18,7 @@ const state = {
     pageIndex: 1,
     phoneNo: '',
     type: '',
+    source: '',
     status: '',
     startCreatedAt: '',
     endCreatedAt: ''

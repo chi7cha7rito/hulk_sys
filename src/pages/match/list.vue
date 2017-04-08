@@ -54,9 +54,9 @@
 						<span>{{scope.row.matchConfig.name}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="类型" width="100">
+			<el-table-column label="类型">
 				<template scope="scope">
-					<span>{{scope.row.matchConfig.Type.name}}</span>
+					<span>{{scope.row.matchConfig.Type.name}}-{{scope.row.matchConfig.subType.name}}</span>
 				</template>
 			</el-table-column>		
 			<el-table-column prop="status" label="状态" :formatter="formatStatus">
