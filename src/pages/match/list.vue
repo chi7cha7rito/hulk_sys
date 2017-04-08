@@ -89,7 +89,7 @@
 
 		<!--编辑界面-->
 		<el-dialog title="编辑赛事" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
-			<el-form :model="matchDetails" label-width="100px" :rules="editFormRules" ref="editForm">
+			<el-form :model="matchDetails" label-width="110px" :rules="editFormRules" ref="editForm">
 				<el-form-item label="ID" prop="id">
 					<el-col :span="5">
 						<el-input v-model="matchDetails.id"  auto-complete="off" :disabled="true"></el-input>
@@ -293,7 +293,7 @@
 				},
 				pickerOptions1:{
 					disabledDate:function(obj){
-						let tmpDate=moment(obj.toString()).format('YYYY-MM-DD')
+						let tmpDate=moment(obj.toString(),["MM-DD-YYYY", "YYYY-MM-DD"]);
 						let dateNow=moment().format('YYYY-MM-DD');
 						if(tmpDate<dateNow){
 							return true;
