@@ -84,17 +84,9 @@
             <el-table-column label="操作"
                              width="210">
                 <template scope="scope">
-                    <el-button size="small"
-                               @click="handleBuy(scope.$index, scope.row)"
-                               v-if="scope.row.match.status=='1'">重入</el-button>
-                    <el-button type="danger"
-                               size="small"
-                               @click="handleScore(scope.$index, scope.row)"
-                               v-if="scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>
-                    <el-button type="warning"
-                               size="small"
-                               @click="handleAward(scope.$index, scope.row)"
-                               v-if="scope.row.match.result!=''">颁奖</el-button>
+                    <el-button size="small" @click="handleBuy(scope.$index, scope.row)" v-if="scope.row.match.status=='1'">重入</el-button>
+                    <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)" v-if="scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>
+                    <el-button type="warning" size="small" @click="handleAward(scope.$index, scope.row)" v-if="scope.row.match.status=='2'&&scope.row.match.result!=''">颁奖</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -498,11 +490,9 @@ export default {
             let perHand = that.buyForm.perHand;
             let handCount = that.buyForm.handCount;
             let totalPrice = that.buyForm.totalPrice;
-
-            if (perHand * handCount != totalPrice) {
+            if(perHand*handCount!=totalPrice&&!value.length){
                 callback(new Error('自定义总价时候，请输入备注'))
             }
-
             callback();
         }
 
