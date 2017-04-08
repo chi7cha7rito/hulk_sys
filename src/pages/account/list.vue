@@ -19,7 +19,7 @@
                               placeholder="身份证号"></el-input>
                 </el-form-item>
                 <el-form-item label="角色">
-                    <el-select v-model="sysUserFilters.status"
+                    <el-select v-model="sysUserFilters.roleType"
                                placeholder="请选择角色"
                                style="width:90px"
                                clearable>
