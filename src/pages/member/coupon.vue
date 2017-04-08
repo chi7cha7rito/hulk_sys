@@ -11,7 +11,7 @@
                               placeholder="手机号"></el-input>
                 </el-form-item>
                 <el-form-item label="类型">
-                    <el-select v-model="couponFilters.gender"
+                    <el-select v-model="couponFilters.type"
                                placeholder="请选择类型"
                                clearable
                                style="width:90px">
@@ -20,7 +20,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="来源">
-                    <el-select v-model="couponFilters.gender"
+                    <el-select v-model="couponFilters.source"
                                placeholder="请选择来源"
                                clearable
                                style="width:90px">
@@ -115,6 +115,7 @@
                 <template scope="scope">
                     <el-button type="danger"
                                size="small"
+                               v-if="scope.row.status == '1'"
                                @click="handleWithDraw(scope.row.id)">
                         作废</el-button>
                 </template>
@@ -143,10 +144,18 @@
                      ref="couponAddForm">
                 <el-form-item label="手机号"
                               prop="phoneNo">
-                    <el-col :span="10">
-                        <el-input v-model="couponAddForm.phoneNo"
-                                  auto-complete="off"></el-input>
-                    </el-col>
+                    <el-select v-model="couponAddForm.phoneNo"
+                               filterable
+                               remote
+                               placeholder="请输入手机号"
+                               :remote-method="getMemberList"
+                               :loading="selectLoading">
+                        <el-option v-for="item in availableMembers"
+                                   :key="item.id"
+                                   :label="item.phoneNoName"
+                                   :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="类型"
                               prop="type">
@@ -228,7 +237,8 @@ export default {
                     { required: true, message: '请选择来源', trigger: 'change' },
                 ]
             },
-            addLoading: false
+            addLoading: false,
+            selectLoading: false
         }
     },
     computed: {
@@ -238,7 +248,8 @@ export default {
             'couponListLoading',
             'couponTotal',
             'couponAddFormVisible',
-            'couponAddForm'
+            'couponAddForm',
+            'availableMembers'
         ])
     },
     methods: {
@@ -273,6 +284,16 @@ export default {
                     this.$message.error(err.message);
                 })
             })
+        },
+        getMemberList: function (phoneNo) {
+            if (phoneNo != '') {
+                this.selectLoading = true;
+                this.$store.dispatch('getAllMembers', phoneNo).then(() => {
+                    this.selectLoading = false;
+                }, err => {
+                    this.selectLoading = false;
+                })
+            }
         },
         addSubmit: function () {
             if (this.addLoading) return false
