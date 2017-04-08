@@ -67,6 +67,8 @@
 			</el-table-column>
 			<el-table-column prop="openingDatetime" label="比赛时间" :formatter="formatSatrtDate">
 			</el-table-column>
+			 <el-table-column prop="applyOnline" label="在线报名" :formatter="formatApplyOnline">
+            </el-table-column>
 			<el-table-column label="操作" width="220">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
@@ -320,6 +322,15 @@
 			])
 		},
 		methods: {
+			formatApplyOnline(row, column) {
+				let str = "禁用";
+				if (row.applyOnline) {
+					str = "启用";
+				} else {
+					str = "禁用";
+				}
+				return str;
+       		},
 			formatStatus:function(row,column){
 				let str="已开始";
 				if(row.status=="1"){
