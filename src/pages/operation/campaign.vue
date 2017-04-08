@@ -389,7 +389,7 @@ export default {
             let handCount=that.buyForm.handCount;
             let totalPrice=that.buyForm.totalPrice;
 
-            if(perHand*handCount!=totalPrice){
+            if(perHand*handCount!=totalPrice&&!value.length){
                 callback(new Error('自定义总价时候，请输入备注'))
             }
 
