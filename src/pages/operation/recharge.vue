@@ -28,7 +28,7 @@
                     <el-option label="刷卡"
                                value="3"></el-option>
                     <el-option label="现金"
-                               value="3"></el-option>
+                               value="4"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="充值金额"
