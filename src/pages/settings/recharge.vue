@@ -60,14 +60,14 @@
                 <el-form-item label="满额"
                               prop="threshold">
                     <el-col :span="10">
-                        <el-input v-model="rechargeSetupDetails.threshold"
+                        <el-input v-model.number="rechargeSetupDetails.threshold"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="返现积分"
                               prop="reward">
                     <el-col :span="10">
-                        <el-input v-model="rechargeSetupDetails.reward"
+                        <el-input v-model.number="rechargeSetupDetails.reward"
                                   auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
