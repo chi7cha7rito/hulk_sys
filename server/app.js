@@ -12,6 +12,7 @@ var request=require('./utils/requestHepler')
 var index = require('./routes/index')
 var account = require('./routes/account')
 var api=require('./routes/api');
+var report=require('./routes/report')
 
 var app = express()
 
@@ -62,6 +63,7 @@ app.get('/__webpack_hmr', function (req, res) {
 app.use('/', index)
 app.use('/account', account)
 app.use('/api',api)
+app.use('/report',report)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
