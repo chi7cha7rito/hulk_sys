@@ -1,14 +1,21 @@
 <template>
-  <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+  <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="75px" class="demo-ruleForm login-container">
     <h3 class="title">系统登录</h3>
-    <el-form-item prop="account">
+    <el-form-item prop="account" label="账号">
       <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号" @keyup.enter.native="handleSubmit2"></el-input>
     </el-form-item>
-    <el-form-item prop="checkPass">
+    <el-form-item prop="checkPass" label="密码">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" @keyup.enter.native="handleSubmit2"></el-input>
     </el-form-item>
-    <!--<el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>-->
-    <el-form-item style="width:100%;">
+    <el-form-item prop="checkPass" label="验证码">
+       <el-col :span="12">
+          <el-input type="text" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="验证码" @keyup.enter.native="handleSubmit2"></el-input>
+       </el-col>
+       <el-col :span="12">
+          <img src="http://localhost:3000/common/genVerifyCodeImg" alt="验证码" style="margin-left:10px">
+       </el-col>
+    </el-form-item>
+    <el-form-item style="width:100%;" label-width="0">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
     </el-form-item>
   </el-form>

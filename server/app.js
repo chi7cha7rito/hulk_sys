@@ -13,6 +13,7 @@ var index = require('./routes/index')
 var account = require('./routes/account')
 var api=require('./routes/api');
 var report=require('./routes/report')
+var common=require('./routes/common');
 
 var app = express()
 
@@ -64,6 +65,7 @@ app.use('/', index)
 app.use('/account', account)
 app.use('/api',api)
 app.use('/report',report)
+app.use('/common',common)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
