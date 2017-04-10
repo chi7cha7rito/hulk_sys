@@ -7,12 +7,12 @@
     <el-form-item prop="checkPass" label="密码">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" @keyup.enter.native="handleSubmit2"></el-input>
     </el-form-item>
-    <el-form-item prop="checkPass" label="验证码">
+    <el-form-item prop="verifyCode" label="验证码">
        <el-col :span="12">
-          <el-input type="text" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="验证码" @keyup.enter.native="handleSubmit2"></el-input>
+          <el-input type="text" v-model="ruleForm2.verifyCode" auto-complete="off" placeholder="验证码" @keyup.enter.native="handleSubmit2"></el-input>
        </el-col>
        <el-col :span="12">
-          <img src="http://localhost:3000/common/genVerifyCodeImg" alt="验证码" style="margin-left:10px">
+          <img src="http://localhost:3000/common/genVerifyCodeImg" alt="验证码" style="margin-left:10px;cursor:pointer" @click="refreshCode">
        </el-col>
     </el-form-item>
     <el-form-item style="width:100%;" label-width="0">
@@ -35,7 +35,9 @@
         logining: false,
         ruleForm2: {
           account: '',
-          checkPass: ''
+          checkPass: '',
+          verifyCode:'',
+          count:0,
         },
         rules2: {
           account: [{
@@ -48,8 +50,7 @@
             message: '请输入密码',
             trigger: 'blur'
           }]
-        },
-        checked: true
+        }
       };
     },
     methods: {
@@ -63,7 +64,8 @@
             this.logining = true;
             var loginParams = {
               phoneNo: this.ruleForm2.account,
-              password: md5(this.ruleForm2.checkPass)
+              password: md5(this.ruleForm2.checkPass),
+              verifyCode:this.ruleForm2.verifyCode
             };
   
             if (this.logining) {
@@ -86,6 +88,9 @@
             return false;
           }
         });
+      },
+      refreshCode:function(e){
+        e.target.src=e.target.src+"?t="+new Date().valueOf();
       }
     }
   }
