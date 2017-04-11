@@ -112,14 +112,11 @@
                       :center="stepCenter"
                       :align-center="stepTextCenter"
                       style="margin-bottom:20px;">
-                <el-step title="选择比赛"
-                         description="赛事类型和赛事价格的选择">
+                <el-step title="选择比赛">
                 </el-step>
-                <el-step title="选择会员"
-                         description="会员和支付方式的选择">
+                <el-step title="选择会员">
                 </el-step>
-                <el-step title="确认报名"
-                         description="会员信息，支付方式，赛事信息确认">
+                <el-step title="确认报名">
                 </el-step>
             </el-steps>
             <el-form :model="matchSelectForm"
@@ -142,7 +139,7 @@
                         </el-select>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="价格"
+                <!--<el-form-item label="价格"
                               prop="matchPriceId">
                     <el-select v-model="matchSelectForm.matchPriceId"
                                placeholder="请选择价格"
@@ -154,29 +151,20 @@
                         </el-option>
                     </el-select>
                     </el-col>
-                </el-form-item>
-                <el-form-item>
+                </el-form-item>-->
+                <el-form-item style="margin-left:90px">
                     <el-button type="primary"
                                @click.native="handleStep1">下一步</el-button>
                 </el-form-item>
             </el-form>
+            
             <el-form :model="memberSelectForm"
                      label-width="100px"
                      :rules="memberSelectFormRules"
                      ref="memberSelectForm"
                      v-show="this.activeStep==2">
-                <el-form-item>
-                    <!--<el-col :span="8">
-                                            <el-alert
-                                                title="消息提示的文案"
-                                                type="info"
-                                                :closable="false"
-                                                show-icon>
-                                            </el-alert>
-                                        </el-col>-->
-                </el-form-item>
                 <el-form-item label="手机号"
-                              prop="phoneNo">
+                              prop="phoneNo" class="label-item">
                     <el-select v-model="memberSelectForm.phoneNo"
                                filterable
                                remote
@@ -191,32 +179,28 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="姓名">
+                <el-form-item label="姓名" v-if="memberSelectForm.name" class="label-item">
                     <el-col :span="6">
-                        <el-input v-model="memberSelectForm.name"
+                        <!--<el-input :value="`${memberSelectForm.name}(${memberSelectForm.level})`"
                                   auto-complete="off"
-                                  :readonly="true"></el-input>
+                                  :readonly="true"></el-input>-->
+                        <label>{{`${memberSelectForm.name}(${memberSelectForm.level})`}}</label>          
                     </el-col>
                 </el-form-item>
-                <el-form-item label="等级">
+                <el-form-item label="余额" v-if="memberSelectForm.name" class="label-item">
                     <el-col :span="6">
-                        <el-input v-model="memberSelectForm.level"
+                        <!--<el-input v-model="memberSelectForm.balance"
                                   auto-complete="off"
-                                  :readonly="true"></el-input>
+                                  :readonly="true"></el-input>-->
+                        <label>{{memberSelectForm.balance}}元</label>          
                     </el-col>
                 </el-form-item>
-                <el-form-item label="余额">
+                <el-form-item label="积分" v-if="memberSelectForm.name" class="label-item">
                     <el-col :span="6">
-                        <el-input v-model="memberSelectForm.balance"
+                        <!--<el-input v-model="memberSelectForm.points"
                                   auto-complete="off"
-                                  :readonly="true"></el-input>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="积分">
-                    <el-col :span="6">
-                        <el-input v-model="memberSelectForm.points"
-                                  auto-complete="off"
-                                  :readonly="true"></el-input>
+                                  :readonly="true"></el-input>-->
+                       <label>{{memberSelectForm.points}}</label>           
                     </el-col>
                 </el-form-item>
                 <el-form-item label="优惠券"
@@ -232,8 +216,21 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="赛事价格"
+                              prop="matchPriceId" v-if="memberSelectForm.name">
+                        <el-select v-model="memberSelectForm.matchPriceId"
+                                placeholder="请选择赛事价格"
+                                clearable
+                                @change="hanlePriceChange">
+                            <el-option v-for="item in priceList"
+                                    :label="formatPrice(item.type.name,item.price,item.points)"
+                                    :value="item.id.toString()">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </el-form-item>
                 <el-form-item label="支付方式"
-                              prop="payType">
+                              prop="payType" v-if="memberSelectForm.name">
                     <el-select v-model="memberSelectForm.payType"
                                placeholder="请选择支付类型"
                                clearable>
@@ -248,12 +245,12 @@
                                    :disabled="!memberSelectForm.couponList.length"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="margin-top:20px">
                     <el-button type="danger"
                                @click.native="handleBack1"
                                style="margin-right:20px;">上一步</el-button>
                     <el-button type="primary"
-                               @click.native="handleStep2">下一步</el-button>
+                               @click.native="handleStep2" :disabled="memberSelectForm.nextBtnDisabled">下一步</el-button>
                 </el-form-item>
             </el-form>
             <el-form label-width="100px"
@@ -528,9 +525,14 @@ export default {
                 balance: '',
                 points: '',
                 couponId: '',
-                couponList: []
+                matchPriceId:'',
+                couponList: [],
+                nextBtnDisabled:true
             },
             memberSelectFormRules: {
+                matchPriceId: [
+                    { required: true, message: "请选择比赛价格", trigger: 'change' }
+                ],
                 phoneNo: [
                     { required: true, message: "请输入手机号", trigger: 'blur' }
                 ],
@@ -715,6 +717,7 @@ export default {
                     that.memberSelectForm.points = res.points;
                     that.memberSelectForm.name = res.name;
                     that.memberSelectForm.level = res.memberLevel.name
+                    that.memberSelectForm.nextBtnDisabled=false;
                     if (res.coupon && res.coupon.length) {
                         res.coupon.forEach(oData => {
                             if (oData.subType.val == that.matchSelectForm.subType) {
@@ -906,6 +909,7 @@ export default {
             this.memberSelectForm.points = '';
             this.memberSelectForm.couponId = '';
             this.memberSelectForm.couponList = []
+            this.memberSelectForm.nextBtnDisabled=true;
         }
     },
     mounted() {
