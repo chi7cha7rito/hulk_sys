@@ -11,7 +11,7 @@ router.post('/common', function (req, res, next) {
     var params = req.body.params
 
     // 对于登录请求特殊处理，需要判断当图形验证码不为空的时候，验证是否与req.session.verifyCode一致
-    if (params.verifyCode && req.session.verifyCode&&req.session.verifyCode != params.verifyCode) {
+    if (params&&params.verifyCode && req.session.verifyCode&&req.session.verifyCode != params.verifyCode) {
        res.json({
         'status': '0',
         'message': '验证码不正确',
