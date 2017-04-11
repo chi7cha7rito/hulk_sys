@@ -25,7 +25,7 @@ const state = {
     name: '',
     status: '',
     type: '',
-    subType:''
+    subType: ''
   },
   addForm: {
     name: '',
@@ -37,22 +37,22 @@ const state = {
     holder: '',
     description: ''
   },
-  subTypeConfigs:[
+  subTypeConfigs: [
     {
-      id:'1',
-      name:'平日赛'
+      id: '1',
+      name: '平日赛'
     },
     {
-      id:'2',
-      name:'周末赛'
+      id: '2',
+      name: '周末赛'
     },
     {
-      id:'3',
-      name:'月度会员杯赛'
+      id: '3',
+      name: '月度会员杯赛'
     },
     {
-      id:'4',
-      name:'年度会员杯赛'
+      id: '4',
+      name: '年度会员杯赛'
     }
   ],
   pricesConfigs: [{
@@ -114,6 +114,7 @@ const state = {
     rewardList: [{
       ranking: '1',
       rewardPoints: '0',
+      remark: '',
       status: true
     }]
   },
@@ -136,7 +137,7 @@ const getters = {
   matchRewardAddForm: state => state.matchRewardAddForm,
   pricesConfigs: state => state.pricesConfigs,
   rewardConfigs: state => state.rewardConfigs,
-  subTypeConfigs:state=>state.subTypeConfigs
+  subTypeConfigs: state => state.subTypeConfigs
 }
 
 /**
@@ -236,6 +237,7 @@ const actions = {
         tmpRewardList.push({
           'ranking': oReward.ranking,
           'rewardPoints': oReward.rewardPoints,
+          'remark': oReward.remark,
           'status': oReward.status ? '1' : '2'
         })
       })
@@ -304,6 +306,7 @@ const mutations = {
         tmpList.push({
           'ranking': oReward.ranking.toString(),
           'rewardPoints': oReward.rewardPoints.toString(),
+          'remark': oReward.remark,
           'status': oReward.status == '1' ? true : false,
           'key': new Date()
         })
@@ -344,6 +347,7 @@ const mutations = {
     let tmpReward = {
       'ranking': '',
       'rewardPoints': '',
+      'remark': '',
       'status': true,
       'key': new Date()
     }
@@ -379,6 +383,7 @@ const mutations = {
       {
         ranking: '1',
         rewardPoints: '0',
+        remark: '',
         status: true
       }
     ]

@@ -75,11 +75,12 @@
 			</el-table-column>
             <el-table-column prop="status" label="奖励配置" >
                 <template scope="scope">
-					<el-popover ref="rewardPopover" placement="right" width="200" trigger="hover">
+					<el-popover ref="rewardPopover" placement="right" width="400" trigger="hover">
                         <el-table :data="scope.row.matchRewards">
                             <el-table-column width="80" label="名次" prop="ranking">
                             </el-table-column>
                             <el-table-column width="120" property="rewardPoints" label="奖励积分"></el-table-column>
+							<el-table-column width="200" property="remark" label="备注"></el-table-column>
                         </el-table>
                     </el-popover>
                     <span v-popover:rewardPopover class="view">查看配置</span>
@@ -225,44 +226,55 @@
 								<el-button type="success" icon="plus" style="float:right;margin-right:20px" size="small" @click.native="handleAddReward('edit')">添加奖励配置</el-button>
                             </el-form-item>
 							<el-row v-for="(data,index) in matchRewardEditForm.rewardList">
-								<el-col :span="7">
-									<el-form-item label="名次" :prop="'rewardList.' + index.toString() + '.ranking'" :key="data.key"
-										:rules="[{required: true, message: '名次不能为空', trigger: 'change'},
-												{validator:rewardValidator,trigger:'change'}]">
-										<el-col :span="24">
-											<el-select v-model="data.ranking" placeholder="请选择名次" clearable>
-                                    		<el-option
-													v-for="item in rewardConfigs"
-													:label="item.name"
-													:value="item.id.toString()">
-                                    			</el-option>
-                                			</el-select>
-										</el-col>
-									</el-form-item>
-								</el-col>
-								<el-col :span="7">
-									<el-form-item label="积分" :prop="'rewardList.' + index.toString() + '.rewardPoints'" :key="data.key" 
-										:rules="[
-										{ required: true, message: '请输入积分', trigger: 'blur' },
-										{ pattern:/^[0-9]*[1-9][0-9]*$/, message: '积分必须为正整数', trigger: 'blur,change' }
-										]">
-										<el-col :span="24">
-											<el-input v-model="data.rewardPoints"  auto-complete="off"></el-input>
-										</el-col>
-									</el-form-item>
-								</el-col>	
-								 <el-col :span="5">
-									<el-form-item label="状态" :prop="'rewardList.' + index.toString() + '.status'">
-										<el-col>
-											<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
-										</el-col>
-									</el-form-item>
-								</el-col>
-								<el-col :span="4">
-									<el-col class="del_reward">
-										<el-button type="danger" icon="delete"  size="small" @click.native="handleDelReward({'item':data,'type':'edit'})"></el-button>
+								<el-row>
+									<el-col :span="7">
+										<el-form-item label="名次" :prop="'rewardList.' + index.toString() + '.ranking'" :key="data.key"
+											:rules="[{required: true, message: '名次不能为空', trigger: 'change'},
+													{validator:rewardValidator,trigger:'change'}]">
+											<el-col :span="24">
+												<el-select v-model="data.ranking" placeholder="请选择名次" clearable>
+												<el-option
+														v-for="item in rewardConfigs"
+														:label="item.name"
+														:value="item.id.toString()">
+													</el-option>
+												</el-select>
+											</el-col>
+										</el-form-item>
+									</el-col>
+									<el-col :span="7">
+										<el-form-item label="积分" :prop="'rewardList.' + index.toString() + '.rewardPoints'" :key="data.key" 
+											:rules="[
+											{ required: true, message: '请输入积分', trigger: 'blur' },
+											{ pattern:/^[0-9]*[1-9][0-9]*$/, message: '积分必须为正整数', trigger: 'blur,change' }
+											]">
+											<el-col :span="24">
+												<el-input v-model="data.rewardPoints"  auto-complete="off"></el-input>
+											</el-col>
+										</el-form-item>
+									</el-col>
+									<el-col :span="5">
+										<el-form-item label="状态" :prop="'rewardList.' + index.toString() + '.status'">
+											<el-col>
+												<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
+											</el-col>
+										</el-form-item>
+									</el-col>
+									<el-col :span="4">
+										<el-col class="del_reward">
+											<el-button type="danger" icon="delete"  size="small" @click.native="handleDelReward({'item':data,'type':'edit'})"></el-button>
+										</el-col>	
 									</el-col>	
-								</el-col>						
+								</el-row>
+								<el-row>
+									<el-col :span="16">
+									<el-form-item label="备注" :prop="'rewardList.' + index.toString() + '.remark'">
+										<el-col :span="24">
+											<el-input v-model="data.remark"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
+									</el-col>		
+								</el-row>					
 							</el-row>
 						</el-form>
                     </el-tab-pane>
@@ -392,44 +404,55 @@
 								<el-button type="success" icon="plus" style="float:right;margin-right:20px" size="small" @click.native="handleAddReward('add')">添加奖励配置</el-button>
                             </el-form-item>
 							<el-row v-for="(data,index) in matchRewardAddForm.rewardList">
-								<el-col :span="7">
-									<el-form-item label="名次" :prop="'rewardList.' + index.toString() + '.ranking'" :key="data.key"
-										:rules="[{required: true, message: '名次不能为空', trigger: 'change'},
-												{validator:rewardValidatorForAdd,trigger:'change'}]">
-										<el-col :span="24">
-											<el-select v-model="data.ranking" placeholder="请选择名次" clearable>
-                                    		<el-option
-													v-for="item in rewardConfigs"
-													:label="item.name"
-													:value="item.id.toString()">
-                                    			</el-option>
-                                			</el-select>
-										</el-col>
-									</el-form-item>
-								</el-col>
-								<el-col :span="7">
-									<el-form-item label="积分" :prop="'rewardList.' + index.toString() + '.rewardPoints'" :key="data.key" 
-										:rules="[
-										{ required: true, message: '请输入积分', trigger: 'blur' },
-										{ pattern:/^[0-9]*[1-9][0-9]*$/, message: '必须为正整数', trigger: 'blur,change' }
-										]">
-										<el-col :span="24">
-											<el-input v-model="data.rewardPoints"  auto-complete="off"></el-input>
-										</el-col>
-									</el-form-item>
-								</el-col>	
-								 <el-col :span="5">
-									<el-form-item label="状态" :prop="'rewardList.' + index.toString() + '.status'">
-										<el-col>
-											<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
-										</el-col>
-									</el-form-item>
-								</el-col>
-								<el-col :span="4">
-									<el-col class="del_reward">
-										<el-button type="danger" icon="delete"  size="small" @click.native="handleDelReward({'item':data,'type':'add'})"></el-button>
+								<el-row>
+									<el-col :span="7">
+										<el-form-item label="名次" :prop="'rewardList.' + index.toString() + '.ranking'" :key="data.key"
+											:rules="[{required: true, message: '名次不能为空', trigger: 'change'},
+													{validator:rewardValidatorForAdd,trigger:'change'}]">
+											<el-col :span="24">
+												<el-select v-model="data.ranking" placeholder="请选择名次" clearable>
+												<el-option
+														v-for="item in rewardConfigs"
+														:label="item.name"
+														:value="item.id.toString()">
+													</el-option>
+												</el-select>
+											</el-col>
+										</el-form-item>
+									</el-col>
+									<el-col :span="7">
+										<el-form-item label="积分" :prop="'rewardList.' + index.toString() + '.rewardPoints'" :key="data.key" 
+											:rules="[
+											{ required: true, message: '请输入积分', trigger: 'blur' },
+											{ pattern:/^[0-9]*[1-9][0-9]*$/, message: '必须为正整数', trigger: 'blur,change' }
+											]">
+											<el-col :span="24">
+												<el-input v-model="data.rewardPoints"  auto-complete="off"></el-input>
+											</el-col>
+										</el-form-item>
 									</el-col>	
-								</el-col>						
+									<el-col :span="5">
+										<el-form-item label="状态" :prop="'rewardList.' + index.toString() + '.status'">
+											<el-col>
+												<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
+											</el-col>
+										</el-form-item>
+									</el-col>
+									<el-col :span="4">
+										<el-col class="del_reward">
+											<el-button type="danger" icon="delete"  size="small" @click.native="handleDelReward({'item':data,'type':'add'})"></el-button>
+										</el-col>	
+									</el-col>
+								</el-row>
+								<el-row>
+									<el-col :span="16">
+									<el-form-item label="备注" :prop="'rewardList.' + index.toString() + '.remark'">
+										<el-col :span="24">
+											<el-input v-model="data.remark"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
+									</el-col>		
+								</el-row>		
 							</el-row>
 						</el-form>
                     </el-tab-pane>
