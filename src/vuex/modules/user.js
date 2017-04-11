@@ -21,7 +21,7 @@ const state = {
     newPwd: '',
     confirmPwd: ''
   },
-  genVerifyCodeUrl:"/common/genVerifyCodeImg"
+  genVerifyCodeUrl: '/common/genVerifyCodeImg'
 }
 
 const actions = {
@@ -30,7 +30,7 @@ const actions = {
    */
   setUserInfo({ commit }, res) {
     util.removeUserInfo()
-    util.setUserInfo(JSON.stringify({'id': res.id, 'roleType': res.roleType.val,'name':res.name}))
+    util.setUserInfo(JSON.stringify({'id': res.id, 'roleType': res.roleType.val,'name': res.name}))
     commit(types.SET_USER_INFO, res)
     commit(types.SET_LOGIN_STATUS, true)
   },
@@ -68,7 +68,7 @@ const actions = {
         commit(types.GET_USER_DATA, res.data)
       })
   },
-  changeVerifyCodeUrl({commit}){
+  changeVerifyCodeUrl({commit}) {
     commit(types.CHANGE_VERIFY_CODE_URL)
   }
 }
@@ -78,7 +78,8 @@ const getters = {
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
   changePassword: state => state.changePassword,
-  genVerifyCodeUrl:(state,getters,rootState)=>{return rootState.com.domain+state.genVerifyCodeUrl}
+  genVerifyCodeUrl: (state, getters, rootState) => {
+    return rootState.com.domain + state.genVerifyCodeUrl}
 }
 
 const mutations = {
@@ -93,8 +94,8 @@ const mutations = {
   [types.GET_USER_DATA](state, res) {
     state.userData = res
   },
-  [types.CHANGE_VERIFY_CODE_URL](state){
-    state.genVerifyCodeUrl+="?t="+new Date().valueOf();
+  [types.CHANGE_VERIFY_CODE_URL](state) {
+    state.genVerifyCodeUrl += '?t=' + new Date().valueOf()
   }
 }
 

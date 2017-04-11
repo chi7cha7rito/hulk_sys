@@ -9,10 +9,10 @@ const state = {
   total: 0, // 查询列表的总数量
   editFormVisible: false, // 弹框编辑Form的显示状态
   addFormVisible: false, // 弹框添加Form的显示状态,
-  thirdFormVisible:false,// 当前页面第三个弹框添加Form的显示状态,
+  thirdFormVisible: false, // 当前页面第三个弹框添加Form的显示状态,
   pageIndex: 1, // 全局的页面维护
   pageSize: 10, // 全局的pageSize 定义,
-  domain:process.env.NODE_ENV !== 'production'?"http://localhost:3000":"",
+  domain: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : '',
   payTypeConfig: [
     {
       id: '1',
@@ -67,7 +67,7 @@ const actions = {
    * @param {*} param0 
    * @param {*} status 
    */
-  setThirdFormVisible({commit},status){
+  setThirdFormVisible({commit}, status) {
     commit(types.COM_THIRD_FORM_VISIBLE, status)
   },
   /**
@@ -92,9 +92,10 @@ const getters = {
   total: state => state.total,
   editFormVisible: state => state.editFormVisible,
   addFormVisible: state => state.addFormVisible,
-  thirdFormVisible:state=>state.thirdFormVisible,
+  thirdFormVisible: state => state.thirdFormVisible,
   pageIndex: state => state.pageIndex,
-  payTypeConfig:state=>state.payTypeConfig
+  payTypeConfig: state => state.payTypeConfig,
+  domain: state => state.domain
 }
 
 const mutations = {

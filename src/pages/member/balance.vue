@@ -46,7 +46,7 @@
                 <el-form-item>
                     <el-button type="primary"
                                v-on:click="getList">查询</el-button>
-                    <el-button type="primary"><a :href="`http://localhost:3000/report/balance?phoneNo=${balanceFilters.phoneNo}&type=${balanceFilters.type}&startCreatedAt=${balanceFilters.startCreatedAt}&endCreatedAt=${balanceFilters.endCreatedAt}`" target="_blank">导出</a></el-button>
+                    <el-button type="primary"><a :href="`${domain}/report/balance?phoneNo=${balanceFilters.phoneNo}&type=${balanceFilters.type}&startCreatedAt=${balanceFilters.startCreatedAt}&endCreatedAt=${balanceFilters.endCreatedAt}`" target="_blank">导出</a></el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -125,7 +125,8 @@ export default {
             'balanceList',
             'balanceFilters',
             'balanceListLoading',
-            'balanceTotal'
+            'balanceTotal',
+            'domain'
         ])
     },
     methods: {

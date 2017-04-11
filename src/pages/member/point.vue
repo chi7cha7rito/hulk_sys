@@ -44,7 +44,7 @@
                 <el-form-item>
                     <el-button type="primary"
                                v-on:click="getList">查询</el-button>
-                    <el-button type="primary"><a :href="`http://localhost:3000/report/points?phoneNo=${pointsFilters.phoneNo}&type=${pointsFilters.type}&startCreatedAt=${pointsFilters.startCreatedAt}&endCreatedAt=${pointsFilters.endCreatedAt}`"
+                    <el-button type="primary"><a :href="`${domain}/report/points?phoneNo=${pointsFilters.phoneNo}&type=${pointsFilters.type}&startCreatedAt=${pointsFilters.startCreatedAt}&endCreatedAt=${pointsFilters.endCreatedAt}`"
                            target="_blank">导出</a></el-button>
                 </el-form-item>
             </el-form>
@@ -124,7 +124,8 @@ export default {
             'pointsList',
             'pointsFilters',
             'pointsListLoading',
-            'pointsTotal'
+            'pointsTotal',
+            'domain'
         ])
     },
     methods: {
