@@ -11,7 +11,8 @@ const state = {
   addFormVisible: false, // 弹框添加Form的显示状态,
   thirdFormVisible:false,// 当前页面第三个弹框添加Form的显示状态,
   pageIndex: 1, // 全局的页面维护
-  pageSize: 10, // 全局的pageSize 定义
+  pageSize: 10, // 全局的pageSize 定义,
+  domain:process.env.NODE_ENV !== 'production'?"http://localhost:3000":"",
   payTypeConfig: [
     {
       id: '1',

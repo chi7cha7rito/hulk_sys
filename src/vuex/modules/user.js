@@ -21,7 +21,7 @@ const state = {
     newPwd: '',
     confirmPwd: ''
   },
-  genVerifyCodeUrl:process.env.NODE_ENV !== 'production'?"http://localhost:3000/common/genVerifyCodeImg":"/common/genVerifyCodeImg"
+  genVerifyCodeUrl:"/common/genVerifyCodeImg"
 }
 
 const actions = {
@@ -78,7 +78,7 @@ const getters = {
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
   changePassword: state => state.changePassword,
-  genVerifyCodeUrl:state=>state.genVerifyCodeUrl
+  genVerifyCodeUrl:(state,getters,rootState)=>{return rootState.com.domain+state.genVerifyCodeUrl}
 }
 
 const mutations = {
