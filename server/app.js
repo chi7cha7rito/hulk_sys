@@ -39,8 +39,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
   secret: 'hulk_club',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  name:"hulk",
+  cookie: {maxAge: 80000 },
+  saveUninitialized: true
 }))
 
 /**
