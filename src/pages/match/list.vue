@@ -69,6 +69,11 @@
 			</el-table-column>
 			 <el-table-column prop="applyOnline" label="在线报名" :formatter="formatApplyOnline">
             </el-table-column>
+			<el-table-column label="参赛人数">
+				<template scope="scope">
+						<span>{{scope.row.attendances.length}}</span>
+				</template>
+			</el-table-column>
 			<el-table-column label="操作" width="220">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
