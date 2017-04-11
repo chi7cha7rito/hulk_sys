@@ -20,7 +20,8 @@ const state = {
     originalPwd: '',
     newPwd: '',
     confirmPwd: ''
-  }
+  },
+  genVerifyCodeUrl:process.env.NODE_ENV !== 'production'?"http://localhost:3000/common/genVerifyCodeImg":"/common/genVerifyCodeImg"
 }
 
 const actions = {
@@ -66,6 +67,9 @@ const actions = {
         commit(types.COM_LOADING_STATUS, false)
         commit(types.GET_USER_DATA, res.data)
       })
+  },
+  changeVerifyCodeUrl({commit}){
+    commit(types.CHANGE_VERIFY_CODE_URL)
   }
 }
 
@@ -73,7 +77,8 @@ const getters = {
   getUserData: state => state.userData,
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
-  changePassword: state => state.changePassword
+  changePassword: state => state.changePassword,
+  genVerifyCodeUrl:state=>state.genVerifyCodeUrl
 }
 
 const mutations = {
@@ -87,6 +92,9 @@ const mutations = {
 
   [types.GET_USER_DATA](state, res) {
     state.userData = res
+  },
+  [types.CHANGE_VERIFY_CODE_URL](state){
+    state.genVerifyCodeUrl+="?t="+new Date().valueOf();
   }
 }
 

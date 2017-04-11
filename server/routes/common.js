@@ -13,13 +13,16 @@ router.get('/genVerifyCodeImg', function (req, res, next) {
       offset: 20, // set text spacing,default is 40
 
       quality: 100, // set pic quality,default is 50,
-      fontsize:38
+      fontsize: 37,
+      generate: function () { // Custom the function to generate captcha text
+        return Math.random().toString().slice(-6)
+      }
     })
     var ary = captcha.get()
 
     var txt = ary[0]
 
-    req.session.verifyCode=txt;
+    req.session.verifyCode = txt
 
     var buf = ary[1]
 

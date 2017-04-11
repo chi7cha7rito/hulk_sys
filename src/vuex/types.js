@@ -13,6 +13,7 @@ export const COM_THIRD_FORM_VISIBLE='COM_THIRD_FORM_VISIBLE' //当前页的第�
 export const SET_USER_INFO = 'SETUSERINFO' // 设置用户信息
 export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS' // 设置登录状态
 export const GET_USER_DATA = 'GET_USER_DATA' // 获取用户数据信息
+export const CHANGE_VERIFY_CODE_URL='CHANGE_VERIFY_CODE_URL' //更改图片验证码生成URL
 
 /**
  * desc 赛事相关

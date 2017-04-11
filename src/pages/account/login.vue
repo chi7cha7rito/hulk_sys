@@ -7,12 +7,12 @@
     <el-form-item prop="checkPass" label="密码">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" @keyup.enter.native="handleSubmit2"></el-input>
     </el-form-item>
-    <el-form-item prop="verifyCode" label="验证码">
+    <el-form-item prop="verifyCode" label="验证码" v-if="count>=2">
        <el-col :span="12">
-          <el-input type="text" v-model="ruleForm2.verifyCode" auto-complete="off" placeholder="验证码" @keyup.enter.native="handleSubmit2"></el-input>
+          <el-input type="text" v-model="verifyCode" auto-complete="off" placeholder="验证码" @keyup.enter.native="handleSubmit2"></el-input>
        </el-col>
        <el-col :span="12">
-          <img src="http://localhost:3000/common/genVerifyCodeImg" alt="验证码" style="margin-left:10px;cursor:pointer" @click="refreshCode">
+          <img :src="this.genVerifyCodeUrl" alt="验证码" style="margin-left:10px;cursor:pointer" @click="refreshCode" id="imgverify">
        </el-col>
     </el-form-item>
     <el-form-item style="width:100%;" label-width="0">
@@ -25,19 +25,27 @@
   import api from '../../fetch/api'
   import md5 from 'md5'
   import {
-    mapActions
+    mapActions,mapGetters
   } from 'vuex'
   
   
   export default {
     data() {
+      let that=this;
+
+      let verifyCodeValidator=(rule,value,callback)=>{
+         if(that.count=="2"&&!that.verifyCode){
+           callback(new Error('请输入验证码'))
+         }
+
+         callback();
+      }
+
       return {
         logining: false,
         ruleForm2: {
           account: '',
-          checkPass: '',
-          verifyCode:'',
-          count:0,
+          checkPass: ''
         },
         rules2: {
           account: [{
@@ -49,9 +57,19 @@
             required: true,
             message: '请输入密码',
             trigger: 'blur'
+          }],
+          verifyCode:[{
+            validator:verifyCodeValidator,trigger:'blur'
           }]
-        }
+        },
+        verifyCode:'',
+        count:0,
       };
+    },
+     computed: {
+        ...mapGetters([
+            'genVerifyCodeUrl'
+        ])
     },
     methods: {
       ...mapActions({
@@ -65,7 +83,7 @@
             var loginParams = {
               phoneNo: this.ruleForm2.account,
               password: md5(this.ruleForm2.checkPass),
-              verifyCode:this.ruleForm2.verifyCode
+              verifyCode:this.verifyCode
             };
   
             if (this.logining) {
@@ -76,6 +94,11 @@
                 })
                 .catch(error => {
                   this.logining = false;
+                  this.count+=1;
+                  if(this.count>=2||error.message=="验证码不正确"){
+                    this.refreshCode();
+                  }
+
                   this.$message({
                     message: error.message,
                     type: 'error',
@@ -89,8 +112,8 @@
           }
         });
       },
-      refreshCode:function(e){
-        e.target.src=e.target.src+"?t="+new Date().valueOf();
+      refreshCode:function(){
+        this.$store.dispatch('changeVerifyCodeUrl')
       }
     }
   }
