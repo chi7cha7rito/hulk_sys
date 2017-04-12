@@ -230,7 +230,7 @@ const mutations = {
           'price': oPrice.price.toString(),
           'points': oPrice.points.toString(),
           'status': oPrice.status == '1' ? true : false,
-          'limitation':oPrice.limitation?oPrice.limitation:'0',
+          'limitation': oPrice.limitation ? oPrice.limitation : '0',
           'key': new Date()
         })
       })
