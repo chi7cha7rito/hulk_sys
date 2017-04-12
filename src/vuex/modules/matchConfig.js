@@ -157,7 +157,6 @@ const actions = {
     if (state.matchPricesEditForm.priceList && state.matchPricesEditForm.priceList.length) {
       state.matchPricesEditForm.priceList.forEach(oPrice => {
         tmpPriceList.push({
-          'id': oPrice.id,
           'type': oPrice.type,
           'price': oPrice.price,
           'points': oPrice.points,
@@ -227,7 +226,6 @@ const mutations = {
     if (res.matchPrices && res.matchPrices.length) {
       res.matchPrices.forEach(oPrice => {
         tmpList.push({
-          'id': oPrice.id,
           'type': oPrice.type.toString(),
           'price': oPrice.price.toString(),
           'points': oPrice.points.toString(),
