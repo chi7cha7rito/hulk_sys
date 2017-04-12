@@ -20,6 +20,7 @@ const state = {
     matchConfigId: '',
     perHand: '',
     status: '',
+    limitation:'',
     applyOnline:false
   },
   filters: {
@@ -36,6 +37,7 @@ const state = {
     matchConfigId: '',
     perHand: '',
     status: '1',
+    limitation:'0',
     applyOnline:false
   }
 }
@@ -155,6 +157,7 @@ const mutations = {
       'matchConfigId': data.matchConfig.id.toString(),
       'perHand': data.perHand,
       'status': data.status.toString(),
+      'limitation':data.limitation?data.limitation:0,
       'applyOnline':data.applyOnline
     }
     state.matchDetails = tmpData

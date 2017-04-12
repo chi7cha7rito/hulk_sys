@@ -74,6 +74,8 @@
 						<span>{{scope.row.attendances.length}}</span>
 				</template>
 			</el-table-column>
+			<el-table-column prop="limitation" label="最大报名人数">
+            </el-table-column>
 			<el-table-column label="操作" width="220">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
@@ -94,7 +96,7 @@
 
 		<!--编辑界面-->
 		<el-dialog title="编辑赛事" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
-			<el-form :model="matchDetails" label-width="110px" :rules="editFormRules" ref="editForm">
+			<el-form :model="matchDetails" label-width="120px" :rules="editFormRules" ref="editForm">
 				<el-form-item label="ID" prop="id">
 					<el-col :span="5">
 						<el-input v-model="matchDetails.id"  auto-complete="off" :disabled="true"></el-input>
@@ -126,6 +128,11 @@
 						<el-input v-model.number="matchDetails.perHand"  auto-complete="off"></el-input>
 					</el-col>				
 				</el-form-item>
+				<el-form-item label="最大报名人数" prop="limitation">
+					<el-col :span="5">
+						<el-input v-model.number="matchDetails.limitation"  auto-complete="off"></el-input>
+					</el-col>				
+				</el-form-item>
 				<el-form-item label="在线报名" prop="applyOnline">
 					<el-switch on-text="启用" off-text="禁用" v-model="matchDetails.applyOnline"></el-switch>
 				</el-form-item>
@@ -138,7 +145,7 @@
 
 		<!--添加界面-->
 	    <el-dialog title="添加赛事" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
-			<el-form :model="addMatchForm" label-width="100px" :rules="addFormRules" ref="addMatchForm">
+			<el-form :model="addMatchForm" label-width="120px" :rules="addFormRules" ref="addMatchForm">
 				<el-form-item label="类型" prop="matchConfigId">
 					<el-select v-model="addMatchForm.matchConfigId" placeholder="请选择赛事类型" clearable>
 						<el-option
@@ -157,6 +164,11 @@
 				<el-form-item label="每首价格(元)" prop="perHand">
 					<el-col :span="5">
 						<el-input v-model.number="addMatchForm.perHand"  auto-complete="off"></el-input>
+					</el-col>				
+				</el-form-item>
+				<el-form-item label="最大报名人数" prop="limitation">
+					<el-col :span="5">
+						<el-input v-model.number="addMatchForm.limitation"  auto-complete="off"></el-input>
 					</el-col>				
 				</el-form-item>
 				<el-form-item label="在线报名" prop="applyOnline">
@@ -294,7 +306,8 @@
 					perHand:[
 						{ required: true, message: '请填写每手价格'},
 						{ type: 'number', message: '价格必须为数字值'}
-					]
+					],
+					limitation:[{ pattern:/^\d+$/, message: '必须为正整数', trigger: 'blur,change' }]
 				},
 				pickerOptions1:{
 					disabledDate:function(obj){
