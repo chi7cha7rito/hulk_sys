@@ -232,7 +232,7 @@ router.get('/chips', function (req, res, next) {
  */
 router.get('/matchResult', function (req, res, next) {
   let {matchName, startOpening, endOpening} = req.query
-  return requestHelper.call('/match/findResult', 'get', req.query).then(function (data) {
+  return requestHelper.call('/attendance/findResult', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
       caption: '赛事名称',
@@ -245,6 +245,12 @@ router.get('/matchResult', function (req, res, next) {
       type: 'string',
       beforeCellWrite: function (row, cellData) {
         return row.member.user.name || ''
+      }
+    }, {
+      caption: '会员手机',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.member.user.phoneNo || ''
       }
     }, {
       caption: '比赛日期',
