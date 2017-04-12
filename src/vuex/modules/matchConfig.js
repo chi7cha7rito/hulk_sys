@@ -259,6 +259,7 @@ const mutations = {
       'price': '',
       'points': '',
       'status': true,
+      'limitation':'0',
       'key': new Date()
     }
     if (type == 'edit') {
@@ -314,6 +315,7 @@ const mutations = {
       type: '1',
       price: '0',
       points: '0',
+      limitation:'0',
       status: true
     }]
 
