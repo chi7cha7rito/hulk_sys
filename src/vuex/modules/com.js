@@ -26,6 +26,46 @@ const state = {
       id: '3',
       name: '优惠券'
     }
+  ],
+  rewardConfigs: [{
+    id: '1',
+    name: '第一名'
+  }, {
+    id: '2',
+    name: '第二名'
+  },
+    {
+      id: '3',
+      name: '第三名'
+    },
+    {
+      id: '4',
+      name: '第四名'
+    }, {
+      id: '5',
+      name: '第五名'
+    },
+    {
+      id: '6',
+      name: '第六名'
+    }],
+    subTypeConfigs: [
+    {
+      id: '1',
+      name: '平日赛'
+    },
+    {
+      id: '2',
+      name: '周末赛'
+    },
+    {
+      id: '3',
+      name: '月度会员杯赛'
+    },
+    {
+      id: '4',
+      name: '年度会员杯赛'
+    }
   ]
 }
 
@@ -95,7 +135,9 @@ const getters = {
   thirdFormVisible: state => state.thirdFormVisible,
   pageIndex: state => state.pageIndex,
   payTypeConfig: state => state.payTypeConfig,
-  domain: state => state.domain
+  domain: state => state.domain,
+  rewardConfigs: state => state.rewardConfigs,
+  subTypeConfigs: state => state.subTypeConfigs
 }
 
 const mutations = {

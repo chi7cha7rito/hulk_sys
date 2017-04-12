@@ -59,15 +59,16 @@
 			</el-table-column>
             <el-table-column prop="status" label="价格配置">
                 <template scope="scope">
-					<el-popover ref="pricePopover" placement="left" width="300" trigger="hover">
+					<el-popover ref="pricePopover" placement="left" width="350" trigger="hover">
                         <el-table :data="scope.row.matchPrices">
                             <el-table-column width="120" label="名称">
                                 <template scope="scope">
-					                <span>{{scope.row.type.name}}</span>
+					                <span>{{scope.row.Type?scope.row.Type.name:'优惠价'}}</span>
 				                </template>
                             </el-table-column>
                             <el-table-column width="90" property="price" label="价格"></el-table-column>
 							<el-table-column width="90" property="points" label="积分"></el-table-column>
+							<el-table-column width="90" property="limitation" label="人数"></el-table-column>
                         </el-table>
                     </el-popover>
                     <span v-popover:pricePopover class="view">查看价格</span>
@@ -106,7 +107,7 @@
 		</el-col>
 
 		<!--编辑界面 start-->
-		<el-dialog title="编辑赛事配置" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')">
+		<el-dialog title="编辑赛事配置" v-model="editFormVisible" :close-on-click-modal="true" @close="closeDialog('edit')" custom-class="addDialog">
             <template>
                 <el-tabs v-model="activeTab" @tab-click="handleTabClick">
                     <el-tab-pane label="基本信息" name="base">
@@ -140,7 +141,11 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="状态" prop="status">
-                                <el-switch on-text="启用" off-text="禁用" v-model="matchConfigDetails.status"></el-switch>
+								<el-select v-model="matchConfigDetails.status" placeholder="请选择状态" style="width:90px" clearable>
+									<el-option label="启用" value="1"></el-option>
+									<el-option label="禁用" value="2"></el-option>
+								</el-select>
+                                
                             </el-form-item>
                             <el-form-item label="举办方" prop="holder">
                                 <el-col :span="12">
@@ -168,14 +173,14 @@
 								<el-button type="success" icon="plus" style="float:right;margin-right:20px" size="small" @click.native="handleAddPrice('edit')">添加价格配置</el-button>
                             </el-form-item>
 							<el-row v-for="(data,index) in matchPricesEditForm.priceList">
-								<el-col :span="7">
+								<el-col :span="6">
 									<el-form-item label="类型" :prop="'priceList.' + index.toString() + '.type'" :key="data.key"
 										:rules="[{required: true, message: '类型不能为空', trigger: 'change'},
 												{validator:priceValidator,trigger:'change'}]">
 										<el-col :span="24">
 											<el-select v-model="data.type" placeholder="请选择类型" clearable>
                                     		<el-option
-													v-for="item in pricesConfigs"
+													v-for="item in memberLevel"
 													:label="item.name"
 													:value="item.id.toString()">
                                     			</el-option>
@@ -183,7 +188,7 @@
 										</el-col>
 									</el-form-item>
 								</el-col>
-								<el-col :span="5">
+								<el-col :span="4">
 									<el-form-item label="价格" :prop="'priceList.' + index.toString() + '.price'" :key="data.key"
 										:rules="[
 										{ required: true, message: '请输入价格', trigger: 'blur' },
@@ -194,7 +199,7 @@
 										</el-col>
 									</el-form-item>
 								</el-col>
-								<el-col :span="5">
+								<el-col :span="4">
 									<el-form-item label="积分" :prop="'priceList.' + index.toString() + '.points'" :key="data.key" 
 										:rules="[
 										{ required: true, message: '请输入积分', trigger: 'blur' },
@@ -205,13 +210,24 @@
 										</el-col>
 									</el-form-item>
 								</el-col>	
-								 <el-col :span="5">
+								<el-col :span="4">
+									<el-form-item label="人数" :prop="'priceList.' + index.toString() + '.limitation'" :key="data.key"
+									:rules="[
+										{ pattern:/^\d+$/, message: '必须为正整数', trigger: 'blur,change' }
+										]">
+										<el-col :span="24">
+											<el-input v-model="data.limitation"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
+								</el-col>	
+								 <el-col :span="4">
 									<el-form-item label="状态" :prop="'priceList.' + index.toString() + '.status'">
 										<el-col>
 											<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
 										</el-col>
 									</el-form-item>
 								</el-col>
+
 								<el-col :span="2">
 									<el-col class="del_price">
 										<el-button type="danger" icon="delete"  size="small" @click.native="handleDelPrice({'item':data,'type':'edit'})"></el-button>
@@ -289,7 +305,7 @@
 		<!--编辑界面 end-->
 
 		<!--添加界面 start-->
-		<el-dialog title="添加赛事配置" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')">
+		<el-dialog title="添加赛事配置" v-model="addFormVisible" :close-on-click-modal="true" @close="closeDialog('add')" custom-class="addDialog">
             <template>
                 <el-tabs v-model="activeTab" @tab-click="handleTabClick">
                     <el-tab-pane label="基本信息" name="base">
@@ -317,9 +333,13 @@
                                     </el-option>			
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="状态" prop="status">
+                            <!--<el-form-item label="状态" prop="status">
+								<el-select v-model="addMatchConfigForm.status" placeholder="请选择状态" style="width:90px" clearable>
+									<el-option label="启用" value="1"></el-option>
+									<el-option label="禁用" value="2"></el-option>
+								</el-select>
                                 <el-switch on-text="启用" off-text="禁用" v-model="addMatchConfigForm.status"></el-switch>
-                            </el-form-item>
+                            </el-form-item>-->
                             <el-form-item label="举办方" prop="holder">
                                 <el-col :span="12">
                                     <el-input v-model="addMatchConfigForm.holder"  auto-complete="off"></el-input>
@@ -346,14 +366,14 @@
 								<el-button type="success" icon="plus" style="float:right;margin-right:20px" size="small" @click.native="handleAddPrice('add')">添加价格配置</el-button>
                             </el-form-item>
 							<el-row v-for="(data,index) in matchPricesAddForm.priceList">
-								<el-col :span="7">
+								<el-col :span="6">
 									<el-form-item label="类型" :prop="'priceList.' + index.toString() + '.type'" :key="data.key"
 										:rules="[{required: true, message: '类型不能为空', trigger: 'change'},
 												{validator:priceValidatorForAdd,trigger:'change'}]">
 										<el-col :span="24">
 											<el-select v-model="data.type" placeholder="请选择类型" clearable>
                                     			<el-option
-													v-for="item in pricesConfigs"
+													v-for="item in memberLevel"
 													:label="item.name"
 													:value="item.id.toString()">
                                     			</el-option>
@@ -361,7 +381,7 @@
 										</el-col>
 									</el-form-item>
 								</el-col>
-								<el-col :span="5">
+								<el-col :span="4">
 									<el-form-item label="价格" :prop="'priceList.' + index.toString() + '.price'" :key="data.key"
 										:rules="[
 										{ required: true, message: '请输入价格', trigger: 'blur' },
@@ -372,7 +392,7 @@
 										</el-col>
 									</el-form-item>
 								</el-col>
-								<el-col :span="5">
+								<el-col :span="4">
 									<el-form-item label="积分" :prop="'priceList.' + index.toString() + '.points'" :key="data.key" 
 										:rules="[
 										{ required: true, message: '请输入积分', trigger: 'blur' },
@@ -382,8 +402,18 @@
 											<el-input v-model="data.points"  auto-complete="off"></el-input>
 										</el-col>
 									</el-form-item>
+								</el-col>
+								<el-col :span="4">
+									<el-form-item label="人数" :prop="'priceList.' + index.toString() + '.limitation'" :key="data.key"
+									:rules="[
+										{ pattern:/^\d+$/, message: '必须为正整数', trigger: 'blur,change' }
+										]">
+										<el-col :span="24">
+											<el-input v-model="data.limitation"  auto-complete="off"></el-input>
+										</el-col>
+									</el-form-item>
 								</el-col>	
-								 <el-col :span="5">
+								<el-col :span="4">
 									<el-form-item label="状态" :prop="'priceList.' + index.toString() + '.status'">
 										<el-col>
 											<el-switch on-text="启用" off-text="禁用" v-model="data.status"></el-switch>
@@ -493,7 +523,7 @@
 						{ required: true,message:"请选择赛事类型", trigger: 'change' }
 					],
 					status:[
-						{type:"boolean",required: true, message: '请选择状态', trigger: 'change'}
+						{required: true, message: '请选择状态', trigger: 'change'}
 					],
                     online:[
 						{type:"boolean",required: true, message: '请选择是否是online', trigger: 'change'}
@@ -523,7 +553,8 @@
 				'matchPricesEditForm',
 				'matchPricesAddForm',
 				'matchRewardEditForm',
-				'matchRewardAddForm'
+				'matchRewardAddForm',
+				'memberLevel'
 			])
 		},
 		methods: {
@@ -549,6 +580,11 @@
 					this.$store.dispatch('getMatchTypeList');
 				}
 			},
+			getMemberLevel() {
+				if (this.memberLevel.length == 0) {
+					this.$store.dispatch('getMemberLevel');
+				}
+        	},
 			handleEdit: function (index, row) {
                 this.$store.dispatch('getMatchConfigDetails',{
 					id:row.id
@@ -724,16 +760,20 @@
 		mounted() {
 			this.getMatchTypeList();
 			this.getList();
+			this.getMemberLevel();
 		}
 	}
 
 </script>
 
-<style scoped>
+<style>
     .view{
         cursor: pointer;
         color: #50bfff;
     }
+	.addDialog{
+		width:60% !important;
+	}
 
 	.del_price,.del_reward{
 		margin-top: 5px;

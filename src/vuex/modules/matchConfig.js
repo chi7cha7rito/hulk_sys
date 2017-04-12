@@ -32,78 +32,17 @@ const state = {
     url: '',
     type: '',
     subType: '',
-    status: true,
+    status: '1',
     online: false,
     holder: '',
     description: ''
   },
-  subTypeConfigs: [
-    {
-      id: '1',
-      name: '平日赛'
-    },
-    {
-      id: '2',
-      name: '周末赛'
-    },
-    {
-      id: '3',
-      name: '月度会员杯赛'
-    },
-    {
-      id: '4',
-      name: '年度会员杯赛'
-    }
-  ],
-  pricesConfigs: [{
-    id: '1',
-    name: '线上价格'
-  }, {
-    id: '2',
-    name: '原价'
-  },
-    {
-      id: '3',
-      name: '高级会员价'
-    },
-    {
-      id: '4',
-      name: '豪客价'
-    }, {
-      id: '5',
-      name: '豪爵价'
-    }, {
-      id: '6',
-      name: '优惠价'
-    }
-  ],
-  rewardConfigs: [{
-    id: '1',
-    name: '第一名'
-  }, {
-    id: '2',
-    name: '第二名'
-  },
-    {
-      id: '3',
-      name: '第三名'
-    },
-    {
-      id: '4',
-      name: '第四名'
-    }, {
-      id: '5',
-      name: '第五名'
-    },
-    {
-      id: '6',
-      name: '第六名'
-    }],
   matchPricesAddForm: {
     priceList: [{
       type: '1',
       price: '0',
       points: '0',
+      limitation: '0',
       status: true
     }]
   },
@@ -134,10 +73,7 @@ const getters = {
   matchPricesEditForm: state => state.matchPricesEditForm,
   matchPricesAddForm: state => state.matchPricesAddForm,
   matchRewardEditForm: state => state.matchRewardEditForm,
-  matchRewardAddForm: state => state.matchRewardAddForm,
-  pricesConfigs: state => state.pricesConfigs,
-  rewardConfigs: state => state.rewardConfigs,
-  subTypeConfigs: state => state.subTypeConfigs
+  matchRewardAddForm: state => state.matchRewardAddForm
 }
 
 /**
@@ -174,7 +110,6 @@ const actions = {
    * @desc 添加赛事配置
    */
   addMatchConfig({state, commit}, palyload) {
-    debugger
     let data = state.addForm
     let tmpPriceList = [],tmpRewardList = []
     data.status = state.addForm.status ? '1' : '2'
@@ -186,7 +121,8 @@ const actions = {
           'type': oPrice.type,
           'price': oPrice.price,
           'points': oPrice.points,
-          'status': oPrice.status ? '1' : '2'
+          'status': oPrice.status ? '1' : '2',
+          'limitation': oPrice.limitation ? oPrice.limitation : '0'
         })
       })
     }
@@ -215,7 +151,7 @@ const actions = {
   editMatchConfig({state, commit}, palyload) {
     let data = state.details
     let tmpPriceList = [],tmpRewardList = []
-    data.status = state.details.status ? '1' : '2'
+    // data.status = state.details.status ? '1' : '2'
 
     // make priceList
     if (state.matchPricesEditForm.priceList && state.matchPricesEditForm.priceList.length) {
@@ -224,7 +160,8 @@ const actions = {
           'type': oPrice.type,
           'price': oPrice.price,
           'points': oPrice.points,
-          'status': oPrice.status ? '1' : '2'
+          'status': oPrice.status,
+          'limitation': oPrice.limitation
         })
       })
     }
@@ -277,7 +214,7 @@ const mutations = {
       'subType': data.subType.val.toString(),
       'online': data.online,
       'url': data.url,
-      'status': data.status == '1' ? true : false,
+      'status': data.status.toString(),
       'holder': data.holder,
       'description': data.description
     }
@@ -289,10 +226,11 @@ const mutations = {
     if (res.matchPrices && res.matchPrices.length) {
       res.matchPrices.forEach(oPrice => {
         tmpList.push({
-          'type': oPrice.type.val.toString(),
+          'type': oPrice.type.toString(),
           'price': oPrice.price.toString(),
           'points': oPrice.points.toString(),
           'status': oPrice.status == '1' ? true : false,
+          'limitation':oPrice.limitation?oPrice.limitation:'0',
           'key': new Date()
         })
       })

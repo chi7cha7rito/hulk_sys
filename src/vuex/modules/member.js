@@ -145,6 +145,10 @@ const mutations = {
   },
   [types.GET_MEMBER_LEVEL](state, data) {
     state.memberLevel = data
+    state.memberLevel.push({
+      id:99,
+      name:'优惠价'
+    })
   },
   [types.GET_MEMBER_DETAILS](state, data) {
     let tmpData = {
