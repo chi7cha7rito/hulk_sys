@@ -16,7 +16,7 @@
                                    placeholder="请输入手机号"
                                    :remote-method="getMemberList"
                                    :loading="selectLoading"
-                                   @change="balancePhoneChange">
+                                   @visible-change="balancePhoneChange">
                             <el-option v-for="item in availableMembers"
                                        :key="item.id"
                                        :label="item.phoneNoName"
@@ -78,7 +78,7 @@
                                    placeholder="请输入手机号"
                                    :remote-method="getMemberList"
                                    :loading="selectLoading"
-                                   @change="pointPhoneChange">
+                                   @visible-change="pointPhoneChange">
                             <el-option v-for="item in availableMembers"
                                        :key="item.id"
                                        :label="item.phoneNoName"
@@ -237,13 +237,17 @@ export default {
                 })
             }
         },
-        pointPhoneChange: function (id) {
-            this.$store.dispatch('clearTotalAvlPoints')
-            this.$store.dispatch("getTotalAvlPoints")
+        pointPhoneChange: function (val) {
+            if (!val) {
+                this.$store.dispatch('clearTotalAvlPoints')
+                this.$store.dispatch("getTotalAvlPoints")
+            }
         },
-        balancePhoneChange: function (id) {
-            this.$store.dispatch('clearTotalAvlBalance')
-            this.$store.dispatch("getTotalAvlBalance")
+        balancePhoneChange: function (val) {
+            if (!val) {
+                this.$store.dispatch('clearTotalAvlBalance')
+                this.$store.dispatch("getTotalAvlBalance")
+            }
         },
         addSubmit: function () {
             if (this.addLoading) { return false }
