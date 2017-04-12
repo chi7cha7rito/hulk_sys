@@ -29,6 +29,8 @@
                 <el-form-item>
                     <el-button type="primary"
                                v-on:click="getList">查询</el-button>
+                    <el-button type="primary"><a :href="`${domain}/report/chips?matchName=${chipStatsFilters.matchName}&startOpening=${chipStatsFilters.startOpening}&endOpening=${chipStatsFilters.endOpening}`"
+                           target="_blank">导出明细</a></el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -88,7 +90,8 @@ export default {
             'chipStatsList',
             'chipStatsFilters',
             'chipStatsListLoading',
-            'chipStatsTotal'
+            'chipStatsTotal',
+            'domain'
         ])
     },
     methods: {

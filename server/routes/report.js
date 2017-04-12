@@ -155,8 +155,6 @@ router.get('/points', function (req, res, next) {
   })
 })
 
-
-
 /**
  * 重入明细的导出
  */
@@ -165,64 +163,54 @@ router.get('/chips', function (req, res, next) {
   return requestHelper.call('/chip/findAll', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
-      caption: '姓名',
+      caption: '赛事名称',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.member.user.name || ''
+        return row['match.matchConfig.name'] || ''
       }
     }, {
-      caption: '手机号',
+      caption: '会员名称',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.member.user.phoneNo || ''
+        return row['member.user.name'] || ''
       }
     }, {
-      caption: '类型',
+      caption: '比赛时间',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.type.name || ''
+        return moment.utc(row['match.openingDatetime']).local().format('YYYY-MM-DD') || ''
       }
     }, {
-      caption: '金额',
+      caption: '每手价格',
       type: 'number',
       beforeCellWrite: function (row, cellData) {
-        return row.amount || 0
+        return row['match.perHand'] || 0
       }
     }, {
-      caption: '来源',
-      type: 'string',
+      caption: '购买手数',
+      type: 'number',
       beforeCellWrite: function (row, cellData) {
-        return row.source.name || ''
+        return row['quantity'] || 0
       }
     }, {
-      caption: '来源编号',
-      type: 'string',
+      caption: '付款金额',
+      type: 'number',
       beforeCellWrite: function (row, cellData) {
-        return row.sourceNo || ''
+        return row['payAmount'] || 0
       }
     }, {
-      caption: '备注',
+      caption: '付款方式',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.remark || ''
-      }
-    }, {
-      caption: '日期',
-      type: 'string',
-      beforeCellWrite: function (row, cellData) {
-        return moment.utc(row.createdAt).local().format('YYYY-MM-DD') || ''
-      }
-    }, {
-      caption: '时间',
-      type: 'string',
-      beforeCellWrite: function (row, cellData) {
-        return moment.utc(row.createdAt).local().format('HH:mm') || ''
+        if (row['payAmount'].toString() === '1') return '余额'
+        if (row['payAmount'].toString() === '2') return '积分'
+        return ''
       }
     }]
     conf.rows = data.data
     var result = nodeExcel.execute(conf)
     res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
-    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent('会员余额明细') + '.xlsx')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent('赛事重入明细') + '.xlsx')
     res.end(result, 'binary')
   }).catch(function (err) {
     res.json({
