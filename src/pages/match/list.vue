@@ -47,36 +47,34 @@
 	
 		<!--列表-->
 		<el-table :data="matchList"  v-loading="listLoading" style="width: 100%;">
-			<!--<el-table-column type="selection" width="55">
-			</el-table-column>-->
-			<el-table-column label="赛事名称">
+			<el-table-column label="赛事名称" width="130" fixed>
 				<template scope="scope">
 						<span>{{scope.row.matchConfig.name}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="类型">
+			<el-table-column label="类型" width="140">
 				<template scope="scope">
 					<span>{{scope.row.matchConfig.Type.name}}-{{scope.row.matchConfig.subType.name}}</span>
 				</template>
 			</el-table-column>		
-			<el-table-column prop="status" label="状态" :formatter="formatStatus">
+			<el-table-column prop="status" label="状态" :formatter="formatStatus" >
 			</el-table-column>
-			<el-table-column prop="closingDatetime" label="报名时间" :formatter="formatEndDate">
+			<el-table-column prop="closingDatetime" label="报名时间" :formatter="formatEndDate" width="180">
 			</el-table-column>
-			<el-table-column prop="perHand" label="每首价格(元)">
+			<el-table-column prop="openingDatetime" label="比赛时间" :formatter="formatSatrtDate" width="180">
 			</el-table-column>
-			<el-table-column prop="openingDatetime" label="比赛时间" :formatter="formatSatrtDate">
+			<el-table-column prop="perHand" label="每首价格(元)" width="160">
 			</el-table-column>
-			 <el-table-column prop="applyOnline" label="在线报名" :formatter="formatApplyOnline">
+			 <el-table-column prop="applyOnline" label="在线报名" :formatter="formatApplyOnline" width="180">
             </el-table-column>
-			<el-table-column label="参赛人数">
+			<el-table-column label="已参赛人数" width="160">
 				<template scope="scope">
 						<span>{{scope.row.attendances.length}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="limitation" label="最大报名人数">
+			<el-table-column prop="limitation" label="最大报名人数" width="160">
             </el-table-column>
-			<el-table-column label="操作" width="220">
+			<el-table-column label="操作" width="220"  fixed="right" align="center">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>

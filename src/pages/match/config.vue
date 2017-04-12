@@ -41,8 +41,8 @@
 	
 		<!--列表-->
 		<el-table :data="matchConfig_List" v-loading="listLoading" style="width: 100%;">			
-			<el-table-column  prop="id" label="id" width="55">
-			</el-table-column>
+			<!--<el-table-column  prop="id" label="id" width="55">
+			</el-table-column>-->
 			<el-table-column label="名称" prop="name">
 			</el-table-column>
 			<el-table-column label="类型" width="70">
@@ -89,7 +89,7 @@
 			</el-table-column>
             <el-table-column prop="holder" label="举办方">
 			</el-table-column>
-			<el-table-column label="操作" width="150">
+			<el-table-column label="操作" width="150" align="center">
 				<template scope="scope"> 
 					<el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>
@@ -112,11 +112,11 @@
                 <el-tabs v-model="activeTab" @tab-click="handleTabClick">
                     <el-tab-pane label="基本信息" name="base">
                         <el-form :model="matchConfigDetails" label-width="100px" :rules="editFormRules" ref="editForm">
-                            <el-form-item label="ID" prop="id">
+                            <!--<el-form-item label="ID" prop="id">
                                 <el-col :span="5">
                                     <el-input v-model="matchConfigDetails.id"  auto-complete="off" :disabled="true"></el-input>
                                 </el-col>				
-                            </el-form-item>
+                            </el-form-item>-->
                             <el-form-item label="名称" prop="name">
                                 <el-col :span="5">
                                     <el-input v-model="matchConfigDetails.name"  auto-complete="off"></el-input>
