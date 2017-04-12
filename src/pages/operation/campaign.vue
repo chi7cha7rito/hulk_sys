@@ -49,34 +49,34 @@
         <el-table :data="attendanceList"
                   v-loading="listLoading"
                   style="width: 100%;">
-            <el-table-column label="赛事名称">
-                <template scope="scope">
-                    <span>{{scope.row.match.matchConfig.name}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="赛事类型">
-                <template scope="scope">
-                    <span>{{scope.row.match.matchConfig.Type.name}}-{{scope.row.match.matchConfig.subType.name}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="每手价格（元）">
-                <template scope="scope">
-                    <span>{{scope.row.match.perHand}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="比赛时间">
-                <template scope="scope">
-                    <span>{{formatOpening(scope.row.match.openingDatetime)}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="会员名称">
+           <el-table-column label="会员名称" width="120" fixed>
                 <template scope="scope">
                     <span>{{scope.row.member.user.name}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="手机号">
+            <el-table-column label="手机号" width="160" fixed>
                 <template scope="scope">
                     <span>{{scope.row.member.user.phoneNo}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="赛事名称" width="120">
+                <template scope="scope">
+                    <span>{{scope.row.match.matchConfig.name}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="赛事类型" width="140">
+                <template scope="scope">
+                    <span>{{scope.row.match.matchConfig.Type.name}}-{{scope.row.match.matchConfig.subType.name}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="每手价格（元）" width="140">
+                <template scope="scope">
+                    <span>{{scope.row.match.perHand}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="比赛时间" width="180">
+                <template scope="scope">
+                    <span>{{formatOpening(scope.row.match.openingDatetime)}}</span>
                 </template>
             </el-table-column>
             <el-table-column prop="result"
@@ -85,8 +85,7 @@
             <el-table-column prop="rewards"
                              label="奖励">
             </el-table-column>
-            <el-table-column label="操作"
-                             width="210">
+            <el-table-column label="操作" width="150" fixed="right" align="center">
                 <template scope="scope">
                     <el-button size="small" @click="handleBuy(scope.$index, scope.row)" v-if="scope.row.match.status=='1'">重入</el-button>
                     <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)" v-if="scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>

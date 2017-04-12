@@ -34,7 +34,7 @@
                                placeholder="请选择会员等级"
                                clearable
                                style="width:90px">
-                        <el-option v-for="item in memberLevel"
+                        <el-option v-if="item.id!='99'" v-for="item in memberLevel"
                                    :label="item.name"
                                    :value="item.id">
                         </el-option>
@@ -82,15 +82,20 @@
                   v-loading="memberListLoading"
                   style="width: 100%;">
             <el-table-column prop="name"
-                             label="姓名">
+                             label="姓名" fixed>
+            </el-table-column>
+            <el-table-column label="会员等级" width="120">
+                <template scope="scope">
+                    <span>{{scope.row.member.memberLevel.name}}</span>
+                </template>
             </el-table-column>
             <el-table-column prop="phoneNo"
-                             label="手机号">
+                             label="手机号" width="160">
             </el-table-column>
             <el-table-column prop="idCardNo"
-                             label="身份证号">
+                             label="身份证号" width="180">
             </el-table-column>
-            <el-table-column label="卡号">
+            <el-table-column label="卡号" width="160">
                 <template scope="scope">
                     <span>{{scope.row.member.cardNo}}</span>
                 </template>
@@ -100,25 +105,20 @@
                     <span>{{scope.row.gender.name}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="会员等级">
-                <template scope="scope">
-                    <span>{{scope.row.member.memberLevel.name}}</span>
-                </template>
-            </el-table-column>
             <el-table-column prop="status"
                              label="状态"
                              :formatter="formatStatus">
             </el-table-column>
-            <el-table-column prop="createdAt"
+            <el-table-column prop="createdAt" width="180"
                              label="注册时间"
                              :formatter="formatCreatedAtDate">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" fixed="right" width="180" align="center">
                 <template scope="scope">
-                    <el-button size="small"
+                    <el-button size="small" type="danger"
                                @click="handleEdit(scope.$index, scope.row)">
                         编辑</el-button>
-                    <el-button size="small"
+                    <el-button size="small" type="warning"
                                @click="handleBP(scope.$index, scope.row)">
                         余额积分</el-button>
                 </template>
