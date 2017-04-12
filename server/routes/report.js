@@ -295,7 +295,7 @@ router.get('/matchResult', function (req, res, next) {
       caption: '奖励说明',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.rewardsRemark || 0
+        return row.rewardsRemark || ''
       }
     }, {
       caption: '是否发放',
