@@ -38,6 +38,10 @@
                     <el-button type="primary"
                                @click="handleAdd">参赛</el-button>
                 </el-form-item>
+                <el-form-item>
+                 <el-button type="primary"><a :href="`${domain}/report/matchResult?phoneNo=${attendanceFilters.phoneNo}&matchName=${attendanceFilters.matchName}&startOpening=${attendanceFilters.openingStart}&endOpening=${attendanceFilters.openingEnd}`"
+                           target="_blank">导出明细</a></el-button>
+                </el-form-item>
             </el-form>
         </el-col>
     
@@ -617,7 +621,8 @@ export default {
             'editFormVisible',
             'thirdFormVisible',
             'payTypeConfig',
-            'availableMembers'
+            'availableMembers',
+            'domain'
         ])
     },
     methods: {
@@ -925,5 +930,12 @@ export default {
 
 .label-item {
     margin-bottom: 5px;
+}
+a:hover,
+a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+    color: #fff;
 }
 </style>

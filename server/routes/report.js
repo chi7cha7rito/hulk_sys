@@ -175,10 +175,16 @@ router.get('/chips', function (req, res, next) {
         return row['member.user.name'] || ''
       }
     }, {
-      caption: '比赛时间',
+      caption: '比赛日期',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
         return moment.utc(row['match.openingDatetime']).local().format('YYYY-MM-DD') || ''
+      }
+    }, {
+      caption: '比赛时间',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return moment.utc(row['match.openingDatetime']).local().format('HH:mm') || ''
       }
     }, {
       caption: '每手价格',
@@ -211,6 +217,91 @@ router.get('/chips', function (req, res, next) {
     var result = nodeExcel.execute(conf)
     res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
     res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent('赛事重入明细') + '.xlsx')
+    res.end(result, 'binary')
+  }).catch(function (err) {
+    res.json({
+      'status': '0',
+      'message': '接口异常',
+      'data': null
+    })
+  })
+})
+
+/**
+ * 重入明细的导出
+ */
+router.get('/matchResult', function (req, res, next) {
+  let {matchName, startOpening, endOpening} = req.query
+  return requestHelper.call('/match/findResult', 'get', req.query).then(function (data) {
+    var conf = {}
+    conf.cols = [{
+      caption: '赛事名称',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.match.matchConfig.name || ''
+      }
+    }, {
+      caption: '会员名称',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.member.user.name || ''
+      }
+    }, {
+      caption: '比赛日期',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return moment.utc(row['match.openingDatetime']).local().format('YYYY-MM-DD') || ''
+      }
+    }, {
+      caption: '比赛时间',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return moment.utc(row['match.openingDatetime']).local().format('HH:mm') || ''
+      }
+    }, {
+      caption: '门票价格',
+      type: 'number',
+      beforeCellWrite: function (row, cellData) {
+        return row.matchPrice || 0
+      }
+    }, {
+      caption: '付款方式',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        if (row.payType.toString() === '1') return '余额'
+        if (row.payType.toString() === '2') return '积分'
+        if (row.payType.toString() === '3') return '优惠券'
+        return ''
+      }
+    }, {
+      caption: '名次',
+      type: 'number',
+      beforeCellWrite: function (row, cellData) {
+        return row.result || 0
+      }
+    }, {
+      caption: '奖励积分',
+      type: 'number',
+      beforeCellWrite: function (row, cellData) {
+        return row.rewards || 0
+      }
+    }, {
+      caption: '奖励说明',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.rewardsRemark || 0
+      }
+    }, {
+      caption: '是否发放',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.issue ? '是' : '否'
+      }
+    }]
+    conf.rows = data.data
+    var result = nodeExcel.execute(conf)
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent('赛事结果') + '.xlsx')
     res.end(result, 'binary')
   }).catch(function (err) {
     res.json({

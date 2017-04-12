@@ -116,4 +116,12 @@ export default {
 .line {
     text-align: center;
 }
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+    color: #fff;
+}
 </style>
