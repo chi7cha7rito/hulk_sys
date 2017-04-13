@@ -434,7 +434,14 @@ export default {
    * 设置赛事奖励
    * @param {*} params 
    */
-  MakeMatchReward(params){
+  MakeMatchReward(params) {
     return fetch('/attendance/issueReward', 'post', params)
+  },
+  /**
+   * 确认参赛
+   * @param {*} params 
+   */
+  ConfirmJoin(params) {
+    return fetch('/attendance/confirmJoin', 'post', params)
   }
 }

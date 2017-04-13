@@ -110,6 +110,14 @@ const actions = {
    */
   makeMatchReward({commit}, params) {
     return api.MakeMatchReward(params)
+  },
+  /**
+   * 颁发赛事奖励
+   * @param {*} param0 
+   * @param {*} params 
+   */
+  confirmJoin({commit}, params) {
+    return api.ConfirmJoin(params)
   }
 }
 

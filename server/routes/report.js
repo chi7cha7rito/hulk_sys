@@ -228,13 +228,19 @@ router.get('/chips', function (req, res, next) {
 })
 
 /**
- * 重入明细的导出
+ * 参赛明细的导出
  */
 router.get('/matchResult', function (req, res, next) {
   let {matchName, startOpening, endOpening} = req.query
   return requestHelper.call('/attendance/findResult', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
+      caption: '赛事ID',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.match.id.toString() || ''
+      }
+    }, {
       caption: '赛事名称',
       type: 'string',
       beforeCellWrite: function (row, cellData) {

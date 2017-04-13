@@ -27,13 +27,14 @@ const state = {
       name: '优惠券'
     }
   ],
-  rewardConfigs: [{
-    id: '1',
-    name: '第一名'
-  }, {
-    id: '2',
-    name: '第二名'
-  },
+  rewardConfigs: [
+    {
+      id: '1',
+      name: '第一名'
+    }, {
+      id: '2',
+      name: '第二名'
+    },
     {
       id: '3',
       name: '第三名'
@@ -48,8 +49,66 @@ const state = {
     {
       id: '6',
       name: '第六名'
+    },
+    {
+      id: '6',
+      name: '第六名'
+    },
+    {
+      id: '7',
+      name: '第七名'
+    },
+    {
+      id: '8',
+      name: '第八名'
+    },
+    {
+      id: '9',
+      name: '第九名'
+    },
+    {
+      id: '10',
+      name: '第十名'
+    },
+    {
+      id: '11',
+      name: '第十一名'
+    },
+    {
+      id: '12',
+      name: '第十二名'
+    },
+    {
+      id: '13',
+      name: '第十三名'
+    }, {
+      id: '14',
+      name: '第十四名'
+    },
+    {
+      id: '15',
+      name: '第十五名'
+    },
+    {
+      id: '16',
+      name: '第十六名'
+    },
+    {
+      id: '17',
+      name: '第十七名'
+    },
+    {
+      id: '18',
+      name: '第十八名'
+    }, {
+      id: '19',
+      name: '第十九名'
+    },
+    {
+      id: '20',
+      name: '第二十名'
     }],
-    subTypeConfigs: [
+  subTypeConfigs: [
     {
       id: '1',
       name: '平日赛'

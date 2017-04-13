@@ -59,6 +59,11 @@
                     <span>{{scope.row.member.user.phoneNo}}</span>
                 </template>
             </el-table-column>
+             <el-table-column label="赛事ID" width="120">
+                <template scope="scope">
+                    <span>{{scope.row.match.id}}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="赛事名称" width="120">
                 <template scope="scope">
                     <span>{{scope.row.match.matchConfig.name}}</span>
@@ -87,9 +92,10 @@
             </el-table-column>
             <el-table-column label="操作" width="150" fixed="right" align="center">
                 <template scope="scope">
-                    <el-button size="small" @click="handleBuy(scope.$index, scope.row)" v-if="scope.row.match.status=='1'">重入</el-button>
-                    <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)" v-if="scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>
-                    <el-button type="warning" size="small" @click="handleAward(scope.$index, scope.row)" v-if="scope.row.match.status=='2'&&scope.row.match.result!=''">颁奖</el-button>
+                    <el-button size="small" @click="handleJoin(scope.$index, scope.row)" v-if="!scope.row.join">参赛</el-button>
+                    <el-button size="small" @click="handleBuy(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='1'">重入</el-button>
+                    <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>
+                    <el-button type="warning" size="small" @click="handleAward(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='2'&&scope.row.match.result!=''">颁奖</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -832,6 +838,17 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.$store.dispatch('makeMatchReward', { "id": row.id, "memberId": row.memberId }).then(() => {
+                    this.getList();
+                }, err => {
+                    this.$message.error(err.message);
+                })
+            })
+        },
+        handleJoin: function (index, row) {
+            this.$confirm('确认参赛吗?', '提示', {
+                type: 'warning'
+            }).then(() => {
+                this.$store.dispatch('confirmJoin', { "id": row.id }).then(() => {
                     this.getList();
                 }, err => {
                     this.$message.error(err.message);
