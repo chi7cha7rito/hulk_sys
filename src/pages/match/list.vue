@@ -47,7 +47,7 @@
 	
 		<!--列表-->
 		<el-table :data="matchList"  v-loading="listLoading" style="width: 100%;">
-			<el-table-column label="赛事名称" width="130" fixed>
+			<el-table-column label="赛事名称" width="150" fixed>
 				<template scope="scope">
 						<span>{{scope.row.matchConfig.name}}</span>
 				</template>
@@ -74,7 +74,7 @@
 			</el-table-column>
 			<el-table-column prop="limitation" label="最大报名人数" width="160">
             </el-table-column>
-			<el-table-column label="操作" width="220"  fixed="right" align="center">
+			<el-table-column label="操作" width="230"  fixed="right" align="center">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
 						编辑</el-button>
