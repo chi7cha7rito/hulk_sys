@@ -266,8 +266,8 @@ export default {
 		}
 
 		this.$router.options.routes.forEach(oRoute => {
-			if (oRoute.name == "后台账号管理" && user && user.roleType == "1") {
-				oRoute.hidden = false
+			if (oRoute.name == "后台账号管理" && user && user.roleType != "1") {
+				oRoute.hidden = true
 			}
 			tmpArray.push(oRoute);
 		});

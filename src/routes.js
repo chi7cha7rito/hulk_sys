@@ -100,7 +100,6 @@ let routes = [
     component: Home,
     name: '后台账号管理',
     iconCls: 'fa fa-user-secret',
-    hidden: true,
     children: [
       { path: '/account', component: AccountList, name: '账号查询' }
     ]
