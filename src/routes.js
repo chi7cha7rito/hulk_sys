@@ -49,13 +49,13 @@ let routes = [
   {
     path: '/login',
     component: Login,
-    name: '',
+    name: 'Login',
     hidden: true
   },
   {
     path: '/404',
     component: NotFound,
-    name: '',
+    name: '404',
     hidden: true
   },
   {
@@ -118,6 +118,7 @@ let routes = [
   {
     path: '*',
     hidden: true,
+    name:'all',
     redirect: { path: '/404' }
   }
 ]

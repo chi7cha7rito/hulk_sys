@@ -268,6 +268,12 @@ export default {
 		this.$router.options.routes.forEach(oRoute => {
 			if (oRoute.name == "后台账号管理" && user && user.roleType != "1") {
 				oRoute.hidden = true;
+			}else{
+				if(oRoute.name=="Login"||oRoute.name=="404"||oRoute.name=="all"){
+					oRoute.hidden=true;
+				}else{
+					oRoute.hidden = false;
+				}		
 			}
 			tmpArray.push(oRoute);
 		});
