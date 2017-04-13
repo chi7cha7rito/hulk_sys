@@ -95,7 +95,7 @@
                     <el-button size="small" @click="handleJoin(scope.$index, scope.row)" v-if="!scope.row.join">参赛</el-button>
                     <el-button size="small" @click="handleBuy(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='1'">重入</el-button>
                     <el-button type="danger" size="small" @click="handleScore(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='2'&&!scope.row.issue">成绩</el-button>
-                    <el-button type="warning" size="small" @click="handleAward(scope.$index, scope.row)" v-if="scope.row.join&&scope.row.match.status=='2'&&scope.row.match.result!=''">颁奖</el-button>
+                    <el-button type="warning" size="small" @click="handleAward(scope.$index, scope.row)" v-if="scope.row.join&&!scope.row.issue&&scope.row.match.status=='2'&&scope.row.match.result!=''">颁奖</el-button>
                 </template>
             </el-table-column>
         </el-table>
