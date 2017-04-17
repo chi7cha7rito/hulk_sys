@@ -187,6 +187,8 @@
                                    value="1"></el-option>
                         <el-option label="豪气排名"
                                    value="2"></el-option>
+                        <el-option label="赠票"
+                                   value="3"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注"
