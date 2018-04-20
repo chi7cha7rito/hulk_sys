@@ -443,5 +443,12 @@ export default {
    */
   ConfirmJoin(params) {
     return fetch('/attendance/confirmJoin', 'post', params)
+  },
+  /**
+   * 调整大师积分
+   * @param {*} params
+   */
+  SpritAdjust(params){
+    return fetch('/sprit/adjust', 'post', params)
   }
 }

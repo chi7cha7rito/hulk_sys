@@ -24,6 +24,11 @@ const state = {
     sourceNo: '',
     remark: ''
   },
+  spritChange:{
+    phoneNo:'',
+    type:'',
+    amout:''
+  },
   totalBalance: 0,
   totalPoints: 0
 }
