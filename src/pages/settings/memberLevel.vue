@@ -24,13 +24,13 @@
                              label="单次充值升级">
             </el-table-column>
             <el-table-column prop="apply"
-                             label="参赛获豪气">
+                             label="参赛获大师分">
             </el-table-column>
             <el-table-column prop="buyChip"
-                             label="重入获豪气">
+                             label="重入获大师分">
             </el-table-column>
             <el-table-column prop="consume"
-                             label="消费获豪气(%)">
+                             label="消费获大师分(%)">
             </el-table-column>
             <el-table-column prop="weeklyTicket"
                              label="签到获周赛票">

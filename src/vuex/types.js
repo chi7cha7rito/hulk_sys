@@ -39,6 +39,7 @@ export const MEMBER_LIST_EDIT_FORM_VISIBLE = 'MEMBER_LIST_EDIT_FORM_VISIBLE' // 
 export const MEMBER_LIST_BP_FORM_VISIBLE = 'MEMBER_LIST_BP_FORM_VISIBLE' // 会员列表BP FORM 显示状态
 export const GET_ALL_MEMBERS = 'GET_ALL_MEMBERS' // 获取所有有效的会员
 export const GET_MEMBER_ACCOUNT_INFO = 'GET_MEMBER_ACCOUNT_INFO' // 获取会员账户详情信息
+export const GET_MEMBER_MATCHES='GET_MEMBER_MATCHES' //获取会员参加的赛事
 
 /**
  * desc 余额相关
@@ -63,6 +64,7 @@ export const GET_SPRIT_LIST = 'GET_SPRIT_LIST' // 获取豪气列表
 export const GET_SPRIT_LOADING_STATUS = 'GET_SPRIT_LOADING_STATUS' // 获取豪气列表loading状态
 export const GET_SPRIT_TOTAL_COUNT = 'GET_SPRIT_TOTAL_COUNT' // 豪气列表的总数
 export const CHANGE_SPRIT_LIST_PAGE_NUM = 'CHANGE_SPRIT_LIST_PAGE_NUM' // 更改豪气列表页分页的页码
+export const GET_MATCH_MEMBER_ATTENDANCE_COUNT="GET_MATCH_MEMBER_ATTENDANCE_COUNT" //比赛参赛的人数
 
 /**
  * desc 签到相关
@@ -94,6 +96,7 @@ export const DEL_MATCH_CONFIG_PRICE_IN_FORM = 'DEL_MATCH_CONFIG_PRICE_IN_FORM' /
 export const ADD_MATCH_CONFIG_REWARD_IN_FORM = 'ADD_MATCH_CONFIG_REWARD_IN_FORM' // 在赛事配置编辑Form 添加奖励规则
 export const DEL_MATCH_CONFIG_REWARD_IN_FORM = 'DEL_MATCH_CONFIG_REWARD_IN_FORM' // 在赛事配置编辑Form 删除奖励规则
 export const RESET_MATCH_CONFIG_ADD_FORM = 'RESET_MATCH_CONFIG_ADD_FORM' // 重置添加表单的数据
+export const GET_MATCH_COUNT="GET_MATCH_COUNT" //获取参赛人数
 
 /**
  * desc 用户管理相关

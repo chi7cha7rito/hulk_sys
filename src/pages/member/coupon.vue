@@ -26,7 +26,7 @@
                                style="width:90px">
                         <el-option label="签到"
                                    value="1"></el-option>
-                        <el-option label="豪气排名"
+                        <el-option label="大师分排名"
                                    value="2"></el-option>
                     </el-select>
                 </el-form-item>

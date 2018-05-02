@@ -20,8 +20,8 @@ const state = {
     matchConfigId: '',
     perHand: '',
     status: '',
-    limitation:'',
-    applyOnline:false
+    limitation: '',
+    applyOnline: false
   },
   filters: {
     name: '',
@@ -29,7 +29,7 @@ const state = {
     startClosing: '',
     endClosing: '',
     type: '',
-    applyOnline:''
+    applyOnline: ''
   },
   addForm: {
     closingDatetime: '',
@@ -37,9 +37,10 @@ const state = {
     matchConfigId: '',
     perHand: '',
     status: '1',
-    limitation:'0',
-    applyOnline:false
-  }
+    limitation: '0',
+    applyOnline: false
+  },
+  matchCount:'' //参赛信息
 }
 
 /**
@@ -51,7 +52,8 @@ const getters = {
   matchConfigList: state => state.matchConfigList,
   matchDetails: state => state.matchDetails,
   filters: state => state.filters,
-  addMatchForm: state => state.addForm
+  addMatchForm: state => state.addForm,
+  matchCount: state => state.matchCount
 }
 
 /**
@@ -64,23 +66,23 @@ const actions = {
   getMatchList({ state, commit, rootState }) {
     commit(types.COM_LIST_LOADING_STATUS, true)
     let requestData = {}
-    Object.assign(requestData, state.filters, {'pageIndex': rootState.com.pageIndex,'pageSize': rootState.com.pageSize})
-    if(state.filters.applyOnline){
-      requestData.applyOnline=state.filters.applyOnline=="1"?true:false;
-    }   
+    Object.assign(requestData, state.filters, { 'pageIndex': rootState.com.pageIndex, 'pageSize': rootState.com.pageSize })
+    if (state.filters.applyOnline) {
+      requestData.applyOnline = state.filters.applyOnline == "1" ? true : false;
+    }
     api.GetMatchList(requestData)
       .then(res => {
         commit(types.COM_LIST_LOADING_STATUS, false)
         commit(types.COM_LIST_TOTAL_COUNT, res.count)
         commit(types.GET_MATCH_LIST, res)
       }).catch(error => {
-      commit(types.COM_LIST_LOADING_STATUS, false)
-    })
+        commit(types.COM_LIST_LOADING_STATUS, false)
+      })
   },
   /**
    * @desc 获取赛事类型列表
    */
-  getMatchTypeList({commit}) {
+  getMatchTypeList({ commit }) {
     api.GetMatchTypeList().then(res => {
       commit(types.GET_MATCH_TYPE_LIST, res)
     })
@@ -88,7 +90,7 @@ const actions = {
   /**
    * @desc 获取赛事详情
    */
-  getMatchDetails({commit}, palyload) {
+  getMatchDetails({ commit }, palyload) {
     commit(types.COM_EDIT_FORM_VISIBLE, true)
     api.GetMacthDetails(palyload).then(res => {
       commit(types.GET_MATCH_DETAILS, res)
@@ -97,7 +99,7 @@ const actions = {
   /**
    * @desc 获取所有赛事配置信息
    */
-  getAllMatchConfigs({commit}) {
+  getAllMatchConfigs({ commit }) {
     api.GetAllMatchConfigs().then(res => {
       commit(types.GET_ALL_MATCH_CONFIGS, res)
     })
@@ -105,7 +107,7 @@ const actions = {
   /**
    * @desc 添加赛事
    */
-  addMatch({commit}, palyload) {
+  addMatch({ commit }, palyload) {
     return api.AddMatch(state.addForm).then(res => {
       commit(types.COM_ADD_FORM_VISIBLE, false)
     })
@@ -113,7 +115,7 @@ const actions = {
   /**
    * @desc 编辑赛事
    */
-  editMatch({commit}, palyload) {
+  editMatch({ commit }, palyload) {
     let data = state.matchDetails
     return api.EditMatch(data).then(res => {
       commit(types.COM_EDIT_FORM_VISIBLE, false)
@@ -122,15 +124,26 @@ const actions = {
   /**
   * @desc 删除赛事
   */
-  delMatch({commit}, id) {
-    return api.ChangeMatchStatus({id: id,status: '3'}).then(res => {
+  delMatch({ commit }, id) {
+    return api.ChangeMatchStatus({ id: id, status: '3' }).then(res => {
     })
   },
   /**
   * @desc 结束比赛
   */
-  closeMatch({commit}, id) {
-    return api.ChangeMatchStatus({id: id,status: '2'}).then(res => {
+  closeMatch({ commit }, id) {
+    return api.ChangeMatchStatus({ id: id, status: '2' }).then(res => {
+    })
+  },
+
+  /**
+   * 获取赛事的参赛记录
+   * @param {*} param0 
+   * @param {*} id 
+   */
+  getMatchAttendances({ commit }, id) {
+    return api.GetAttendancesByMatchId({ matchId: id }).then(res => {
+      commit(types.GET_MATCH_COUNT, res)
     })
   }
 }
@@ -143,7 +156,8 @@ const mutations = {
     state.matchList = []
     if (data && data.rows && data.rows.length) {
       data.rows.forEach(oRow => {
-        state.matchList.push(oRow)})
+        state.matchList.push(oRow)
+      })
     }
   },
   [types.GET_MATCH_TYPE_LIST](state, data) {
@@ -157,20 +171,24 @@ const mutations = {
       'matchConfigId': data.matchConfig.id.toString(),
       'perHand': data.perHand,
       'status': data.status.toString(),
-      'limitation':data.limitation?data.limitation:0,
-      'applyOnline':data.applyOnline
+      'limitation': data.limitation ? data.limitation : 0,
+      'applyOnline': data.applyOnline
     }
     state.matchDetails = tmpData
   },
   [types.GET_ALL_MATCH_CONFIGS](state, data) {
     let configList = []
     data.forEach(row => {
-      configList.push({id: row.id,name: row.name})})
+      configList.push({ id: row.id, name: row.name })
+    })
 
     state.matchConfigList = configList
   },
   [types.CHANGE_MATCH_LIST_PAGE_NUM](state, num) {
     state.filters.pageIndex = num
+  },
+  [types.GET_MATCH_COUNT](state, res) {
+    state.matchCount = res.count;
   }
 }
 
@@ -178,4 +196,5 @@ export default {
   state,
   actions,
   getters,
-mutations}
+  mutations
+}

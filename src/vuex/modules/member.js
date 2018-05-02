@@ -19,6 +19,7 @@ const state = {
   availableMembers: [],
   memberAccountInfo: {},
   total: 0,
+  memberMatches: [],
   filters: {
     pageSize: 10,
     pageIndex: 1,
@@ -47,7 +48,8 @@ const getters = {
   memberBpFormVisible: state => state.bpFormVisible,
   memberBP: state => state.memberBP,
   availableMembers: state => state.availableMembers,
-  memberAccountInfo: state => state.memberAccountInfo
+  memberAccountInfo: state => state.memberAccountInfo,
+  memberMatches:state=>state.memberMatches
 }
 
 /**
@@ -65,13 +67,13 @@ const actions = {
         commit(types.GET_MEMBER_TOTAL_COUNT, res.count)
         commit(types.GET_MEMBER_LIST, res)
       }).catch(error => {
-      commit(types.GET_MEMBER_LOADING_STATUS, false)
-    })
+        commit(types.GET_MEMBER_LOADING_STATUS, false)
+      })
   },
   /**
    * @desc 获取会员等级
    */
-  getMemberLevel({commit}) {
+  getMemberLevel({ commit }) {
     api.GetMemberLevel().then(res => {
       commit(types.GET_MEMBER_LEVEL, res)
     })
@@ -79,7 +81,7 @@ const actions = {
   /**
    * @desc 获取会员详情
    */
-  getMemberDetails({commit}, palyload) {
+  getMemberDetails({ commit }, palyload) {
     api.GetMemberDetails(palyload).then(res => {
       commit(types.GET_MEMBER_DETAILS, res)
       commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, true)
@@ -88,7 +90,7 @@ const actions = {
   /**
    * @desc 获取会员余额积分
    */
-  getMemberBP({commit}, palyload) {
+  getMemberBP({ commit }, palyload) {
     api.GetMemberBP(palyload).then(res => {
       commit(types.GET_MEMBER_BP, res)
       commit(types.MEMBER_LIST_BP_FORM_VISIBLE, true)
@@ -97,7 +99,7 @@ const actions = {
   /**
    * @desc 编辑会员
    */
-  editMember({commit}, palyload) {
+  editMember({ commit }, palyload) {
     let data = state.memberDetails
     return api.EditMember(data).then(res => {
       commit(types.MEMBER_LIST_EDIT_FORM_VISIBLE, false)
@@ -108,8 +110,8 @@ const actions = {
    * @param {*} param0 
    * @param {*} palyload 
    */
-  getAllMembers({commit}, palyload) {
-    return api.FindAllMembers({'phoneNo': palyload}).then(res => {
+  getAllMembers({ commit }, palyload) {
+    return api.FindAllMembers({ 'phoneNo': palyload }).then(res => {
       commit(types.GET_ALL_MEMBERS, res)
     })
   },
@@ -119,9 +121,20 @@ const actions = {
    * @param {*} param0 
    * @param {*} palyload 
    */
-  getAccountInfo({commit}, palyload) {
-    return api.FindAccountInfo({phoneNo: palyload}).then(res => {
+  getAccountInfo({ commit }, palyload) {
+    return api.FindAccountInfo({ phoneNo: palyload }).then(res => {
       return res
+    })
+  },
+
+  /**
+   * 获取会员参加的比赛记录
+   * @param {*} param0 
+   * @param {*} palyload 
+   */
+  getMatches({ commit }, palyload) {
+    return api.GetAttendancesByPhone({ phoneNo: palyload }).then(res => {
+      commit(types.GET_MEMBER_MATCHES, res);
     })
   }
 }
@@ -134,7 +147,8 @@ const mutations = {
     state.memberList = []
     if (data && data.rows && data.rows.length) {
       data.rows.forEach(oRow => {
-        state.memberList.push(oRow)})
+        state.memberList.push(oRow)
+      })
     }
   },
   [types.GET_MEMBER_LOADING_STATUS](state, status) {
@@ -146,8 +160,8 @@ const mutations = {
   [types.GET_MEMBER_LEVEL](state, data) {
     state.memberLevel = data
     state.memberLevel.push({
-      id:99,
-      name:'优惠价'
+      id: 99,
+      name: '优惠价'
     })
   },
   [types.GET_MEMBER_DETAILS](state, data) {
@@ -186,6 +200,20 @@ const mutations = {
       })
     }
     state.availableMembers = tmpArray
+  },
+  [types.GET_MEMBER_MATCHES](state, res) {
+    console.log(res);
+    let arr = [];
+    if (res && res.length) {
+      res.forEach(oItem => {
+        arr.push({
+          'id': oItem.match.id,
+          "name": oItem.match.matchConfig.name,
+          "price":oItem.matchPrice
+        })
+      })
+    }
+    state.memberMatches = arr;
   }
 }
 
@@ -193,4 +221,5 @@ export default {
   state,
   actions,
   getters,
-mutations}
+  mutations
+}

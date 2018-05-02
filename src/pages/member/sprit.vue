@@ -43,7 +43,7 @@
                              label="手机号">
             </el-table-column>
             <el-table-column prop="total"
-                             label="豪气">
+                             label="大师分">
             </el-table-column>
         </el-table>
     

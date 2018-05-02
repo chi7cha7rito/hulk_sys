@@ -5,8 +5,8 @@ import util from '../common/js/util'
 // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = '/'
-// axios.defaults.baseURL = 'http://localhost:3000/'
+// axios.defaults.baseURL = '/'
+axios.defaults.baseURL = 'http://localhost:3000/'
 
 // POST传参序列化
 axios.interceptors.request.use((config) => {
@@ -450,5 +450,21 @@ export default {
    */
   SpritAdjust(params){
     return fetch('/sprit/adjust', 'post', params)
+  },
+
+  /**
+   * 获取指定会员的参赛记录
+   * @param {*} params 
+   */
+  GetAttendancesByPhone(params){
+    return fetch('/attendance/findResult', 'get', params)
+  },
+
+  /**
+   * 获取指定赛事的参赛记录
+   * @param {*} params 
+   */
+  GetAttendancesByMatchId(params){
+    return fetch('/attendance/findAttendances', 'get', params)
   }
 }

@@ -90,7 +90,7 @@ let routes = [
       { path: '/member', component: MemberList, name: '会员查询' },
       { path: '/balance', component: BalanceList, name: '余额记录' },
       { path: '/points', component: PointsList, name: '积分记录' },
-      { path: '/sprit', component: Sprit, name: '豪气查询' },
+      { path: '/sprit', component: Sprit, name: '大师分查询' },
       { path: '/coupon', component: Coupon, name: '优惠券查询' },
       { path: '/signIn', component: SignIn, name: '签到查询' }
     ]
