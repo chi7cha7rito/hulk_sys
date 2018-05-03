@@ -7,7 +7,7 @@ var moment = require('moment')
  * 余额明细的导出
  */
 router.get('/balance', function (req, res, next) {
-  let {phoneNo, type, startCreatedAt, endCreatedAt} = req.query
+  let { phoneNo, type, startCreatedAt, endCreatedAt } = req.query
   return requestHelper.call('/balance/findAll', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
@@ -83,7 +83,7 @@ router.get('/balance', function (req, res, next) {
  * 积分明细导出
  */
 router.get('/points', function (req, res, next) {
-  let {phoneNo, type, startCreatedAt, endCreatedAt} = req.query
+  let { phoneNo, type, startCreatedAt, endCreatedAt } = req.query
   return requestHelper.call('/point/findAll', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
@@ -159,7 +159,7 @@ router.get('/points', function (req, res, next) {
  * 重入明细的导出
  */
 router.get('/chips', function (req, res, next) {
-  let {matchName, startOpening, endOpening} = req.query
+  let { matchName, startOpening, endOpening } = req.query
   return requestHelper.call('/chip/findAll', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
@@ -231,7 +231,7 @@ router.get('/chips', function (req, res, next) {
  * 参赛明细的导出
  */
 router.get('/matchResult', function (req, res, next) {
-  let {matchName, startOpening, endOpening} = req.query
+  let { matchName, startOpening, endOpening } = req.query
   return requestHelper.call('/attendance/findResult', 'get', req.query).then(function (data) {
     var conf = {}
     conf.cols = [{
@@ -314,6 +314,55 @@ router.get('/matchResult', function (req, res, next) {
     var result = nodeExcel.execute(conf)
     res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
     res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent('赛事结果') + '.xlsx')
+    res.end(result, 'binary')
+  }).catch(function (err) {
+    res.json({
+      'status': '0',
+      'message': '接口异常',
+      'data': null
+    })
+  })
+})
+
+/**
+ * 参赛明细的导出
+ */
+router.get('/spritResult', function (req, res, next) {
+  let { startDatetime, endDatetime } = req.query
+  return requestHelper.call('/sprit/spritRanking', 'get', req.query).then(function (data) {
+    var conf = {}
+    conf.cols = [{
+      caption: '名次',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.index.toString() || ''
+      }
+    },{
+      caption: '会员名称',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.name.toString() || ''
+      }
+    }, {
+      caption: '手机号',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.phoneNo || ''
+      }
+    }, {
+      caption: '大师分',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.total|| ''
+      }
+    }]
+    data.data.rows.forEach((oItem,index)=>{
+      oItem.index=index+1
+    })
+    conf.rows = data.data.rows;
+    var result = nodeExcel.execute(conf)
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(`${moment(startDatetime).format('YYYY-MM-DD')}-${moment(endDatetime).format('YYYY-MM-DD') }大师分`) + '.xlsx')
     res.end(result, 'binary')
   }).catch(function (err) {
     res.json({

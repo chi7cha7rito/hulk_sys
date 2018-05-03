@@ -11,7 +11,7 @@
                         <el-date-picker v-model="spritFilters.startDatetime"
                                         type="date"
                                         placeholder="开始日期"
-                                        style="width: 100%;"></el-date-picker>
+                                        style="width: 100%;" format="yyyy-MM-dd"></el-date-picker>
                     </el-col>
                     <el-col class="line"
                             :span="4">--</el-col>
@@ -19,12 +19,14 @@
                         <el-date-picker v-model="spritFilters.endDatetime"
                                         type="date"
                                         placeholder="结束日期"
-                                        style="width: 100%;"></el-date-picker>
+                                        style="width: 100%;" format="yyyy-MM-dd"></el-date-picker>
                     </el-col>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary"
                                v-on:click="getList">查询</el-button>
+                <el-button type="primary"><a :href="`${domain}/report/spritResult?startDatetime=${spritFilters.startDatetime}&endDatetime=${spritFilters.endDatetime}`"
+                           target="_blank">导出</a></el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -79,7 +81,8 @@ export default {
             'spritList',
             'spritFilters',
             'spritListLoading',
-            'spritTotal'
+            'spritTotal',
+            'domain'
         ])
     },
     methods: {
@@ -100,5 +103,9 @@ export default {
 <style scoped>
 .line {
     text-align: center;
+}
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+    color: #fff;
 }
 </style>
