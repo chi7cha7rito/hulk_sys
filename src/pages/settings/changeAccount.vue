@@ -420,7 +420,7 @@ export default {
             res => {
               this.$message.success("积分调整成功");
               this.addMasterLoading = false;
-              this.$refs.addPointForm.resetFields();
+              this.$refs.addMasterForm.resetFields();
             },
             err => {
               this.addMasterLoading = false;
