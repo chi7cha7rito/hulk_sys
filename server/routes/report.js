@@ -404,13 +404,13 @@ router.get('/spritList', function (req, res, next) {
       caption: '参赛人数',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.attendCount || ''
+        return row.attendCount+" " || ''
       }
     }, {
       caption: '参赛费用',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.price || ''
+        return row.price+" " || ''
       }
     },{
       caption: '名次',
