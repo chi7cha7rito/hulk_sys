@@ -136,7 +136,10 @@ const actions = {
       type: state.masterChange.type,
       point: state.masterChange.points,
       remark:state.masterChange.remark,
-      sourceDate:state.masterChange.sourceDate
+      sourceDate:state.masterChange.sourceDate,
+      attendCount:state.masterChange.matchAttendanceCount,
+      rank:state.masterChange.rank,
+      price:state.masterChange.price
     }
 
     if (state.masterChange.type == "4"/*赛事调整*/) {

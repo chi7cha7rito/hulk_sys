@@ -331,7 +331,7 @@ router.get('/spritResult', function (req, res, next) {
   let { startDatetime, endDatetime } = req.query
   return requestHelper.call('/sprit/spritRanking', 'get', req.query).then(function (data) {
     var conf = {}
-    conf.cols = [ {
+    conf.cols = [{
       caption: '会员名称',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
@@ -356,7 +356,7 @@ router.get('/spritResult', function (req, res, next) {
     conf.rows = data.data.rows;
     var result = nodeExcel.execute(conf)
     res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
-    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(`${moment(startDatetime).format('YYYY-MM-DD')}-${moment(endDatetime).format('YYYY-MM-DD')}大师分`) + '.xlsx')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(`${moment(startDatetime).format('YYYY-MM-DD')}-${moment(endDatetime).format('YYYY-MM-DD')}大师分汇总`) + '.xlsx')
     res.end(result, 'binary')
   }).catch(function (err) {
     res.json({
@@ -382,36 +382,54 @@ router.get('/spritList', function (req, res, next) {
         return row.member.user.name.toString() || ''
       }
     }, {
-        caption: '手机号',
-        type: 'string',
-        beforeCellWrite: function (row, cellData) {
-          return row.member.user.phoneNo || ''
-        }
-      }, {
-        caption: '大师分',
-        type: 'string',
-        beforeCellWrite: function (row, cellData) {
-          return row.point || ''
-        }
-      },
-      {
-        caption: '参赛日期',
-        type: 'string',
-        beforeCellWrite: function (row, cellData) {
-          return moment.utc(row.sourceDate).local().format('YYYY-MM-DD')|| ''
-        }
-      }, {
-        caption: '备注',
-        type: 'string',
-        beforeCellWrite: function (row, cellData) {
-          return row.remark || ''
-        }
-      }]
-    
+      caption: '手机号',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.member.user.phoneNo || ''
+      }
+    }, {
+      caption: '大师分',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.point || ''
+      }
+    },
+    {
+      caption: '参赛日期',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.sourceDate ? moment(row.sourceDate).format('YYYY-MM-DD') : ''
+      }
+    }, {
+      caption: '参赛人数',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.attendCount || ''
+      }
+    }, {
+      caption: '参赛费用',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.price || ''
+      }
+    },{
+      caption: '名次',
+      type: 'int',
+      beforeCellWrite: function (row, cellData) {
+        return row.ranking+" " || ''
+      }
+    },{
+      caption: '备注',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        return row.remark || ''
+      }
+    }]
+
     conf.rows = data.data;
     var result = nodeExcel.execute(conf)
     res.setHeader('Content-Type', 'application/vnd.openxmlformats;')
-    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(`${moment(startDatetime).format('YYYY-MM-DD')}-${moment(endDatetime).format('YYYY-MM-DD')}大师分明细`) + '.xlsx')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(`${moment.utc(startDatetime).local().format('YYYY-MM-DD')}-${moment.utc(endDatetime).local().format('YYYY-MM-DD')}大师分明细`) + '.xlsx')
     res.end(result, 'binary')
   }).catch(function (err) {
     res.json({
