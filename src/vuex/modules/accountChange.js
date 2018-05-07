@@ -39,7 +39,8 @@ const state = {
     points: '',
     sourceNo: '',
     price: '',
-    matchAttendanceCount: ''
+    matchAttendanceCount: '',
+    sourceDate:''
   },
   totalBalance: 0,
   totalPoints: 0
@@ -134,7 +135,8 @@ const actions = {
       phoneNo: state.masterChange.phoneNo,
       type: state.masterChange.type,
       point: state.masterChange.points,
-      remark:state.masterChange.remark
+      remark:state.masterChange.remark,
+      sourceDate:state.masterChange.sourceDate
     }
 
     if (state.masterChange.type == "4"/*赛事调整*/) {

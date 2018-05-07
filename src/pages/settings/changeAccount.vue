@@ -159,26 +159,24 @@
                                        value="6"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item v-show="this.masterChange.type==4" label="参加赛事"
-                                  prop="sourceNo">
-                        <el-select v-model="masterChange.sourceNo" @change="handleMatchChange" style="width:300px">
-                            <el-option v-for="item in memberMatches"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                    <el-form-item label="参赛日期" prop="sourceDate" v-show="this.masterChange.type==4">
+					              <el-date-picker v-model="masterChange.sourceDate"
+                                        type="date"
+                                        placeholder="参赛日期"
+                                        format="yyyy-MM-dd"
+                                        style="width: 20%;">
+                        </el-date-picker>
+				            </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="参赛人数"
                                   prop="matchAttendanceCount">
                         <el-col :span="1">
-                            <el-input v-model="masterChange.matchAttendanceCount" :readonly="true"></el-input>
+                            <el-input v-model="masterChange.matchAttendanceCount" @change="this.calcMasterPoint"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="报名费"
                                   prop="price">
                         <el-col :span="1">
-                            <el-input v-model="masterChange.price" :readonly="true"></el-input>
+                            <el-input v-model="masterChange.price" @change="this.calcMasterPoint"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="名次"
@@ -254,6 +252,7 @@ export default {
         }
       }, 1000);
     };
+    
     return {
       addFormRules: {
         phoneNo: [{ required: true, message: "请填写手机号", trigger: "blur" }],
@@ -282,7 +281,15 @@ export default {
         type: [
           { required: true, message: "请选择调整方式", trigger: "change" }
         ],
-        points: [{ required: true, message: "请填写积分", trigger: "blur" }]
+        points: [{ required: true, message: "请填写积分", trigger: "blur" }],
+        sourceDate: [
+          { required: true, message: "请选择日期", trigger: "blur,change",type:'date' }
+        ],
+        matchAttendanceCount: [
+          { required: true, message: "请填写参赛人数", trigger: "blur" }
+        ],
+        price: [{ required: true, message: "请填写参赛价格", trigger: "blur" }],
+        rank: [{ required: true, message: "请填写名次", trigger: "blur" }]
       },
       addLoading: false,
       addPointLoading: false,
@@ -459,15 +466,35 @@ export default {
     },
     calcMasterPoint(rank) {
       let r = 10;
-      if (!rank || rank == "0") {
+      console.log(
+        this.masterChange.rank,
+        this.masterChange.matchAttendanceCount,
+        this.masterChange.price
+      );
+      if (
+        !this.masterChange.rank ||
+        !this.masterChange.matchAttendanceCount ||
+        !this.masterChange.price
+      ) {
         this.masterChange.points = "";
       } else {
-        this.masterChange.points = (
+        let result = (
           10 *
           (Math.sqrt(this.masterChange.matchAttendanceCount) /
             Math.sqrt(rank)) *
           (Math.pow(this.masterChange.price, 0.4) + 1)
         ).toFixed(2);
+
+        if (isNaN(result)) {
+          this.masterChange.points = "";
+        } else {
+          this.masterChange.points = (
+            10 *
+            (Math.sqrt(this.masterChange.matchAttendanceCount) /
+              Math.sqrt(rank)) *
+            (Math.pow(this.masterChange.price, 0.4) + 1)
+          ).toFixed(2);
+        }
       }
     }
   }

@@ -25,8 +25,12 @@
                 <el-form-item>
                     <el-button type="primary"
                                v-on:click="getList">查询</el-button>
-                <el-button type="primary"><a :href="`${domain}/report/spritResult?startDatetime=${spritFilters.startDatetime}&endDatetime=${spritFilters.endDatetime}`"
+                    <el-button type="primary"><a :href="this.formatLink('spritResult')"
                            target="_blank">导出</a></el-button>
+                    <el-button type="primary">
+                        <a :href="this.formatLink('spritList')"
+                           target="_blank">导出明细</a>
+                    </el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -64,48 +68,56 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from "vuex";
 
-import * as types from '../../vuex/types'
+import * as types from "../../vuex/types";
 
-import util from '../../common/js/util'
+import util from "../../common/js/util";
 
 export default {
-    data() {
-        return {}
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters([
+      "spritList",
+      "spritFilters",
+      "spritListLoading",
+      "spritTotal",
+      "domain"
+    ])
+  },
+  methods: {
+    handleCurrentChange(val) {
+      this.$store.commit(types.CHANGE_SPRIT_LIST_PAGE_NUM, val);
+      this.getList();
     },
-    computed: {
-        ...mapGetters([
-            'spritList',
-            'spritFilters',
-            'spritListLoading',
-            'spritTotal',
-            'domain'
-        ])
+    getList() {
+      this.$store.dispatch("getSpritList");
     },
-    methods: {
-        handleCurrentChange(val) {
-            this.$store.commit(types.CHANGE_SPRIT_LIST_PAGE_NUM, val);
-            this.getList();
-        },
-        getList() {
-            this.$store.dispatch('getSpritList')
+    formatLink(url){
+        if(this.spritFilters.startDatetime&&this.spritFilters.endDatetime){
+            return `${this.domain}/report/${url}?startDatetime=${this.spritFilters.startDatetime}&endDatetime=${this.spritFilters.endDatetime}`
         }
-    },
-    mounted() {
-        this.getList()
+
+        return 'javascript:void(0)'
     }
-}
+  },
+  mounted() {
+    this.getList();
+  }
+};
 </script>
 
 <style scoped>
 .line {
-    text-align: center;
+  text-align: center;
 }
-a:hover, a:visited, a:link, a:active {
-    text-decoration: none;
-    color: #fff;
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+  color: #fff;
 }
 </style>
