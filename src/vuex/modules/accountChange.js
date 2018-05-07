@@ -40,7 +40,7 @@ const state = {
     sourceNo: '',
     price: '',
     matchAttendanceCount: '',
-    sourceDate:''
+    sourceDate: ''
   },
   totalBalance: 0,
   totalPoints: 0
@@ -135,15 +135,15 @@ const actions = {
       phoneNo: state.masterChange.phoneNo,
       type: state.masterChange.type,
       point: state.masterChange.points,
-      remark:state.masterChange.remark,
-      sourceDate:state.masterChange.sourceDate,
-      attendCount:state.masterChange.matchAttendanceCount,
-      rank:state.masterChange.rank,
-      price:state.masterChange.price
+      remark: state.masterChange.remark
     }
 
     if (state.masterChange.type == "4"/*赛事调整*/) {
-      request.sourceNo = state.masterChange.sourceNo
+      // request.sourceNo = state.masterChange.sourceNo;
+      request.sourceDate = state.masterChange.sourceDate,
+        request.attendCount = state.masterChange.matchAttendanceCount,
+        request.rank = state.masterChange.rank,
+        request.price = state.masterChange.price
     }
 
     if (state.masterChange.type == "5"/*负调整*/) {

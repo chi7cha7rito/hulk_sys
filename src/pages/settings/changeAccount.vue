@@ -252,7 +252,7 @@ export default {
         }
       }, 1000);
     };
-    
+
     return {
       addFormRules: {
         phoneNo: [{ required: true, message: "请填写手机号", trigger: "blur" }],
@@ -283,7 +283,12 @@ export default {
         ],
         points: [{ required: true, message: "请填写积分", trigger: "blur" }],
         sourceDate: [
-          { required: true, message: "请选择日期", trigger: "blur,change",type:'date' }
+          {
+            required: true,
+            message: "请选择日期",
+            trigger: "blur,change",
+            type: "date"
+          }
         ],
         matchAttendanceCount: [
           { required: true, message: "请填写参赛人数", trigger: "blur" }
@@ -420,22 +425,38 @@ export default {
       if (this.addMasterLoading) {
         return false;
       }
-      this.$refs.addMasterForm.validate(valid => {
-        if (valid) {
-          this.addMasterLoading = true;
-          this.$store.dispatch("masterPointChange").then(
-            res => {
-              this.$message.success("积分调整成功");
-              this.addMasterLoading = false;
-              this.$refs.addMasterForm.resetFields();
-            },
-            err => {
-              this.addMasterLoading = false;
-              this.$message.error(err.message);
-            }
-          );
-        }
-      });
+
+      if (this.masterChange.type != 4) {
+        this.addMasterLoading = true;
+        this.$store.dispatch("masterPointChange").then(
+          res => {
+            this.$message.success("积分调整成功");
+            this.addMasterLoading = false;
+            this.$refs.addMasterForm.resetFields();
+          },
+          err => {
+            this.addMasterLoading = false;
+            this.$message.error(err.message);
+          }
+        );
+      } else {
+        this.$refs.addMasterForm.validate(valid => {
+          if (valid) {
+            this.addMasterLoading = true;
+            this.$store.dispatch("masterPointChange").then(
+              res => {
+                this.$message.success("积分调整成功");
+                this.addMasterLoading = false;
+                this.$refs.addMasterForm.resetFields();
+              },
+              err => {
+                this.addMasterLoading = false;
+                this.$message.error(err.message);
+              }
+            );
+          }
+        });
+      }
     },
     cancelMaster: function() {
       this.$refs.addMasterForm.resetFields();

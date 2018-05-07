@@ -388,6 +388,13 @@ router.get('/spritList', function (req, res, next) {
         return row.member.user.phoneNo || ''
       }
     }, {
+      caption: '类型',
+      type: 'string',
+      beforeCellWrite: function (row, cellData) {
+        
+        return row.type.name;
+      }
+    }, {
       caption: '大师分',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
@@ -404,21 +411,21 @@ router.get('/spritList', function (req, res, next) {
       caption: '参赛人数',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.attendCount+" " || ''
+        return row.attendCount === null ? "" : row.attendCount + " "
       }
     }, {
       caption: '参赛费用',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
-        return row.price+" " || ''
+        return row.price === null ? " " : row.price + " "
       }
-    },{
+    }, {
       caption: '名次',
       type: 'int',
       beforeCellWrite: function (row, cellData) {
-        return row.ranking+" " || ''
+        return row.ranking === null ? "" : row.ranking + " "
       }
-    },{
+    }, {
       caption: '备注',
       type: 'string',
       beforeCellWrite: function (row, cellData) {
