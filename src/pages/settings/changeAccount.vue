@@ -169,19 +169,19 @@
 				            </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="参赛人数"
                                   prop="matchAttendanceCount">
-                        <el-col :span="1">
+                        <el-col :span="3">
                             <el-input v-model="masterChange.matchAttendanceCount" @change="this.calcMasterPoint"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="报名费"
                                   prop="price">
-                        <el-col :span="1">
+                        <el-col :span="3">
                             <el-input v-model="masterChange.price" @change="this.calcMasterPoint"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item v-show="this.masterChange.type==4" label="名次"
                                   prop="rank">
-                        <el-col :span="1">
+                        <el-col :span="3">
                             <el-input v-model="masterChange.rank" @change="this.calcMasterPoint"></el-input>
                         </el-col>
                     </el-form-item>
